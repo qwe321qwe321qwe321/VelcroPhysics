@@ -19,7 +19,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
-
+#pragma warning disable 0162
 using System;
 using Microsoft.Xna.Framework;
 using VelcroPhysics.Dynamics.Solver;
@@ -137,7 +137,7 @@ namespace VelcroPhysics.Dynamics.Joints
         /// a too high value can cause the joint to oscillate.
         /// Default is 0, which means the joint does no spring calculations.
         /// </summary>
-        public float FrequencyHz { get; set; }
+        public float Frequency { get; set; }
 
         /// <summary>
         /// The damping on the joint. The damping is only used when
@@ -202,7 +202,7 @@ namespace VelcroPhysics.Dynamics.Joints
             K.ey.Z = K.ez.Y;
             K.ez.Z = iA + iB;
 
-            if (FrequencyHz > 0.0f)
+            if (Frequency > 0.0f)
             {
                 K.GetInverse22(ref _mass);
 
@@ -212,7 +212,7 @@ namespace VelcroPhysics.Dynamics.Joints
                 float C = aB - aA - ReferenceAngle;
 
                 // Frequency
-                float omega = 2.0f * Settings.Pi * FrequencyHz;
+                float omega = 2.0f * Settings.Pi * Frequency;
 
                 // Damping coefficient
                 float d = 2.0f * m * DampingRatio * omega;
@@ -276,7 +276,7 @@ namespace VelcroPhysics.Dynamics.Joints
             float mA = _invMassA, mB = _invMassB;
             float iA = _invIA, iB = _invIB;
 
-            if (FrequencyHz > 0.0f)
+            if (Frequency > 0.0f)
             {
                 float Cdot2 = wB - wA;
 
@@ -352,7 +352,7 @@ namespace VelcroPhysics.Dynamics.Joints
             K.ey.Z = K.ez.Y;
             K.ez.Z = iA + iB;
 
-            if (FrequencyHz > 0.0f)
+            if (Frequency > 0.0f)
             {
                 XNAVector2 C1 = cB + rB - cA - rA;
 

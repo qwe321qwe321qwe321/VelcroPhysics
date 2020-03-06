@@ -20,7 +20,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
-
+#pragma warning disable 0162
 using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
@@ -432,8 +432,9 @@ namespace VelcroPhysics.Dynamics.Solver
                     XNAVector2 b = XNAVector2.Zero;
                     b.X = vn1 - cp1.VelocityBias;
                     b.Y = vn2 - cp2.VelocityBias;
-
+#if B2_DEBUG_SOLVER
                     const float k_errorTol = 1e-3f;
+#endif
 
                     // Compute b'
                     b -= MathUtils.Mul(ref vc.K, a);
@@ -758,7 +759,7 @@ namespace VelcroPhysics.Dynamics.Solver
                     minSeparation = Math.Min(minSeparation, separation);
 
                     // Prevent large corrections and allow slop.
-                    float C = MathUtils.Clamp(Settings.Baumgarte * (separation + Settings.LinearSlop), -Settings.MaxLinearCorrection, 0.0f);
+                    float C = MathUtils.Clamp(Settings.BaumgarteTOI * (separation + Settings.LinearSlop), -Settings.MaxLinearCorrection, 0.0f);
 
                     // Compute the effective mass.
                     float rnA = MathUtils.Cross(rA, normal);

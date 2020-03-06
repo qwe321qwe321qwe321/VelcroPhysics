@@ -34,8 +34,8 @@ namespace VelcroPhysics.Dynamics.Solver
     /// </summary>
     public class Island
     {
-        private const float LinTolSqr = Settings.LinearSleepTolerance * Settings.LinearSleepTolerance;
-        private const float AngTolSqr = Settings.AngularSleepTolerance * Settings.AngularSleepTolerance;
+        private static float LinTolSqr = Settings.LinearSleepTolerance * Settings.LinearSleepTolerance;
+        private static float AngTolSqr = Settings.AngularSleepTolerance * Settings.AngularSleepTolerance;
         private ContactManager _contactManager;
         private Contact[] _contacts;
         private ContactSolver _contactSolver = new ContactSolver();

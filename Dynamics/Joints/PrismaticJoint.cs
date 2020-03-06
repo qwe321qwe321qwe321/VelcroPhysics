@@ -19,7 +19,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
-
+#pragma warning disable 0162
 using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
@@ -207,8 +207,8 @@ namespace VelcroPhysics.Dynamics.Joints
                 BodyA.GetTransform(out xf1);
                 BodyB.GetTransform(out xf2);
 
-                XNAVector2 r1 = MathUtils.Mul(ref xf1.q, LocalAnchorA - BodyA.LocalCenter);
-                XNAVector2 r2 = MathUtils.Mul(ref xf2.q, LocalAnchorB - BodyB.LocalCenter);
+                XNAVector2 r1 = MathUtils.Mul(ref xf1.q, LocalAnchorA - BodyA.CenterOfMass);
+                XNAVector2 r2 = MathUtils.Mul(ref xf2.q, LocalAnchorB - BodyB.CenterOfMass);
                 XNAVector2 p1 = BodyA._sweep.C + r1;
                 XNAVector2 p2 = BodyB._sweep.C + r2;
                 XNAVector2 d = p2 - p1;

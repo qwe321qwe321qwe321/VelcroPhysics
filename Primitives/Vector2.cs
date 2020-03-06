@@ -581,11 +581,10 @@ namespace Microsoft.Xna.Framework
             return value1;
         }
 
-        #endregion Operators
-
         // Convertion for UnityEngine.Vector2
         public static implicit operator UnityEngine.Vector2(XNAVector2 v) => new UnityEngine.Vector2(v.X, v.Y);
         public static implicit operator XNAVector2(UnityEngine.Vector2 v) => new XNAVector2(v.x, v.y);
+        #endregion Operators
     }
 }
 

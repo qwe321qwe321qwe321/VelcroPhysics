@@ -50,7 +50,7 @@ namespace VelcroPhysics.Factories
             return body.CreateFixture(circleShape, userData);
         }
 
-        public static Fixture AttachCircle(float radius, float density, Body body, XNAVector2 offset, object userData = null)
+        public static Fixture AttachCircle(float radius, float density, XNAVector2 offset, Body body, object userData = null)
         {
             if (radius <= 0)
                 throw new ArgumentOutOfRangeException(nameof(radius), "Radius must be more than 0 meters");

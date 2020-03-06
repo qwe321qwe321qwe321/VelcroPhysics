@@ -641,11 +641,10 @@ namespace Microsoft.Xna.Framework
             return value;
         }
 
-        #endregion
-
         // Convertion for UnityEngine.Vector3
         public static implicit operator UnityEngine.Vector3(XNAVector3 v) => new UnityEngine.Vector3(v.X, v.Y, v.Z);
         public static implicit operator XNAVector3(UnityEngine.Vector3 v) => new XNAVector3(v.x, v.y, v.z);
+        #endregion
     }
 }
 

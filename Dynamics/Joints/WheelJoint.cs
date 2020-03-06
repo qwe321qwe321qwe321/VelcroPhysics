@@ -19,7 +19,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
-
+#pragma warning disable 0162
 using System;
 using Microsoft.Xna.Framework;
 using VelcroPhysics.Dynamics.Solver;
@@ -98,23 +98,24 @@ namespace VelcroPhysics.Dynamics.Joints
         /// </summary>
         /// <param name="bodyA">The first body</param>
         /// <param name="bodyB">The second body</param>
-        /// <param name="anchor">The anchor point</param>
+        /// <param name="anchorA">The anchor point of the first body</param>
+        /// <param name="anchorA">The anchor point of the second body</param>
         /// <param name="axis">The axis</param>
         /// <param name="useWorldCoordinates">Set to true if you are using world coordinates as anchors.</param>
-        public WheelJoint(Body bodyA, Body bodyB, XNAVector2 anchor, XNAVector2 axis, bool useWorldCoordinates = false)
+        public WheelJoint(Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, XNAVector2 axis, bool useWorldCoordinates = false)
             : base(bodyA, bodyB)
         {
             JointType = JointType.Wheel;
 
             if (useWorldCoordinates)
             {
-                LocalAnchorA = bodyA.GetLocalPoint(anchor);
-                LocalAnchorB = bodyB.GetLocalPoint(anchor);
+                LocalAnchorA = bodyA.GetLocalPoint(anchorA);
+                LocalAnchorB = bodyB.GetLocalPoint(anchorB);
             }
             else
             {
-                LocalAnchorA = bodyA.GetLocalPoint(bodyB.GetWorldPoint(anchor));
-                LocalAnchorB = anchor;
+                LocalAnchorA = anchorA;
+                LocalAnchorB = anchorB;
             }
 
             Axis = axis; //Velcro only: We maintain the original value as it is supposed to.

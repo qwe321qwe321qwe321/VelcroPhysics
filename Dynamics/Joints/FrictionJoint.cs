@@ -19,7 +19,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
-
+#pragma warning disable 0162
 using Microsoft.Xna.Framework;
 using VelcroPhysics.Dynamics.Solver;
 using VelcroPhysics.Shared;
@@ -77,22 +77,23 @@ namespace VelcroPhysics.Dynamics.Joints
         /// </summary>
         /// <param name="bodyA"></param>
         /// <param name="bodyB"></param>
-        /// <param name="anchor"></param>
+        /// <param name="anchorA"></param>
+        /// <param name="anchorB"></param>
         /// <param name="useWorldCoordinates">Set to true if you are using world coordinates as anchors.</param>
-        public FrictionJoint(Body bodyA, Body bodyB, XNAVector2 anchor, bool useWorldCoordinates = false)
+        public FrictionJoint(Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, bool useWorldCoordinates = false)
             : base(bodyA, bodyB)
         {
             JointType = JointType.Friction;
 
             if (useWorldCoordinates)
             {
-                LocalAnchorA = BodyA.GetLocalPoint(anchor);
-                LocalAnchorB = BodyB.GetLocalPoint(anchor);
+                LocalAnchorA = BodyA.GetLocalPoint(anchorA);
+                LocalAnchorB = BodyB.GetLocalPoint(anchorB);
             }
             else
             {
-                LocalAnchorA = anchor;
-                LocalAnchorB = anchor;
+                LocalAnchorA = anchorA;
+                LocalAnchorB = anchorB;
             }
         }
 

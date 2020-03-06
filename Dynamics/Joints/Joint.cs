@@ -29,8 +29,9 @@ namespace VelcroPhysics.Dynamics.Joints
 {
     public abstract class Joint
     {
-        private float _breakpoint;
-        private double _breakpointSquared;
+        private float _breakForce;
+        private float _breakForceSquared;
+        private float _breakTorque;
 
         internal JointEdge EdgeA = new JointEdge();
         internal JointEdge EdgeB = new JointEdge();
@@ -45,7 +46,8 @@ namespace VelcroPhysics.Dynamics.Joints
 
         protected Joint()
         {
-            Breakpoint = float.MaxValue;
+            BreakForce = float.MaxValue;
+            BreakTorque = float.MaxValue;
 
             //Connected bodies should not collide by default
             CollideConnected = false;
@@ -108,23 +110,44 @@ namespace VelcroPhysics.Dynamics.Joints
         public bool CollideConnected { get; set; }
 
         /// <summary>
-        /// The Breakpoint simply indicates the maximum Value the JointError can be before it breaks.
+        /// The Breakforce simply indicates the maximum Value the JointError can be before it breaks.
         /// The default value is float.MaxValue, which means it never breaks.
         /// </summary>
-        public float Breakpoint
+        public float BreakForce
         {
-            get { return _breakpoint; }
+            get { return _breakForce; }
             set
             {
-                _breakpoint = value;
-                _breakpointSquared = _breakpoint * _breakpoint;
+                _breakForce = value;
+                _breakForceSquared = _breakForce * _breakForce;
             }
         }
 
         /// <summary>
+        /// The Breaktorque simply indicates the maximum torque the JointError can be before it breaks.
+        /// The default value is float.MaxValue, which means it never breaks.
+        /// </summary>
+        public float BreakTorque 
+        {
+            get { return _breakTorque; }
+            set 
+            {
+                _breakTorque = value;
+            }
+        }
+
+        /// <summary>
+        /// The event handler
+        /// </summary>
+        /// <param name="joint"></param>
+        /// <param name="reactForce"></param>
+        /// <param name="reactTorque"></param>
+        /// <param name="isBrokenByTorque"></param>
+        public delegate void OnBrokenHandler(Joint joint, float reactForce, float reactTorque, bool isBrokenByTorque);
+        /// <summary>
         /// Fires when the joint is broken.
         /// </summary>
-        public event Action<Joint, float> Broke;
+        public event OnBrokenHandler OnBrokenEvent;
 
         /// <summary>
         /// Get the reaction force on body at the joint anchor in Newtons.
@@ -163,19 +186,27 @@ namespace VelcroPhysics.Dynamics.Joints
 
         internal abstract void InitVelocityConstraints(ref SolverData data);
 
+        /// <summary>
+        /// To validate the joint should be broken or not.
+        /// </summary>
+        /// <param name="invDt"></param>
         internal void Validate(float invDt)
         {
             if (!Enabled)
                 return;
 
-            float jointErrorSquared = GetReactionForce(invDt).LengthSquared();
+            float jointFroceSquared = GetReactionForce(invDt).LengthSquared();
+            float jointTorque = GetReactionTorque(invDt);
 
-            if (Math.Abs(jointErrorSquared) <= _breakpointSquared)
+            if (Math.Abs(jointFroceSquared) <= _breakForceSquared &&
+                Math.Abs(jointTorque) <= _breakTorque) {
                 return;
+            }
 
             Enabled = false;
 
-            Broke?.Invoke(this, (float)Math.Sqrt(jointErrorSquared));
+            bool isBrokenByTorque = Math.Abs(jointTorque) > _breakTorque;
+            OnBrokenEvent?.Invoke(this, (float)Math.Sqrt(jointFroceSquared), jointTorque, isBrokenByTorque);
         }
 
         internal abstract void SolveVelocityConstraints(ref SolverData data);

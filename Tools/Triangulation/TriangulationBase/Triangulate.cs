@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+#pragma warning disable 0162
 using System.Diagnostics;
 using VelcroPhysics.Shared;
 using VelcroPhysics.Tools.ConvexHull.GiftWrap;
@@ -18,7 +19,7 @@ namespace VelcroPhysics.Tools.Triangulation.TriangulationBase
             if (vertices.Count <= 3)
                 return new List<Vertices> { vertices };
 
-            List<Vertices> results;
+            List<Vertices> results = new List<Vertices>();
 
             switch (algorithm)
             {

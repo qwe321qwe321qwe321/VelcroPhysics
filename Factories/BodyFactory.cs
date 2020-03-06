@@ -14,11 +14,12 @@ namespace VelcroPhysics.Factories
     {
         public static Body CreateBody(World world, XNAVector2 position = new XNAVector2(), float rotation = 0, BodyType bodyType = BodyType.Static, object userData = null)
         {
-            BodyTemplate template = new BodyTemplate();
-            template.Position = position;
-            template.Angle = rotation;
-            template.Type = bodyType;
-            template.UserData = userData;
+            BodyTemplate template = new BodyTemplate() {
+                Position = position,
+                Angle = rotation,
+                Type = bodyType,
+                UserData = userData
+            };
 
             return world.CreateBody(template);
         }

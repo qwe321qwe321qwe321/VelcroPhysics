@@ -73,7 +73,7 @@ namespace VelcroPhysics.Collision.TOI
 
             float totalRadius = input.ProxyA.Radius + input.ProxyB.Radius;
             float target = Math.Max(Settings.LinearSlop, totalRadius - 3.0f * Settings.LinearSlop);
-            const float tolerance = 0.25f * Settings.LinearSlop;
+            float tolerance = 0.25f * Settings.LinearSlop;
             Debug.Assert(target > tolerance);
 
             float t1 = 0.0f;

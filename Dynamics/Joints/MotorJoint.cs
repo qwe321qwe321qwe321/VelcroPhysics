@@ -19,7 +19,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
-
+#pragma warning disable 0162
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using VelcroPhysics.Dynamics.Solver;
@@ -73,18 +73,14 @@ namespace VelcroPhysics.Dynamics.Joints
         /// </summary>
         /// <param name="bodyA">The first body</param>
         /// <param name="bodyB">The second body</param>
-        /// <param name="useWorldCoordinates">Set to true if you are using world coordinates as anchors.</param>
-        public MotorJoint(Body bodyA, Body bodyB, bool useWorldCoordinates = false)
+        public MotorJoint(Body bodyA, Body bodyB)
             : base(bodyA, bodyB)
         {
             JointType = JointType.Motor;
 
             XNAVector2 xB = BodyB.Position;
 
-            if (useWorldCoordinates)
-                _linearOffset = BodyA.GetLocalPoint(xB);
-            else
-                _linearOffset = xB;
+            _linearOffset = BodyA.GetLocalPoint(xB);
 
             //Defaults
             //_angularOffset = 0.0f;
@@ -166,7 +162,7 @@ namespace VelcroPhysics.Dynamics.Joints
         }
 
         //Velcro note: Used for serialization.
-        internal float CorrectionFactor { get; set; }
+        public float CorrectionFactor { get; set; }
 
         public override XNAVector2 GetReactionForce(float invDt)
         {
