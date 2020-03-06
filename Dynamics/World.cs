@@ -54,11 +54,11 @@ namespace VelcroPhysics.Dynamics
         private Func<Fixture, bool> _queryAABBCallback;
         private Func<int, bool> _queryAABBCallbackWrapper;
         private Fixture _myFixture;
-        private Vector2 _point1;
-        private Vector2 _point2;
+        private XNAVector2 _point1;
+        private XNAVector2 _point2;
         private List<Fixture> _testPointAllFixtures;
         private Stopwatch _watch = new Stopwatch();
-        private Func<Fixture, Vector2, Vector2, float, float> _rayCastCallback;
+        private Func<Fixture, XNAVector2, XNAVector2, float, float> _rayCastCallback;
         private Func<RayCastInput, int, float> _rayCastCallbackWrapper;
 
         internal Queue<Contact> _contactPool = new Queue<Contact>(256);
@@ -110,7 +110,7 @@ namespace VelcroPhysics.Dynamics
         /// <summary>
         /// Initializes a new instance of the <see cref="World" /> class.
         /// </summary>
-        public World(Vector2 gravity)
+        public World(XNAVector2 gravity)
         {
             Island = new Island();
             Enabled = true;
@@ -364,7 +364,7 @@ namespace VelcroPhysics.Dynamics
             if (hit)
             {
                 float fraction = output.Fraction;
-                Vector2 point = (1.0f - fraction) * rayCastInput.Point1 + fraction * rayCastInput.Point2;
+                XNAVector2 point = (1.0f - fraction) * rayCastInput.Point1 + fraction * rayCastInput.Point2;
                 return _rayCastCallback(fixture, point, output.Normal, fraction);
             }
 
@@ -913,7 +913,7 @@ namespace VelcroPhysics.Dynamics
         /// Change the global gravity vector.
         /// </summary>
         /// <value>The gravity.</value>
-        public Vector2 Gravity;
+        public XNAVector2 Gravity;
 
         /// <summary>
         /// Get the contact manager for testing.
@@ -1113,7 +1113,7 @@ namespace VelcroPhysics.Dynamics
             for (int i = 0; i < BodyList.Count; i++)
             {
                 Body body = BodyList[i];
-                body._force = Vector2.Zero;
+                body._force = XNAVector2.Zero;
                 body._torque = 0.0f;
             }
         }
@@ -1165,7 +1165,7 @@ namespace VelcroPhysics.Dynamics
         /// <param name="callback">A user implemented callback class.</param>
         /// <param name="point1">The ray starting point.</param>
         /// <param name="point2">The ray ending point.</param>
-        public void RayCast(Func<Fixture, Vector2, Vector2, float, float> callback, Vector2 point1, Vector2 point2)
+        public void RayCast(Func<Fixture, XNAVector2, XNAVector2, float, float> callback, XNAVector2 point1, XNAVector2 point2)
         {
             RayCastInput input = new RayCastInput();
             input.MaxFraction = 1.0f;
@@ -1177,7 +1177,7 @@ namespace VelcroPhysics.Dynamics
             _rayCastCallback = null;
         }
 
-        public List<Fixture> RayCast(Vector2 point1, Vector2 point2)
+        public List<Fixture> RayCast(XNAVector2 point1, XNAVector2 point2)
         {
             List<Fixture> affected = new List<Fixture>();
 
@@ -1226,10 +1226,10 @@ namespace VelcroPhysics.Dynamics
             BreakableBodyList.Remove(breakableBody);
         }
 
-        public Fixture TestPoint(Vector2 point)
+        public Fixture TestPoint(XNAVector2 point)
         {
             AABB aabb;
-            Vector2 d = new Vector2(Settings.Epsilon, Settings.Epsilon);
+            XNAVector2 d = new XNAVector2(Settings.Epsilon, Settings.Epsilon);
             aabb.LowerBound = point - d;
             aabb.UpperBound = point + d;
 
@@ -1260,10 +1260,10 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="point">The point.</param>
         /// <returns></returns>
-        public List<Fixture> TestPointAll(Vector2 point)
+        public List<Fixture> TestPointAll(XNAVector2 point)
         {
             AABB aabb;
-            Vector2 d = new Vector2(Settings.Epsilon, Settings.Epsilon);
+            XNAVector2 d = new XNAVector2(Settings.Epsilon, Settings.Epsilon);
             aabb.LowerBound = point - d;
             aabb.UpperBound = point + d;
 
@@ -1290,7 +1290,7 @@ namespace VelcroPhysics.Dynamics
         /// The body shift formula is: position -= newOrigin
         /// @param newOrigin the new origin with respect to the old origin
         /// Warning: Calling this method mid-update might cause a crash.
-        public void ShiftOrigin(Vector2 newOrigin)
+        public void ShiftOrigin(XNAVector2 newOrigin)
         {
             foreach (Body b in BodyList)
             {

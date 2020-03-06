@@ -7,14 +7,14 @@ namespace VelcroPhysics.Shared
     /// </summary>
     public struct Mat22
     {
-        public Vector2 ex, ey;
+        public XNAVector2 ex, ey;
 
         /// <summary>
         /// Construct this matrix using columns.
         /// </summary>
         /// <param name="c1">The c1.</param>
         /// <param name="c2">The c2.</param>
-        public Mat22(Vector2 c1, Vector2 c2)
+        public Mat22(XNAVector2 c1, XNAVector2 c2)
         {
             ex = c1;
             ey = c2;
@@ -29,8 +29,8 @@ namespace VelcroPhysics.Shared
         /// <param name="a22">The a22.</param>
         public Mat22(float a11, float a12, float a21, float a22)
         {
-            ex = new Vector2(a11, a21);
-            ey = new Vector2(a12, a22);
+            ex = new XNAVector2(a11, a21);
+            ey = new XNAVector2(a12, a22);
         }
 
         public Mat22 Inverse
@@ -60,7 +60,7 @@ namespace VelcroPhysics.Shared
         /// </summary>
         /// <param name="c1">The c1.</param>
         /// <param name="c2">The c2.</param>
-        public void Set(Vector2 c1, Vector2 c2)
+        public void Set(XNAVector2 c1, XNAVector2 c2)
         {
             ex = c1;
             ey = c2;
@@ -94,7 +94,7 @@ namespace VelcroPhysics.Shared
         /// </summary>
         /// <param name="b">The b.</param>
         /// <returns></returns>
-        public Vector2 Solve(Vector2 b)
+        public XNAVector2 Solve(XNAVector2 b)
         {
             float a11 = ex.X, a12 = ey.X, a21 = ex.Y, a22 = ey.Y;
             float det = a11 * a22 - a12 * a21;
@@ -103,7 +103,7 @@ namespace VelcroPhysics.Shared
                 det = 1.0f / det;
             }
 
-            return new Vector2(det * (a22 * b.X - a12 * b.Y), det * (a11 * b.Y - a21 * b.X));
+            return new XNAVector2(det * (a22 * b.X - a12 * b.Y), det * (a11 * b.Y - a21 * b.X));
         }
 
         public static void Add(ref Mat22 A, ref Mat22 B, out Mat22 R)

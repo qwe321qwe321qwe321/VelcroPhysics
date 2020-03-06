@@ -163,7 +163,7 @@ namespace VelcroPhysics.Collision.Broadphase
             int proxyId = AllocateNode();
 
             // Fatten the AABB.
-            Vector2 r = new Vector2(Settings.AABBExtension, Settings.AABBExtension);
+            XNAVector2 r = new XNAVector2(Settings.AABBExtension, Settings.AABBExtension);
             _nodes[proxyId].AABB.LowerBound = aabb.LowerBound - r;
             _nodes[proxyId].AABB.UpperBound = aabb.UpperBound + r;
             _nodes[proxyId].UserData = userData;
@@ -196,7 +196,7 @@ namespace VelcroPhysics.Collision.Broadphase
         /// <param name="aabb">The AABB.</param>
         /// <param name="displacement">The displacement.</param>
         /// <returns>true if the proxy was re-inserted.</returns>
-        public bool MoveProxy(int proxyId, ref AABB aabb, Vector2 displacement)
+        public bool MoveProxy(int proxyId, ref AABB aabb, XNAVector2 displacement)
         {
             Debug.Assert(0 <= proxyId && proxyId < _nodeCapacity);
 
@@ -211,12 +211,12 @@ namespace VelcroPhysics.Collision.Broadphase
 
             // Extend AABB.
             AABB b = aabb;
-            Vector2 r = new Vector2(Settings.AABBExtension, Settings.AABBExtension);
+            XNAVector2 r = new XNAVector2(Settings.AABBExtension, Settings.AABBExtension);
             b.LowerBound = b.LowerBound - r;
             b.UpperBound = b.UpperBound + r;
 
             // Predict AABB displacement.
-            Vector2 d = Settings.AABBMultiplier * displacement;
+            XNAVector2 d = Settings.AABBMultiplier * displacement;
 
             if (d.X < 0.0f)
             {
@@ -316,14 +316,14 @@ namespace VelcroPhysics.Collision.Broadphase
         /// <param name="input">The ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).</param>
         public void RayCast(Func<RayCastInput, int, float> callback, ref RayCastInput input)
         {
-            Vector2 p1 = input.Point1;
-            Vector2 p2 = input.Point2;
-            Vector2 r = p2 - p1;
+            XNAVector2 p1 = input.Point1;
+            XNAVector2 p2 = input.Point2;
+            XNAVector2 r = p2 - p1;
             Debug.Assert(r.LengthSquared() > 0.0f);
             r.Normalize();
 
             // v is perpendicular to the segment.
-            Vector2 absV = MathUtils.Abs(new Vector2(-r.Y, r.X)); //Velcro: Inlined the 'v' variable
+            XNAVector2 absV = MathUtils.Abs(new XNAVector2(-r.Y, r.X)); //Velcro: Inlined the 'v' variable
 
             // Separating axis for segment (Gino, p80).
             // |dot(v, p1 - c)| > dot(|v|, h)
@@ -333,9 +333,9 @@ namespace VelcroPhysics.Collision.Broadphase
             // Build a bounding box for the segment.
             AABB segmentAABB = new AABB();
             {
-                Vector2 t = p1 + maxFraction * (p2 - p1);
-                Vector2.Min(ref p1, ref t, out segmentAABB.LowerBound);
-                Vector2.Max(ref p1, ref t, out segmentAABB.UpperBound);
+                XNAVector2 t = p1 + maxFraction * (p2 - p1);
+                XNAVector2.Min(ref p1, ref t, out segmentAABB.LowerBound);
+                XNAVector2.Max(ref p1, ref t, out segmentAABB.UpperBound);
             }
 
             _raycastStack.Clear();
@@ -358,9 +358,9 @@ namespace VelcroPhysics.Collision.Broadphase
 
                 // Separating axis for segment (Gino, p80).
                 // |dot(v, p1 - c)| > dot(|v|, h)
-                Vector2 c = node.AABB.Center;
-                Vector2 h = node.AABB.Extents;
-                float separation = Math.Abs(Vector2.Dot(new Vector2(-r.Y, r.X), p1 - c)) - Vector2.Dot(absV, h);
+                XNAVector2 c = node.AABB.Center;
+                XNAVector2 h = node.AABB.Extents;
+                float separation = Math.Abs(XNAVector2.Dot(new XNAVector2(-r.Y, r.X), p1 - c)) - XNAVector2.Dot(absV, h);
                 if (separation > 0.0f)
                 {
                     continue;
@@ -385,9 +385,9 @@ namespace VelcroPhysics.Collision.Broadphase
                     {
                         // Update segment bounding box.
                         maxFraction = value;
-                        Vector2 t = p1 + maxFraction * (p2 - p1);
-                        segmentAABB.LowerBound = Vector2.Min(p1, t);
-                        segmentAABB.UpperBound = Vector2.Max(p1, t);
+                        XNAVector2 t = p1 + maxFraction * (p2 - p1);
+                        segmentAABB.LowerBound = XNAVector2.Min(p1, t);
+                        segmentAABB.UpperBound = XNAVector2.Max(p1, t);
                     }
                 }
                 else
@@ -999,7 +999,7 @@ namespace VelcroPhysics.Collision.Broadphase
         /// Shift the origin of the nodes
         /// </summary>
         /// <param name="newOrigin">The displacement to use.</param>
-        public void ShiftOrigin(Vector2 newOrigin)
+        public void ShiftOrigin(XNAVector2 newOrigin)
         {
             // Build array of leaves. Free the rest.
             for (int i = 0; i < _nodeCapacity; ++i)

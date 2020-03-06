@@ -119,7 +119,7 @@ namespace VelcroPhysics.Collision.TOI
                     break;
                 }
 
-                SeparationFunction.Initialize(ref cache, input.ProxyA, ref sweepA, input.ProxyB, ref sweepB, t1, out Vector2 axis, out Vector2 localPoint, out SeparationFunctionType type);
+                SeparationFunction.Initialize(ref cache, input.ProxyA, ref sweepA, input.ProxyB, ref sweepB, t1, out XNAVector2 axis, out XNAVector2 localPoint, out SeparationFunctionType type);
 
                 // Compute the TOI on the separating axis. We do this by successively
                 // resolving the deepest point. This loop is bounded by the number of vertices.

@@ -4,7 +4,7 @@
 
 /*
 MIT License
-Copyright © 2006 The Mono.Xna Team
+Copyright ?2006 The Mono.Xna Team
 
 All rights reserved.
 
@@ -35,7 +35,7 @@ using System.Runtime.InteropServices;
 namespace Microsoft.Xna.Framework
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Matrix : IEquatable<Matrix>
+    public struct XNAMatrix : IEquatable<XNAMatrix>
     {
         #region Public Fields
 
@@ -60,9 +60,9 @@ namespace Microsoft.Xna.Framework
 
         #region Static Properties
 
-        private static Matrix identity = new Matrix(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
+        private static XNAMatrix identity = new XNAMatrix(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
 
-        public static Matrix Identity
+        public static XNAMatrix Identity
         {
             get { return identity; }
         }
@@ -71,9 +71,9 @@ namespace Microsoft.Xna.Framework
 
         #region Public Properties
 
-        public Vector3 Backward
+        public XNAVector3 Backward
         {
-            get { return new Vector3(M31, M32, M33); }
+            get { return new XNAVector3(M31, M32, M33); }
             set
             {
                 M31 = value.X;
@@ -82,9 +82,9 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public Vector3 Down
+        public XNAVector3 Down
         {
-            get { return new Vector3(-M21, -M22, -M23); }
+            get { return new XNAVector3(-M21, -M22, -M23); }
             set
             {
                 M21 = -value.X;
@@ -93,9 +93,9 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public Vector3 Forward
+        public XNAVector3 Forward
         {
-            get { return new Vector3(-M31, -M32, -M33); }
+            get { return new XNAVector3(-M31, -M32, -M33); }
             set
             {
                 M31 = -value.X;
@@ -104,9 +104,9 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public Vector3 Left
+        public XNAVector3 Left
         {
-            get { return new Vector3(-M11, -M12, -M13); }
+            get { return new XNAVector3(-M11, -M12, -M13); }
             set
             {
                 M11 = -value.X;
@@ -115,9 +115,9 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public Vector3 Right
+        public XNAVector3 Right
         {
-            get { return new Vector3(M11, M12, M13); }
+            get { return new XNAVector3(M11, M12, M13); }
             set
             {
                 M11 = value.X;
@@ -126,9 +126,9 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public Vector3 Translation
+        public XNAVector3 Translation
         {
-            get { return new Vector3(M41, M42, M43); }
+            get { return new XNAVector3(M41, M42, M43); }
             set
             {
                 M41 = value.X;
@@ -137,9 +137,9 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public Vector3 Up
+        public XNAVector3 Up
         {
-            get { return new Vector3(M21, M22, M23); }
+            get { return new XNAVector3(M21, M22, M23); }
             set
             {
                 M21 = value.X;
@@ -203,7 +203,7 @@ namespace Microsoft.Xna.Framework
         /// <param name="m44">
         /// A <see cref="System.Single"/>
         /// </param>
-        public Matrix(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
+        public XNAMatrix(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
                       float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             M11 = m11;
@@ -228,23 +228,23 @@ namespace Microsoft.Xna.Framework
 
         #region Public Static Methods
 
-        public static Matrix CreateWorld(Vector3 position, Vector3 forward, Vector3 up)
+        public static XNAMatrix CreateWorld(XNAVector3 position, XNAVector3 forward, XNAVector3 up)
         {
-            Matrix ret;
+            XNAMatrix ret;
             CreateWorld(ref position, ref forward, ref up, out ret);
             return ret;
         }
 
-        public static void CreateWorld(ref Vector3 position, ref Vector3 forward, ref Vector3 up, out Matrix result)
+        public static void CreateWorld(ref XNAVector3 position, ref XNAVector3 forward, ref XNAVector3 up, out XNAMatrix result)
         {
-            Vector3 x, y, z;
-            Vector3.Normalize(ref forward, out z);
-            Vector3.Cross(ref forward, ref up, out x);
-            Vector3.Cross(ref x, ref forward, out y);
+            XNAVector3 x, y, z;
+            XNAVector3.Normalize(ref forward, out z);
+            XNAVector3.Cross(ref forward, ref up, out x);
+            XNAVector3.Cross(ref x, ref forward, out y);
             x.Normalize();
             y.Normalize();
 
-            result = new Matrix();
+            result = new XNAMatrix();
             result.Right = x;
             result.Up = y;
             result.Forward = z;
@@ -256,15 +256,15 @@ namespace Microsoft.Xna.Framework
         /// Adds second matrix to the first.
         /// </summary>
         /// <param name="matrix1">
-        /// A <see cref="Matrix"/>
+        /// A <see cref="XNAMatrix"/>
         /// </param>
         /// <param name="matrix2">
-        /// A <see cref="Matrix"/>
+        /// A <see cref="XNAMatrix"/>
         /// </param>
         /// <returns>
-        /// A <see cref="Matrix"/>
+        /// A <see cref="XNAMatrix"/>
         /// </returns>
-        public static Matrix Add(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix Add(XNAMatrix matrix1, XNAMatrix matrix2)
         {
             matrix1.M11 += matrix2.M11;
             matrix1.M12 += matrix2.M12;
@@ -290,15 +290,15 @@ namespace Microsoft.Xna.Framework
         /// Adds two Matrix and save to the result Matrix
         /// </summary>
         /// <param name="matrix1">
-        /// A <see cref="Matrix"/>
+        /// A <see cref="XNAMatrix"/>
         /// </param>
         /// <param name="matrix2">
-        /// A <see cref="Matrix"/>
+        /// A <see cref="XNAMatrix"/>
         /// </param>
         /// <param name="result">
-        /// A <see cref="Matrix"/>
+        /// A <see cref="XNAMatrix"/>
         /// </param>
-        public static void Add(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+        public static void Add(ref XNAMatrix matrix1, ref XNAMatrix matrix2, out XNAMatrix result)
         {
             result.M11 = matrix1.M11 + matrix2.M11;
             result.M12 = matrix1.M12 + matrix2.M12;
@@ -319,23 +319,23 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateBillboard(Vector3 objectPosition, Vector3 cameraPosition,
-                                             Vector3 cameraUpVector, Nullable<Vector3> cameraForwardVector)
+        public static XNAMatrix CreateBillboard(XNAVector3 objectPosition, XNAVector3 cameraPosition,
+                                             XNAVector3 cameraUpVector, Nullable<XNAVector3> cameraForwardVector)
         {
-            Matrix ret;
+            XNAMatrix ret;
             CreateBillboard(ref objectPosition, ref cameraPosition, ref cameraUpVector, cameraForwardVector, out ret);
             return ret;
         }
 
-        public static void CreateBillboard(ref Vector3 objectPosition, ref Vector3 cameraPosition,
-                                           ref Vector3 cameraUpVector, Vector3? cameraForwardVector, out Matrix result)
+        public static void CreateBillboard(ref XNAVector3 objectPosition, ref XNAVector3 cameraPosition,
+                                           ref XNAVector3 cameraUpVector, XNAVector3? cameraForwardVector, out XNAMatrix result)
         {
-            Vector3 translation = objectPosition - cameraPosition;
-            Vector3 backwards, right, up;
-            Vector3.Normalize(ref translation, out backwards);
-            Vector3.Normalize(ref cameraUpVector, out up);
-            Vector3.Cross(ref backwards, ref up, out right);
-            Vector3.Cross(ref backwards, ref right, out up);
+            XNAVector3 translation = objectPosition - cameraPosition;
+            XNAVector3 backwards, right, up;
+            XNAVector3.Normalize(ref translation, out backwards);
+            XNAVector3.Normalize(ref cameraUpVector, out up);
+            XNAVector3.Cross(ref backwards, ref up, out right);
+            XNAVector3.Cross(ref backwards, ref right, out up);
             result = Identity;
             result.Backward = backwards;
             result.Right = right;
@@ -343,49 +343,49 @@ namespace Microsoft.Xna.Framework
             result.Translation = translation;
         }
 
-        public static Matrix CreateConstrainedBillboard(Vector3 objectPosition, Vector3 cameraPosition,
-                                                        Vector3 rotateAxis, Nullable<Vector3> cameraForwardVector,
-                                                        Nullable<Vector3> objectForwardVector)
+        public static XNAMatrix CreateConstrainedBillboard(XNAVector3 objectPosition, XNAVector3 cameraPosition,
+                                                        XNAVector3 rotateAxis, Nullable<XNAVector3> cameraForwardVector,
+                                                        Nullable<XNAVector3> objectForwardVector)
         {
             throw new NotImplementedException();
         }
 
 
-        public static void CreateConstrainedBillboard(ref Vector3 objectPosition, ref Vector3 cameraPosition,
-                                                      ref Vector3 rotateAxis, Vector3? cameraForwardVector,
-                                                      Vector3? objectForwardVector, out Matrix result)
+        public static void CreateConstrainedBillboard(ref XNAVector3 objectPosition, ref XNAVector3 cameraPosition,
+                                                      ref XNAVector3 rotateAxis, XNAVector3? cameraForwardVector,
+                                                      XNAVector3? objectForwardVector, out XNAMatrix result)
         {
             throw new NotImplementedException();
         }
 
 
-        public static Matrix CreateFromAxisAngle(Vector3 axis, float angle)
+        public static XNAMatrix CreateFromAxisAngle(XNAVector3 axis, float angle)
         {
             throw new NotImplementedException();
         }
 
 
-        public static void CreateFromAxisAngle(ref Vector3 axis, float angle, out Matrix result)
+        public static void CreateFromAxisAngle(ref XNAVector3 axis, float angle, out XNAMatrix result)
         {
             throw new NotImplementedException();
         }
 
-        public static Matrix CreateLookAt(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 cameraUpVector)
+        public static XNAMatrix CreateLookAt(XNAVector3 cameraPosition, XNAVector3 cameraTarget, XNAVector3 cameraUpVector)
         {
-            Matrix ret;
+            XNAMatrix ret;
             CreateLookAt(ref cameraPosition, ref cameraTarget, ref cameraUpVector, out ret);
             return ret;
         }
 
 
-        public static void CreateLookAt(ref Vector3 cameraPosition, ref Vector3 cameraTarget, ref Vector3 cameraUpVector,
-                                        out Matrix result)
+        public static void CreateLookAt(ref XNAVector3 cameraPosition, ref XNAVector3 cameraTarget, ref XNAVector3 cameraUpVector,
+                                        out XNAMatrix result)
         {
             // http://msdn.microsoft.com/en-us/library/bb205343(v=VS.85).aspx
 
-            Vector3 vz = Vector3.Normalize(cameraPosition - cameraTarget);
-            Vector3 vx = Vector3.Normalize(Vector3.Cross(cameraUpVector, vz));
-            Vector3 vy = Vector3.Cross(vz, vx);
+            XNAVector3 vz = XNAVector3.Normalize(cameraPosition - cameraTarget);
+            XNAVector3 vx = XNAVector3.Normalize(XNAVector3.Cross(cameraUpVector, vz));
+            XNAVector3 vy = XNAVector3.Cross(vz, vx);
             result = Identity;
             result.M11 = vx.X;
             result.M12 = vy.X;
@@ -396,21 +396,21 @@ namespace Microsoft.Xna.Framework
             result.M31 = vx.Z;
             result.M32 = vy.Z;
             result.M33 = vz.Z;
-            result.M41 = -Vector3.Dot(vx, cameraPosition);
-            result.M42 = -Vector3.Dot(vy, cameraPosition);
-            result.M43 = -Vector3.Dot(vz, cameraPosition);
+            result.M41 = -XNAVector3.Dot(vx, cameraPosition);
+            result.M42 = -XNAVector3.Dot(vy, cameraPosition);
+            result.M43 = -XNAVector3.Dot(vz, cameraPosition);
         }
 
-        public static Matrix CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane)
+        public static XNAMatrix CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane)
         {
-            Matrix ret;
+            XNAMatrix ret;
             CreateOrthographic(width, height, zNearPlane, zFarPlane, out ret);
             return ret;
         }
 
 
         public static void CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane,
-                                              out Matrix result)
+                                              out XNAMatrix result)
         {
             result.M11 = 2 / width;
             result.M12 = 0;
@@ -431,17 +431,17 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateOrthographicOffCenter(float left, float right, float bottom, float top,
+        public static XNAMatrix CreateOrthographicOffCenter(float left, float right, float bottom, float top,
                                                          float zNearPlane, float zFarPlane)
         {
-            Matrix ret;
+            XNAMatrix ret;
             CreateOrthographicOffCenter(left, right, bottom, top, zNearPlane, zFarPlane, out ret);
             return ret;
         }
 
 
         public static void CreateOrthographicOffCenter(float left, float right, float bottom, float top,
-                                                       float zNearPlane, float zFarPlane, out Matrix result)
+                                                       float zNearPlane, float zFarPlane, out XNAMatrix result)
         {
             result.M11 = 2 / (right - left);
             result.M12 = 0;
@@ -462,35 +462,35 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreatePerspective(float width, float height, float zNearPlane, float zFarPlane)
+        public static XNAMatrix CreatePerspective(float width, float height, float zNearPlane, float zFarPlane)
         {
             throw new NotImplementedException();
         }
 
 
         public static void CreatePerspective(float width, float height, float zNearPlane, float zFarPlane,
-                                             out Matrix result)
+                                             out XNAMatrix result)
         {
             throw new NotImplementedException();
         }
 
 
-        public static Matrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance,
+        public static XNAMatrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance,
                                                           float farPlaneDistance)
         {
-            Matrix ret;
+            XNAMatrix ret;
             CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance, out ret);
             return ret;
         }
 
 
         public static void CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance,
-                                                        float farPlaneDistance, out Matrix result)
+                                                        float farPlaneDistance, out XNAMatrix result)
         {
             // http://msdn.microsoft.com/en-us/library/bb205351(v=VS.85).aspx
             // http://msdn.microsoft.com/en-us/library/bb195665.aspx
 
-            result = new Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            result = new XNAMatrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
             if (fieldOfView < 0 || fieldOfView > 3.14159262f)
                 throw new ArgumentOutOfRangeException("fieldOfView",
@@ -519,7 +519,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreatePerspectiveOffCenter(float left, float right, float bottom, float top,
+        public static XNAMatrix CreatePerspectiveOffCenter(float left, float right, float bottom, float top,
                                                         float zNearPlane, float zFarPlane)
         {
             throw new NotImplementedException();
@@ -527,15 +527,15 @@ namespace Microsoft.Xna.Framework
 
 
         public static void CreatePerspectiveOffCenter(float left, float right, float bottom, float top,
-                                                      float nearPlaneDistance, float farPlaneDistance, out Matrix result)
+                                                      float nearPlaneDistance, float farPlaneDistance, out XNAMatrix result)
         {
             throw new NotImplementedException();
         }
 
 
-        public static Matrix CreateRotationX(float radians)
+        public static XNAMatrix CreateRotationX(float radians)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M22 = (float)Math.Cos(radians);
             returnMatrix.M23 = (float)Math.Sin(radians);
@@ -546,7 +546,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateRotationX(float radians, out Matrix result)
+        public static void CreateRotationX(float radians, out XNAMatrix result)
         {
             result = Identity;
 
@@ -557,9 +557,9 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateRotationY(float radians)
+        public static XNAMatrix CreateRotationY(float radians)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M11 = (float)Math.Cos(radians);
             returnMatrix.M13 = (float)Math.Sin(radians);
@@ -570,7 +570,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateRotationY(float radians, out Matrix result)
+        public static void CreateRotationY(float radians, out XNAMatrix result)
         {
             result = Identity;
 
@@ -581,9 +581,9 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateRotationZ(float radians)
+        public static XNAMatrix CreateRotationZ(float radians)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M11 = (float)Math.Cos(radians);
             returnMatrix.M12 = (float)Math.Sin(radians);
@@ -594,7 +594,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateRotationZ(float radians, out Matrix result)
+        public static void CreateRotationZ(float radians, out XNAMatrix result)
         {
             result = Identity;
 
@@ -605,9 +605,9 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateScale(float scale)
+        public static XNAMatrix CreateScale(float scale)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M11 = scale;
             returnMatrix.M22 = scale;
@@ -617,7 +617,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateScale(float scale, out Matrix result)
+        public static void CreateScale(float scale, out XNAMatrix result)
         {
             result = Identity;
 
@@ -627,9 +627,9 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateScale(float xScale, float yScale, float zScale)
+        public static XNAMatrix CreateScale(float xScale, float yScale, float zScale)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M11 = xScale;
             returnMatrix.M22 = yScale;
@@ -639,7 +639,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateScale(float xScale, float yScale, float zScale, out Matrix result)
+        public static void CreateScale(float xScale, float yScale, float zScale, out XNAMatrix result)
         {
             result = Identity;
 
@@ -649,9 +649,9 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateScale(Vector3 scales)
+        public static XNAMatrix CreateScale(XNAVector3 scales)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M11 = scales.X;
             returnMatrix.M22 = scales.Y;
@@ -661,7 +661,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateScale(ref Vector3 scales, out Matrix result)
+        public static void CreateScale(ref XNAVector3 scales, out XNAMatrix result)
         {
             result = Identity;
 
@@ -671,9 +671,9 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateTranslation(float xPosition, float yPosition, float zPosition)
+        public static XNAMatrix CreateTranslation(float xPosition, float yPosition, float zPosition)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M41 = xPosition;
             returnMatrix.M42 = yPosition;
@@ -683,7 +683,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateTranslation(float xPosition, float yPosition, float zPosition, out Matrix result)
+        public static void CreateTranslation(float xPosition, float yPosition, float zPosition, out XNAMatrix result)
         {
             result = Identity;
 
@@ -693,9 +693,9 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix CreateTranslation(Vector3 position)
+        public static XNAMatrix CreateTranslation(XNAVector3 position)
         {
-            Matrix returnMatrix = Identity;
+            XNAMatrix returnMatrix = Identity;
 
             returnMatrix.M41 = position.X;
             returnMatrix.M42 = position.Y;
@@ -705,7 +705,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void CreateTranslation(ref Vector3 position, out Matrix result)
+        public static void CreateTranslation(ref XNAVector3 position, out XNAMatrix result)
         {
             result = Identity;
 
@@ -714,43 +714,43 @@ namespace Microsoft.Xna.Framework
             result.M43 = position.Z;
         }
 
-        public static Matrix Divide(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix Divide(XNAMatrix matrix1, XNAMatrix matrix2)
         {
-            Matrix ret;
+            XNAMatrix ret;
             Divide(ref matrix1, ref matrix2, out ret);
             return ret;
         }
 
 
-        public static void Divide(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+        public static void Divide(ref XNAMatrix matrix1, ref XNAMatrix matrix2, out XNAMatrix result)
         {
-            Matrix inverse = Invert(matrix2);
+            XNAMatrix inverse = Invert(matrix2);
             Multiply(ref matrix1, ref inverse, out result);
         }
 
 
-        public static Matrix Divide(Matrix matrix1, float divider)
+        public static XNAMatrix Divide(XNAMatrix matrix1, float divider)
         {
-            Matrix ret;
+            XNAMatrix ret;
             Divide(ref matrix1, divider, out ret);
             return ret;
         }
 
 
-        public static void Divide(ref Matrix matrix1, float divider, out Matrix result)
+        public static void Divide(ref XNAMatrix matrix1, float divider, out XNAMatrix result)
         {
             float inverseDivider = 1f / divider;
             Multiply(ref matrix1, inverseDivider, out result);
         }
 
-        public static Matrix Invert(Matrix matrix)
+        public static XNAMatrix Invert(XNAMatrix matrix)
         {
             Invert(ref matrix, out matrix);
             return matrix;
         }
 
 
-        public static void Invert(ref Matrix matrix, out Matrix result)
+        public static void Invert(ref XNAMatrix matrix, out XNAMatrix result)
         {
             //
             // Use Laplace expansion theorem to calculate the inverse of a 4x4 matrix
@@ -776,7 +776,7 @@ namespace Microsoft.Xna.Framework
 
             float invDetMatrix = 1f / detMatrix;
 
-            Matrix ret; // Allow for matrix and result to point to the same structure
+            XNAMatrix ret; // Allow for matrix and result to point to the same structure
 
             ret.M11 = (matrix.M22 * det12 - matrix.M23 * det11 + matrix.M24 * det10) * invDetMatrix;
             ret.M12 = (-matrix.M12 * det12 + matrix.M13 * det11 - matrix.M14 * det10) * invDetMatrix;
@@ -799,26 +799,26 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix Lerp(Matrix matrix1, Matrix matrix2, float amount)
+        public static XNAMatrix Lerp(XNAMatrix matrix1, XNAMatrix matrix2, float amount)
         {
             throw new NotImplementedException();
         }
 
 
-        public static void Lerp(ref Matrix matrix1, ref Matrix matrix2, float amount, out Matrix result)
+        public static void Lerp(ref XNAMatrix matrix1, ref XNAMatrix matrix2, float amount, out XNAMatrix result)
         {
             throw new NotImplementedException();
         }
 
-        public static Matrix Multiply(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix Multiply(XNAMatrix matrix1, XNAMatrix matrix2)
         {
-            Matrix ret;
+            XNAMatrix ret;
             Multiply(ref matrix1, ref matrix2, out ret);
             return ret;
         }
 
 
-        public static void Multiply(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+        public static void Multiply(ref XNAMatrix matrix1, ref XNAMatrix matrix2, out XNAMatrix result)
         {
             result.M11 = matrix1.M11 * matrix2.M11 + matrix1.M12 * matrix2.M21 + matrix1.M13 * matrix2.M31 +
                          matrix1.M14 * matrix2.M41;
@@ -858,7 +858,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix Multiply(Matrix matrix1, float factor)
+        public static XNAMatrix Multiply(XNAMatrix matrix1, float factor)
         {
             matrix1.M11 *= factor;
             matrix1.M12 *= factor;
@@ -880,7 +880,7 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static void Multiply(ref Matrix matrix1, float factor, out Matrix result)
+        public static void Multiply(ref XNAMatrix matrix1, float factor, out XNAMatrix result)
         {
             result.M11 = matrix1.M11 * factor;
             result.M12 = matrix1.M12 * factor;
@@ -901,19 +901,19 @@ namespace Microsoft.Xna.Framework
         }
 
 
-        public static Matrix Negate(Matrix matrix)
+        public static XNAMatrix Negate(XNAMatrix matrix)
         {
             Multiply(ref matrix, -1.0f, out matrix);
             return matrix;
         }
 
 
-        public static void Negate(ref Matrix matrix, out Matrix result)
+        public static void Negate(ref XNAMatrix matrix, out XNAMatrix result)
         {
             Multiply(ref matrix, -1.0f, out result);
         }
 
-        public static Matrix Subtract(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix Subtract(XNAMatrix matrix1, XNAMatrix matrix2)
         {
             matrix1.M11 -= matrix2.M11;
             matrix1.M12 -= matrix2.M12;
@@ -934,7 +934,7 @@ namespace Microsoft.Xna.Framework
             return matrix1;
         }
 
-        public static void Subtract(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+        public static void Subtract(ref XNAMatrix matrix1, ref XNAMatrix matrix2, out XNAMatrix result)
         {
             result.M11 = matrix1.M11 - matrix2.M11;
             result.M12 = matrix1.M12 - matrix2.M12;
@@ -954,15 +954,15 @@ namespace Microsoft.Xna.Framework
             result.M44 = matrix1.M44 - matrix2.M44;
         }
 
-        public static Matrix Transpose(Matrix matrix)
+        public static XNAMatrix Transpose(XNAMatrix matrix)
         {
-            Matrix ret;
+            XNAMatrix ret;
             Transpose(ref matrix, out ret);
             return ret;
         }
 
 
-        public static void Transpose(ref Matrix matrix, out Matrix result)
+        public static void Transpose(ref XNAMatrix matrix, out XNAMatrix result)
         {
             result.M11 = matrix.M11;
             result.M12 = matrix.M21;
@@ -1006,7 +1006,7 @@ namespace Microsoft.Xna.Framework
                    M14 * (M21 * minor4 - M22 * minor2 + M23 * minor1);
         }
 
-        public bool Equals(Matrix other)
+        public bool Equals(XNAMatrix other)
         {
             return this == other;
         }
@@ -1015,27 +1015,27 @@ namespace Microsoft.Xna.Framework
 
         #region Operators
 
-        public static Matrix operator +(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix operator +(XNAMatrix matrix1, XNAMatrix matrix2)
         {
             Add(ref matrix1, ref matrix2, out matrix1);
             return matrix1;
         }
 
-        public static Matrix operator /(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix operator /(XNAMatrix matrix1, XNAMatrix matrix2)
         {
-            Matrix ret;
+            XNAMatrix ret;
             Divide(ref matrix1, ref matrix2, out ret);
             return ret;
         }
 
-        public static Matrix operator /(Matrix matrix1, float divider)
+        public static XNAMatrix operator /(XNAMatrix matrix1, float divider)
         {
-            Matrix ret;
+            XNAMatrix ret;
             Divide(ref matrix1, divider, out ret);
             return ret;
         }
 
-        public static bool operator ==(Matrix matrix1, Matrix matrix2)
+        public static bool operator ==(XNAMatrix matrix1, XNAMatrix matrix2)
         {
             return (matrix1.M11 == matrix2.M11) && (matrix1.M12 == matrix2.M12) &&
                    (matrix1.M13 == matrix2.M13) && (matrix1.M14 == matrix2.M14) &&
@@ -1047,27 +1047,27 @@ namespace Microsoft.Xna.Framework
                    (matrix1.M43 == matrix2.M43) && (matrix1.M44 == matrix2.M44);
         }
 
-        public static bool operator !=(Matrix matrix1, Matrix matrix2)
+        public static bool operator !=(XNAMatrix matrix1, XNAMatrix matrix2)
         {
             return !(matrix1 == matrix2);
         }
 
-        public static Matrix operator *(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix operator *(XNAMatrix matrix1, XNAMatrix matrix2)
         {
-            Matrix returnMatrix = new Matrix();
+            XNAMatrix returnMatrix = new XNAMatrix();
             Multiply(ref matrix1, ref matrix2, out returnMatrix);
             return returnMatrix;
         }
 
-        public static Matrix operator *(Matrix matrix, float scaleFactor)
+        public static XNAMatrix operator *(XNAMatrix matrix, float scaleFactor)
         {
             Multiply(ref matrix, scaleFactor, out matrix);
             return matrix;
         }
 
-        public static Matrix operator *(float scaleFactor, Matrix matrix)
+        public static XNAMatrix operator *(float scaleFactor, XNAMatrix matrix)
         {
-            Matrix target;
+            XNAMatrix target;
             target.M11 = matrix.M11 * scaleFactor;
             target.M12 = matrix.M12 * scaleFactor;
             target.M13 = matrix.M13 * scaleFactor;
@@ -1087,15 +1087,15 @@ namespace Microsoft.Xna.Framework
             return target;
         }
 
-        public static Matrix operator -(Matrix matrix1, Matrix matrix2)
+        public static XNAMatrix operator -(XNAMatrix matrix1, XNAMatrix matrix2)
         {
-            Matrix returnMatrix = new Matrix();
+            XNAMatrix returnMatrix = new XNAMatrix();
             Subtract(ref matrix1, ref matrix2, out returnMatrix);
             return returnMatrix;
         }
 
 
-        public static Matrix operator -(Matrix matrix1)
+        public static XNAMatrix operator -(XNAMatrix matrix1)
         {
             Negate(ref matrix1, out matrix1);
             return matrix1;
@@ -1107,7 +1107,7 @@ namespace Microsoft.Xna.Framework
 
         public override bool Equals(object obj)
         {
-            return this == (Matrix)obj;
+            return this == (XNAMatrix)obj;
         }
 
         public override int GetHashCode()

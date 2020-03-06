@@ -48,8 +48,8 @@ namespace VelcroPhysics.Dynamics
         internal BodyFlags _flags;
         internal float _invI;
         internal float _invMass;
-        internal Vector2 _force;
-        internal Vector2 _linearVelocity;
+        internal XNAVector2 _force;
+        internal XNAVector2 _linearVelocity;
         internal float _angularVelocity;
         internal Sweep _sweep; // the swept motion for CCD
         internal float _torque;
@@ -154,7 +154,7 @@ namespace VelcroPhysics.Dynamics
 
                 if (_type == BodyType.Static)
                 {
-                    _linearVelocity = Vector2.Zero;
+                    _linearVelocity = XNAVector2.Zero;
                     _angularVelocity = 0.0f;
                     _sweep.A0 = _sweep.A;
                     _sweep.C0 = _sweep.C;
@@ -163,7 +163,7 @@ namespace VelcroPhysics.Dynamics
 
                 Awake = true;
 
-                _force = Vector2.Zero;
+                _force = XNAVector2.Zero;
                 _torque = 0.0f;
 
                 // Delete the attached contacts.
@@ -194,7 +194,7 @@ namespace VelcroPhysics.Dynamics
         /// Get or sets the linear velocity of the center of mass.
         /// </summary>
         /// <value>The linear velocity.</value>
-        public Vector2 LinearVelocity
+        public XNAVector2 LinearVelocity
         {
             get { return _linearVelocity; }
             set
@@ -204,7 +204,7 @@ namespace VelcroPhysics.Dynamics
                 if (_type == BodyType.Static)
                     return;
 
-                if (Vector2.Dot(value, value) > 0.0f)
+                if (XNAVector2.Dot(value, value) > 0.0f)
                     Awake = true;
 
                 _linearVelocity = value;
@@ -414,7 +414,7 @@ namespace VelcroPhysics.Dynamics
         /// Get the world body origin position.
         /// </summary>
         /// <returns>Return the world position of the body's origin.</returns>
-        public Vector2 Position
+        public XNAVector2 Position
         {
             get { return _xf.p; }
             set
@@ -469,13 +469,13 @@ namespace VelcroPhysics.Dynamics
         /// Get the world position of the center of mass.
         /// </summary>
         /// <value>The world position.</value>
-        public Vector2 WorldCenter => _sweep.C;
+        public XNAVector2 WorldCenter => _sweep.C;
 
         /// <summary>
         /// Get the local position of the center of mass.
         /// </summary>
         /// <value>The local position.</value>
-        public Vector2 LocalCenter
+        public XNAVector2 LocalCenter
         {
             get { return _sweep.LocalCenter; }
             set
@@ -486,13 +486,13 @@ namespace VelcroPhysics.Dynamics
                 //Velcro: We support setting the mass independently
 
                 // Move center of mass.
-                Vector2 oldCenter = _sweep.C;
+                XNAVector2 oldCenter = _sweep.C;
                 _sweep.LocalCenter = value;
                 _sweep.C0 = _sweep.C = MathUtils.Mul(ref _xf, ref _sweep.LocalCenter);
 
                 // Update center of mass velocity.
-                Vector2 a = _sweep.C - oldCenter;
-                _linearVelocity += new Vector2(-_angularVelocity * a.Y, _angularVelocity * a.X);
+                XNAVector2 a = _sweep.C - oldCenter;
+                _linearVelocity += new XNAVector2(-_angularVelocity * a.Y, _angularVelocity * a.X);
             }
         }
 
@@ -526,7 +526,7 @@ namespace VelcroPhysics.Dynamics
         /// <value>The inertia.</value>
         public float Inertia
         {
-            get { return _inertia + _mass * Vector2.Dot(_sweep.LocalCenter, _sweep.LocalCenter); }
+            get { return _inertia + _mass * XNAVector2.Dot(_sweep.LocalCenter, _sweep.LocalCenter); }
             set
             {
                 Debug.Assert(!float.IsNaN(value));
@@ -537,7 +537,7 @@ namespace VelcroPhysics.Dynamics
                 //Velcro: We support setting the inertia independently
                 if (value > 0.0f && !FixedRotation)
                 {
-                    _inertia = value - _mass * Vector2.Dot(_sweep.LocalCenter, _sweep.LocalCenter);
+                    _inertia = value - _mass * XNAVector2.Dot(_sweep.LocalCenter, _sweep.LocalCenter);
                     Debug.Assert(_inertia > 0.0f);
                     _invI = 1.0f / _inertia;
                 }
@@ -654,8 +654,8 @@ namespace VelcroPhysics.Dynamics
         {
             _torque = 0;
             _angularVelocity = 0;
-            _force = Vector2.Zero;
-            _linearVelocity = Vector2.Zero;
+            _force = XNAVector2.Zero;
+            _linearVelocity = XNAVector2.Zero;
         }
 
         /// <summary>
@@ -740,7 +740,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="position">The world position of the body's local origin.</param>
         /// <param name="rotation">The world rotation in radians.</param>
-        public void SetTransform(ref Vector2 position, float rotation)
+        public void SetTransform(ref XNAVector2 position, float rotation)
         {
             SetTransformIgnoreContacts(ref position, rotation);
 
@@ -755,7 +755,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="position">The world position of the body's local origin.</param>
         /// <param name="rotation">The world rotation in radians.</param>
-        public void SetTransform(Vector2 position, float rotation)
+        public void SetTransform(XNAVector2 position, float rotation)
         {
             SetTransform(ref position, rotation);
         }
@@ -765,7 +765,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="position">The position.</param>
         /// <param name="angle">The angle.</param>
-        public void SetTransformIgnoreContacts(ref Vector2 position, float angle)
+        public void SetTransformIgnoreContacts(ref XNAVector2 position, float angle)
         {
             _xf.q.Set(angle);
             _xf.p = position;
@@ -799,7 +799,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="force">The world force vector, usually in Newtons (N).</param>
         /// <param name="point">The world position of the point of application.</param>
-        public void ApplyForce(Vector2 force, Vector2 point)
+        public void ApplyForce(XNAVector2 force, XNAVector2 point)
         {
             ApplyForce(ref force, ref point);
         }
@@ -808,7 +808,7 @@ namespace VelcroPhysics.Dynamics
         /// Applies a force at the center of mass.
         /// </summary>
         /// <param name="force">The force.</param>
-        public void ApplyForce(ref Vector2 force)
+        public void ApplyForce(ref XNAVector2 force)
         {
             ApplyForce(ref force, ref _xf.p);
         }
@@ -817,7 +817,7 @@ namespace VelcroPhysics.Dynamics
         /// Applies a force at the center of mass.
         /// </summary>
         /// <param name="force">The force.</param>
-        public void ApplyForce(Vector2 force)
+        public void ApplyForce(XNAVector2 force)
         {
             ApplyForce(ref force, ref _xf.p);
         }
@@ -829,7 +829,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="force">The world force vector, usually in Newtons (N).</param>
         /// <param name="point">The world position of the point of application.</param>
-        public void ApplyForce(ref Vector2 force, ref Vector2 point)
+        public void ApplyForce(ref XNAVector2 force, ref XNAVector2 point)
         {
             Debug.Assert(!float.IsNaN(force.X));
             Debug.Assert(!float.IsNaN(force.Y));
@@ -871,7 +871,7 @@ namespace VelcroPhysics.Dynamics
         /// This wakes up the body.
         /// </summary>
         /// <param name="impulse">The world impulse vector, usually in N-seconds or kg-m/s.</param>
-        public void ApplyLinearImpulse(Vector2 impulse)
+        public void ApplyLinearImpulse(XNAVector2 impulse)
         {
             ApplyLinearImpulse(ref impulse);
         }
@@ -884,7 +884,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="impulse">The world impulse vector, usually in N-seconds or kg-m/s.</param>
         /// <param name="point">The world position of the point of application.</param>
-        public void ApplyLinearImpulse(Vector2 impulse, Vector2 point)
+        public void ApplyLinearImpulse(XNAVector2 impulse, XNAVector2 point)
         {
             ApplyLinearImpulse(ref impulse, ref point);
         }
@@ -894,7 +894,7 @@ namespace VelcroPhysics.Dynamics
         /// This wakes up the body.
         /// </summary>
         /// <param name="impulse">The world impulse vector, usually in N-seconds or kg-m/s.</param>
-        public void ApplyLinearImpulse(ref Vector2 impulse)
+        public void ApplyLinearImpulse(ref XNAVector2 impulse)
         {
             if (_type != BodyType.Dynamic)
                 return;
@@ -914,7 +914,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="impulse">The world impulse vector, usually in N-seconds or kg-m/s.</param>
         /// <param name="point">The world position of the point of application.</param>
-        public void ApplyLinearImpulse(ref Vector2 impulse, ref Vector2 point)
+        public void ApplyLinearImpulse(ref XNAVector2 impulse, ref XNAVector2 point)
         {
             if (_type != BodyType.Dynamic)
                 return;
@@ -955,7 +955,7 @@ namespace VelcroPhysics.Dynamics
             _invMass = 0.0f;
             _inertia = 0.0f;
             _invI = 0.0f;
-            _sweep.LocalCenter = Vector2.Zero;
+            _sweep.LocalCenter = XNAVector2.Zero;
 
             //Velcro: We have mass on static bodies to support attaching joints to them
             // Kinematic bodies have zero mass.
@@ -970,7 +970,7 @@ namespace VelcroPhysics.Dynamics
             Debug.Assert(BodyType == BodyType.Dynamic || BodyType == BodyType.Static);
 
             // Accumulate mass over all fixtures.
-            Vector2 localCenter = Vector2.Zero;
+            XNAVector2 localCenter = XNAVector2.Zero;
             foreach (Fixture f in FixtureList)
             {
                 if (f.Shape._density == 0.0f)
@@ -1005,7 +1005,7 @@ namespace VelcroPhysics.Dynamics
             if (_inertia > 0.0f && (_flags & BodyFlags.FixedRotationFlag) == 0)
             {
                 // Center the inertia about the center of mass.
-                _inertia -= _mass * Vector2.Dot(localCenter, localCenter);
+                _inertia -= _mass * XNAVector2.Dot(localCenter, localCenter);
 
                 Debug.Assert(_inertia > 0.0f);
                 _invI = 1.0f / _inertia;
@@ -1017,13 +1017,13 @@ namespace VelcroPhysics.Dynamics
             }
 
             // Move center of mass.
-            Vector2 oldCenter = _sweep.C;
+            XNAVector2 oldCenter = _sweep.C;
             _sweep.LocalCenter = localCenter;
             _sweep.C0 = _sweep.C = MathUtils.Mul(ref _xf, ref _sweep.LocalCenter);
 
             // Update center of mass velocity.
-            Vector2 a = _sweep.C - oldCenter;
-            _linearVelocity += new Vector2(-_angularVelocity * a.Y, _angularVelocity * a.X);
+            XNAVector2 a = _sweep.C - oldCenter;
+            _linearVelocity += new XNAVector2(-_angularVelocity * a.Y, _angularVelocity * a.X);
         }
 
         /// <summary>
@@ -1031,7 +1031,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="localPoint">A point on the body measured relative the body's origin.</param>
         /// <returns>The same point expressed in world coordinates.</returns>
-        public Vector2 GetWorldPoint(ref Vector2 localPoint)
+        public XNAVector2 GetWorldPoint(ref XNAVector2 localPoint)
         {
             return MathUtils.Mul(ref _xf, ref localPoint);
         }
@@ -1041,7 +1041,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="localPoint">A point on the body measured relative the body's origin.</param>
         /// <returns>The same point expressed in world coordinates.</returns>
-        public Vector2 GetWorldPoint(Vector2 localPoint)
+        public XNAVector2 GetWorldPoint(XNAVector2 localPoint)
         {
             return GetWorldPoint(ref localPoint);
         }
@@ -1052,7 +1052,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="localVector">A vector fixed in the body.</param>
         /// <returns>The same vector expressed in world coordinates.</returns>
-        public Vector2 GetWorldVector(ref Vector2 localVector)
+        public XNAVector2 GetWorldVector(ref XNAVector2 localVector)
         {
             return MathUtils.Mul(ref _xf.q, localVector);
         }
@@ -1062,7 +1062,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="localVector">A vector fixed in the body.</param>
         /// <returns>The same vector expressed in world coordinates.</returns>
-        public Vector2 GetWorldVector(Vector2 localVector)
+        public XNAVector2 GetWorldVector(XNAVector2 localVector)
         {
             return GetWorldVector(ref localVector);
         }
@@ -1073,7 +1073,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="worldPoint">A point in world coordinates.</param>
         /// <returns>The corresponding local point relative to the body's origin.</returns>
-        public Vector2 GetLocalPoint(ref Vector2 worldPoint)
+        public XNAVector2 GetLocalPoint(ref XNAVector2 worldPoint)
         {
             return MathUtils.MulT(ref _xf, worldPoint);
         }
@@ -1083,7 +1083,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="worldPoint">A point in world coordinates.</param>
         /// <returns>The corresponding local point relative to the body's origin.</returns>
-        public Vector2 GetLocalPoint(Vector2 worldPoint)
+        public XNAVector2 GetLocalPoint(XNAVector2 worldPoint)
         {
             return GetLocalPoint(ref worldPoint);
         }
@@ -1094,7 +1094,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="worldVector">A vector in world coordinates.</param>
         /// <returns>The corresponding local vector.</returns>
-        public Vector2 GetLocalVector(ref Vector2 worldVector)
+        public XNAVector2 GetLocalVector(ref XNAVector2 worldVector)
         {
             return MathUtils.MulT(_xf.q, worldVector);
         }
@@ -1105,7 +1105,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="worldVector">A vector in world coordinates.</param>
         /// <returns>The corresponding local vector.</returns>
-        public Vector2 GetLocalVector(Vector2 worldVector)
+        public XNAVector2 GetLocalVector(XNAVector2 worldVector)
         {
             return GetLocalVector(ref worldVector);
         }
@@ -1115,7 +1115,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="worldPoint">A point in world coordinates.</param>
         /// <returns>The world velocity of a point.</returns>
-        public Vector2 GetLinearVelocityFromWorldPoint(Vector2 worldPoint)
+        public XNAVector2 GetLinearVelocityFromWorldPoint(XNAVector2 worldPoint)
         {
             return GetLinearVelocityFromWorldPoint(ref worldPoint);
         }
@@ -1125,7 +1125,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="worldPoint">A point in world coordinates.</param>
         /// <returns>The world velocity of a point.</returns>
-        public Vector2 GetLinearVelocityFromWorldPoint(ref Vector2 worldPoint)
+        public XNAVector2 GetLinearVelocityFromWorldPoint(ref XNAVector2 worldPoint)
         {
             return _linearVelocity + MathUtils.Cross(_angularVelocity, worldPoint - _sweep.C);
         }
@@ -1135,7 +1135,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="localPoint">A point in local coordinates.</param>
         /// <returns>The world velocity of a point.</returns>
-        public Vector2 GetLinearVelocityFromLocalPoint(Vector2 localPoint)
+        public XNAVector2 GetLinearVelocityFromLocalPoint(XNAVector2 localPoint)
         {
             return GetLinearVelocityFromLocalPoint(ref localPoint);
         }
@@ -1145,7 +1145,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         /// <param name="localPoint">A point in local coordinates.</param>
         /// <returns>The world velocity of a point.</returns>
-        public Vector2 GetLinearVelocityFromLocalPoint(ref Vector2 localPoint)
+        public XNAVector2 GetLinearVelocityFromLocalPoint(ref XNAVector2 localPoint)
         {
             return GetLinearVelocityFromWorldPoint(GetWorldPoint(ref localPoint));
         }

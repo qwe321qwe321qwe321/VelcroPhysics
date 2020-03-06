@@ -13,8 +13,8 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
     {
         private AABB _container;
 
-        private Vector2 _gravity;
-        private Vector2 _normal;
+        private XNAVector2 _gravity;
+        private XNAVector2 _normal;
         private float _offset;
         private Dictionary<int, Body> _uniqueBodies = new Dictionary<int, Body>();
 
@@ -40,7 +40,7 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
         /// <summary>
         /// Acts like waterflow. Defaults to 0,0.
         /// </summary>
-        public Vector2 Velocity;
+        public XNAVector2 Velocity;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BuoyancyController" /> class.
@@ -50,11 +50,11 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
         /// <param name="linearDragCoefficient">Linear drag coefficient of the fluid</param>
         /// <param name="rotationalDragCoefficient">Rotational drag coefficient of the fluid</param>
         /// <param name="gravity">The direction gravity acts. Buoyancy force will act in opposite direction of gravity.</param>
-        public BuoyancyController(AABB container, float density, float linearDragCoefficient, float rotationalDragCoefficient, Vector2 gravity)
+        public BuoyancyController(AABB container, float density, float linearDragCoefficient, float rotationalDragCoefficient, XNAVector2 gravity)
             : base(ControllerType.BuoyancyController)
         {
             Container = container;
-            _normal = new Vector2(0, 1);
+            _normal = new XNAVector2(0, 1);
             Density = density;
             LinearDragCoefficient = linearDragCoefficient;
             AngularDragCoefficient = rotationalDragCoefficient;
@@ -89,8 +89,8 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
             {
                 Body body = kv.Value;
 
-                Vector2 areac = Vector2.Zero;
-                Vector2 massc = Vector2.Zero;
+                XNAVector2 areac = XNAVector2.Zero;
+                XNAVector2 massc = XNAVector2.Zero;
                 float area = 0;
                 float mass = 0;
 
@@ -103,7 +103,7 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
 
                     Shape shape = fixture.Shape;
 
-                    Vector2 sc;
+                    XNAVector2 sc;
                     float sarea = ComputeSubmergedArea(shape, ref _normal, _offset, ref body._xf, out sc);
                     area += sarea;
                     areac.X += sarea * sc.X;
@@ -123,11 +123,11 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
                     continue;
 
                 //Buoyancy
-                Vector2 buoyancyForce = -Density * area * _gravity;
+                XNAVector2 buoyancyForce = -Density * area * _gravity;
                 body.ApplyForce(buoyancyForce, massc);
 
                 //Linear drag
-                Vector2 dragForce = body.GetLinearVelocityFromWorldPoint(areac) - Velocity;
+                XNAVector2 dragForce = body.GetLinearVelocityFromWorldPoint(areac) - Velocity;
                 dragForce *= -LinearDragCoefficient * area;
                 body.ApplyForce(dragForce, areac);
 
@@ -136,7 +136,7 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
             }
         }
 
-        private float ComputeSubmergedArea(Shape shape, ref Vector2 normal, float offset, ref Transform xf, out Vector2 sc)
+        private float ComputeSubmergedArea(Shape shape, ref XNAVector2 normal, float offset, ref Transform xf, out XNAVector2 sc)
         {
             switch (shape.ShapeType)
             {
@@ -144,10 +144,10 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
                     {
                         CircleShape circleShape = (CircleShape)shape;
 
-                        sc = Vector2.Zero;
+                        sc = XNAVector2.Zero;
 
-                        Vector2 p = MathUtils.Mul(ref xf, circleShape.Position);
-                        float l = -(Vector2.Dot(normal, p) - offset);
+                        XNAVector2 p = MathUtils.Mul(ref xf, circleShape.Position);
+                        float l = -(XNAVector2.Dot(normal, p) - offset);
                         if (l < -circleShape.Radius + Settings.Epsilon)
                         {
                             //Completely dry
@@ -171,17 +171,17 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
                         return area;
                     }
                 case ShapeType.Edge:
-                    sc = Vector2.Zero;
+                    sc = XNAVector2.Zero;
                     return 0;
                 case ShapeType.Polygon:
                     {
-                        sc = Vector2.Zero;
+                        sc = XNAVector2.Zero;
 
                         PolygonShape polygonShape = (PolygonShape)shape;
 
                         //Transform plane into shape co-ordinates
-                        Vector2 normalL = MathUtils.MulT(xf.q, normal);
-                        float offsetL = offset - Vector2.Dot(normal, xf.p);
+                        XNAVector2 normalL = MathUtils.MulT(xf.q, normal);
+                        float offsetL = offset - XNAVector2.Dot(normal, xf.p);
 
                         float[] depths = new float[Settings.MaxPolygonVertices];
                         int diveCount = 0;
@@ -192,7 +192,7 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
                         int i;
                         for (i = 0; i < polygonShape.Vertices.Count; i++)
                         {
-                            depths[i] = Vector2.Dot(normalL, polygonShape.Vertices[i]) - offsetL;
+                            depths[i] = XNAVector2.Dot(normalL, polygonShape.Vertices[i]) - offsetL;
                             bool isSubmerged = depths[i] < -Settings.Epsilon;
                             if (i > 0)
                             {
@@ -245,13 +245,13 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
                         float intoLambda = (0 - depths[intoIndex]) / (depths[intoIndex2] - depths[intoIndex]);
                         float outoLambda = (0 - depths[outoIndex]) / (depths[outoIndex2] - depths[outoIndex]);
 
-                        Vector2 intoVec = new Vector2(polygonShape.Vertices[intoIndex].X * (1 - intoLambda) + polygonShape.Vertices[intoIndex2].X * intoLambda, polygonShape.Vertices[intoIndex].Y * (1 - intoLambda) + polygonShape.Vertices[intoIndex2].Y * intoLambda);
-                        Vector2 outoVec = new Vector2(polygonShape.Vertices[outoIndex].X * (1 - outoLambda) + polygonShape.Vertices[outoIndex2].X * outoLambda, polygonShape.Vertices[outoIndex].Y * (1 - outoLambda) + polygonShape.Vertices[outoIndex2].Y * outoLambda);
+                        XNAVector2 intoVec = new XNAVector2(polygonShape.Vertices[intoIndex].X * (1 - intoLambda) + polygonShape.Vertices[intoIndex2].X * intoLambda, polygonShape.Vertices[intoIndex].Y * (1 - intoLambda) + polygonShape.Vertices[intoIndex2].Y * intoLambda);
+                        XNAVector2 outoVec = new XNAVector2(polygonShape.Vertices[outoIndex].X * (1 - outoLambda) + polygonShape.Vertices[outoIndex2].X * outoLambda, polygonShape.Vertices[outoIndex].Y * (1 - outoLambda) + polygonShape.Vertices[outoIndex2].Y * outoLambda);
 
                         //Initialize accumulator
                         float area = 0;
-                        Vector2 center = new Vector2(0, 0);
-                        Vector2 p2 = polygonShape.Vertices[intoIndex2];
+                        XNAVector2 center = new XNAVector2(0, 0);
+                        XNAVector2 p2 = polygonShape.Vertices[intoIndex2];
 
                         const float k_inv3 = 1.0f / 3.0f;
 
@@ -260,7 +260,7 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
                         while (i != outoIndex2)
                         {
                             i = (i + 1) % polygonShape.Vertices.Count;
-                            Vector2 p3;
+                            XNAVector2 p3;
                             if (i == outoIndex2)
                                 p3 = outoVec;
                             else
@@ -268,8 +268,8 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
 
                             //Add the triangle formed by intoVec,p2,p3
                             {
-                                Vector2 e1 = p2 - intoVec;
-                                Vector2 e2 = p3 - intoVec;
+                                XNAVector2 e1 = p2 - intoVec;
+                                XNAVector2 e2 = p3 - intoVec;
 
                                 float D = MathUtils.Cross(e1, e2);
 
@@ -292,7 +292,7 @@ namespace VelcroPhysics.Extensions.Controllers.Buoyancy
                         return area;
                     }
                 case ShapeType.Chain:
-                    sc = Vector2.Zero;
+                    sc = XNAVector2.Zero;
                     return 0;
                 case ShapeType.Unknown:
                 case ShapeType.TypeCount:

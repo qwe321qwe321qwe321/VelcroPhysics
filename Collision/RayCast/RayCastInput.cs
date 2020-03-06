@@ -17,11 +17,11 @@ namespace VelcroPhysics.Collision.RayCast
         /// <summary>
         /// The starting point of the ray.
         /// </summary>
-        public Vector2 Point1;
+        public XNAVector2 Point1;
 
         /// <summary>
         /// The ending point of the ray.
         /// </summary>
-        public Vector2 Point2;
+        public XNAVector2 Point2;
     }
 }

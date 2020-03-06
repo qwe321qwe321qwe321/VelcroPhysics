@@ -10,6 +10,6 @@ namespace VelcroPhysics.Templates.Shapes
         /// <summary>
         /// Get or set the position of the circle
         /// </summary>
-        public Vector2 Position { get; set; }
+        public XNAVector2 Position { get; set; }
     }
 }

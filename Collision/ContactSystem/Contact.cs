@@ -156,7 +156,7 @@ namespace VelcroPhysics.Collision.ContactSystem
         /// <summary>
         /// Gets the world manifold.
         /// </summary>
-        public void GetWorldManifold(out Vector2 normal, out FixedArray2<Vector2> points)
+        public void GetWorldManifold(out XNAVector2 normal, out FixedArray2<XNAVector2> points)
         {
             Body bodyA = FixtureA.Body;
             Body bodyB = FixtureB.Body;

@@ -8,7 +8,7 @@ namespace VelcroPhysics.Collision.RayCast
 {
     public static class RayCastHelper
     {
-        public static bool RayCastEdge(ref Vector2 start, ref Vector2 end, ref RayCastInput input, ref Transform transform, out RayCastOutput output)
+        public static bool RayCastEdge(ref XNAVector2 start, ref XNAVector2 end, ref RayCastInput input, ref Transform transform, out RayCastOutput output)
         {
             // p = p1 + t * d
             // v = v1 + s * e
@@ -18,21 +18,21 @@ namespace VelcroPhysics.Collision.RayCast
             output = new RayCastOutput();
 
             // Put the ray into the edge's frame of reference.
-            Vector2 p1 = MathUtils.MulT(transform.q, input.Point1 - transform.p);
-            Vector2 p2 = MathUtils.MulT(transform.q, input.Point2 - transform.p);
-            Vector2 d = p2 - p1;
+            XNAVector2 p1 = MathUtils.MulT(transform.q, input.Point1 - transform.p);
+            XNAVector2 p2 = MathUtils.MulT(transform.q, input.Point2 - transform.p);
+            XNAVector2 d = p2 - p1;
 
-            Vector2 v1 = start;
-            Vector2 v2 = end;
-            Vector2 e = v2 - v1;
-            Vector2 normal = new Vector2(e.Y, -e.X); //TODO: Could possibly cache the normal.
+            XNAVector2 v1 = start;
+            XNAVector2 v2 = end;
+            XNAVector2 e = v2 - v1;
+            XNAVector2 normal = new XNAVector2(e.Y, -e.X); //TODO: Could possibly cache the normal.
             normal.Normalize();
 
             // q = p1 + t * d
             // dot(normal, q - v1) = 0
             // dot(normal, p1 - v1) + t * dot(normal, d) = 0
-            float numerator = Vector2.Dot(normal, v1 - p1);
-            float denominator = Vector2.Dot(normal, d);
+            float numerator = XNAVector2.Dot(normal, v1 - p1);
+            float denominator = XNAVector2.Dot(normal, d);
 
             if (denominator == 0.0f)
             {
@@ -45,18 +45,18 @@ namespace VelcroPhysics.Collision.RayCast
                 return false;
             }
 
-            Vector2 q = p1 + t * d;
+            XNAVector2 q = p1 + t * d;
 
             // q = v1 + s * r
             // s = dot(q - v1, r) / dot(r, r)
-            Vector2 r = v2 - v1;
-            float rr = Vector2.Dot(r, r);
+            XNAVector2 r = v2 - v1;
+            float rr = XNAVector2.Dot(r, r);
             if (rr == 0.0f)
             {
                 return false;
             }
 
-            float s = Vector2.Dot(q - v1, r) / rr;
+            float s = XNAVector2.Dot(q - v1, r) / rr;
             if (s < 0.0f || 1.0f < s)
             {
                 return false;
@@ -74,7 +74,7 @@ namespace VelcroPhysics.Collision.RayCast
             return true;
         }
 
-        public static bool RayCastCircle(ref Vector2 pos, float radius, ref RayCastInput input, ref Transform transform, out RayCastOutput output)
+        public static bool RayCastCircle(ref XNAVector2 pos, float radius, ref RayCastInput input, ref Transform transform, out RayCastOutput output)
         {
             // Collision Detection in Interactive 3D Environments by Gino van den Bergen
             // From Section 3.1.2
@@ -83,14 +83,14 @@ namespace VelcroPhysics.Collision.RayCast
 
             output = new RayCastOutput();
 
-            Vector2 position = transform.p + MathUtils.Mul(transform.q, pos);
-            Vector2 s = input.Point1 - position;
-            float b = Vector2.Dot(s, s) - radius * radius;
+            XNAVector2 position = transform.p + MathUtils.Mul(transform.q, pos);
+            XNAVector2 s = input.Point1 - position;
+            float b = XNAVector2.Dot(s, s) - radius * radius;
 
             // Solve quadratic equation.
-            Vector2 r = input.Point2 - input.Point1;
-            float c = Vector2.Dot(s, r);
-            float rr = Vector2.Dot(r, r);
+            XNAVector2 r = input.Point2 - input.Point1;
+            float c = XNAVector2.Dot(s, r);
+            float rr = XNAVector2.Dot(r, r);
             float sigma = c * c - rr * b;
 
             // Check for negative discriminant and short segment.
@@ -120,9 +120,9 @@ namespace VelcroPhysics.Collision.RayCast
             output = new RayCastOutput();
 
             // Put the ray into the polygon's frame of reference.
-            Vector2 p1 = MathUtils.MulT(transform.q, input.Point1 - transform.p);
-            Vector2 p2 = MathUtils.MulT(transform.q, input.Point2 - transform.p);
-            Vector2 d = p2 - p1;
+            XNAVector2 p1 = MathUtils.MulT(transform.q, input.Point1 - transform.p);
+            XNAVector2 p2 = MathUtils.MulT(transform.q, input.Point2 - transform.p);
+            XNAVector2 d = p2 - p1;
 
             float lower = 0.0f, upper = input.MaxFraction;
 
@@ -133,8 +133,8 @@ namespace VelcroPhysics.Collision.RayCast
                 // p = p1 + a * d
                 // dot(normal, p - v) = 0
                 // dot(normal, p1 - v) + a * dot(normal, d) = 0
-                float numerator = Vector2.Dot(normals[i], vertices[i] - p1);
-                float denominator = Vector2.Dot(normals[i], d);
+                float numerator = XNAVector2.Dot(normals[i], vertices[i] - p1);
+                float denominator = XNAVector2.Dot(normals[i], d);
 
                 if (denominator == 0.0f)
                 {

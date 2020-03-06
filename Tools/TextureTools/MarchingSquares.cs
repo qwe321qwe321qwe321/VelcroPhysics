@@ -179,8 +179,8 @@ namespace VelcroPhysics.Tools.TextureTools
                     float ax = x * cellWidth + domain.LowerBound.X;
                     float ay = y * cellHeight + domain.LowerBound.Y;
 
-                    CxFastList<Vector2> bp = p.GeomP.Points;
-                    CxFastList<Vector2> ap = u.GeomP.Points;
+                    CxFastList<XNAVector2> bp = p.GeomP.Points;
+                    CxFastList<XNAVector2> ap = u.GeomP.Points;
 
                     //skip if it's already been combined with above polygon
                     if (u.GeomP == p.GeomP)
@@ -190,13 +190,13 @@ namespace VelcroPhysics.Tools.TextureTools
                     }
 
                     //combine above (but disallow the hole thingies
-                    CxFastListNode<Vector2> bi = bp.Begin();
+                    CxFastListNode<XNAVector2> bi = bp.Begin();
                     while (Square(bi.Elem().Y - ay) > Settings.Epsilon || bi.Elem().X < ax)
                         bi = bi.Next();
 
                     //NOTE: Unused
                     //Vector2 b0 = bi.elem();
-                    Vector2 b1 = bi.Next().Elem();
+                    XNAVector2 b1 = bi.Next().Elem();
                     if (Square(b1.Y - ay) > Settings.Epsilon)
                     {
                         x++;
@@ -204,7 +204,7 @@ namespace VelcroPhysics.Tools.TextureTools
                     }
 
                     bool brk = true;
-                    CxFastListNode<Vector2> ai = ap.Begin();
+                    CxFastListNode<XNAVector2> ai = ap.Begin();
                     while (ai != ap.End())
                     {
                         if (VecDsq(ai.Elem(), b1) < Settings.Epsilon)
@@ -220,7 +220,7 @@ namespace VelcroPhysics.Tools.TextureTools
                         continue;
                     }
 
-                    CxFastListNode<Vector2> bj = bi.Next().Next();
+                    CxFastListNode<XNAVector2> bj = bi.Next().Next();
                     if (bj == bp.End())
                         bj = bp.Begin();
                     while (bj != bi)
@@ -343,13 +343,13 @@ namespace VelcroPhysics.Tools.TextureTools
             return x * x;
         }
 
-        private static float VecDsq(Vector2 a, Vector2 b)
+        private static float VecDsq(XNAVector2 a, XNAVector2 b)
         {
-            Vector2 d = a - b;
+            XNAVector2 d = a - b;
             return d.X * d.X + d.Y * d.Y;
         }
 
-        private static float VecCross(Vector2 a, Vector2 b)
+        private static float VecCross(XNAVector2 a, XNAVector2 b)
         {
             return a.X * b.Y - a.Y * b.X;
         }
@@ -385,34 +385,34 @@ namespace VelcroPhysics.Tools.TextureTools
             int val = _lookMarch[key];
             if (val != 0)
             {
-                CxFastListNode<Vector2> pi = null;
+                CxFastListNode<XNAVector2> pi = null;
                 for (int i = 0; i < 8; i++)
                 {
-                    Vector2 p;
+                    XNAVector2 p;
                     if ((val & (1 << i)) != 0)
                     {
                         if (i == 7 && (val & 1) == 0)
-                            poly.Points.Add(p = new Vector2(x0, Ylerp(y0, y1, x0, v0, v3, f, bin)));
+                            poly.Points.Add(p = new XNAVector2(x0, Ylerp(y0, y1, x0, v0, v3, f, bin)));
                         else
                         {
                             if (i == 0)
-                                p = new Vector2(x0, y0);
+                                p = new XNAVector2(x0, y0);
                             else if (i == 2)
-                                p = new Vector2(x1, y0);
+                                p = new XNAVector2(x1, y0);
                             else if (i == 4)
-                                p = new Vector2(x1, y1);
+                                p = new XNAVector2(x1, y1);
                             else if (i == 6)
-                                p = new Vector2(x0, y1);
+                                p = new XNAVector2(x0, y1);
 
                             else if (i == 1)
-                                p = new Vector2(Xlerp(x0, x1, y0, v0, v1, f, bin), y0);
+                                p = new XNAVector2(Xlerp(x0, x1, y0, v0, v1, f, bin), y0);
                             else if (i == 5)
-                                p = new Vector2(Xlerp(x0, x1, y1, v3, v2, f, bin), y1);
+                                p = new XNAVector2(Xlerp(x0, x1, y1, v3, v2, f, bin), y1);
 
                             else if (i == 3)
-                                p = new Vector2(x1, Ylerp(y0, y1, x1, v1, v2, f, bin));
+                                p = new XNAVector2(x1, Ylerp(y0, y1, x1, v1, v2, f, bin));
                             else
-                                p = new Vector2(x0, Ylerp(y0, y1, x0, v0, v3, f, bin));
+                                p = new XNAVector2(x0, Ylerp(y0, y1, x0, v0, v3, f, bin));
 
                             pi = poly.Points.Insert(pi, p);
                         }
@@ -431,28 +431,28 @@ namespace VelcroPhysics.Tools.TextureTools
 
         private static void combLeft(ref GeomPoly polya, ref GeomPoly polyb)
         {
-            CxFastList<Vector2> ap = polya.Points;
-            CxFastList<Vector2> bp = polyb.Points;
-            CxFastListNode<Vector2> ai = ap.Begin();
-            CxFastListNode<Vector2> bi = bp.Begin();
+            CxFastList<XNAVector2> ap = polya.Points;
+            CxFastList<XNAVector2> bp = polyb.Points;
+            CxFastListNode<XNAVector2> ai = ap.Begin();
+            CxFastListNode<XNAVector2> bi = bp.Begin();
 
-            Vector2 b = bi.Elem();
-            CxFastListNode<Vector2> prea = null;
+            XNAVector2 b = bi.Elem();
+            CxFastListNode<XNAVector2> prea = null;
             while (ai != ap.End())
             {
-                Vector2 a = ai.Elem();
+                XNAVector2 a = ai.Elem();
                 if (VecDsq(a, b) < Settings.Epsilon)
                 {
                     //ignore shared vertex if parallel
                     if (prea != null)
                     {
-                        Vector2 a0 = prea.Elem();
+                        XNAVector2 a0 = prea.Elem();
                         b = bi.Next().Elem();
 
-                        Vector2 u = a - a0;
+                        XNAVector2 u = a - a0;
 
                         //vec_new(u); vec_sub(a.p.p, a0.p.p, u);
-                        Vector2 v = b - a;
+                        XNAVector2 v = b - a;
 
                         //vec_new(v); vec_sub(b.p.p, a.p.p, v);
                         float dot = VecCross(u, v);
@@ -466,10 +466,10 @@ namespace VelcroPhysics.Tools.TextureTools
 
                     //insert polyb into polya
                     bool fst = true;
-                    CxFastListNode<Vector2> preb = null;
+                    CxFastListNode<XNAVector2> preb = null;
                     while (!bp.Empty())
                     {
-                        Vector2 bb = bp.Front();
+                        XNAVector2 bb = bp.Front();
                         bp.Pop();
                         if (!fst && !bp.Empty())
                         {
@@ -482,16 +482,16 @@ namespace VelcroPhysics.Tools.TextureTools
 
                     //ignore shared vertex if parallel
                     ai = ai.Next();
-                    Vector2 a1 = ai.Elem();
+                    XNAVector2 a1 = ai.Elem();
                     ai = ai.Next();
                     if (ai == ap.End())
                         ai = ap.Begin();
-                    Vector2 a2 = ai.Elem();
-                    Vector2 a00 = preb.Elem();
-                    Vector2 uu = a1 - a00;
+                    XNAVector2 a2 = ai.Elem();
+                    XNAVector2 a00 = preb.Elem();
+                    XNAVector2 uu = a1 - a00;
 
                     //vec_new(u); vec_sub(a1.p, a0.p, u);
-                    Vector2 vv = a2 - a1;
+                    XNAVector2 vv = a2 - a1;
 
                     //vec_new(v); vec_sub(a2.p, a1.p, v);
                     float dot1 = VecCross(uu, vv);
@@ -802,11 +802,11 @@ namespace VelcroPhysics.Tools.TextureTools
         internal class GeomPoly
         {
             public int Length;
-            public CxFastList<Vector2> Points;
+            public CxFastList<XNAVector2> Points;
 
             public GeomPoly()
             {
-                Points = new CxFastList<Vector2>();
+                Points = new CxFastList<XNAVector2>();
                 Length = 0;
             }
         }

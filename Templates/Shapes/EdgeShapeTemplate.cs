@@ -24,21 +24,21 @@ namespace VelcroPhysics.Templates.Shapes
         /// <summary>
         /// Optional adjacent vertices. These are used for smooth collision.
         /// </summary>
-        public Vector2 Vertex0 { get; set; }
+        public XNAVector2 Vertex0 { get; set; }
 
         /// <summary>
         /// These are the edge vertices
         /// </summary>
-        public Vector2 Vertex1 { get; set; }
+        public XNAVector2 Vertex1 { get; set; }
 
         /// <summary>
         /// These are the edge vertices
         /// </summary>
-        public Vector2 Vertex2 { get; set; }
+        public XNAVector2 Vertex2 { get; set; }
 
         /// <summary>
         /// Optional adjacent vertices. These are used for smooth collision.
         /// </summary>
-        public Vector2 Vertex3 { get; set; }
+        public XNAVector2 Vertex3 { get; set; }
     }
 }

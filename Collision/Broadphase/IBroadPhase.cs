@@ -18,7 +18,7 @@ namespace VelcroPhysics.Collision.Broadphase
 
         void RemoveProxy(int proxyId);
 
-        void MoveProxy(int proxyId, ref AABB aabb, Vector2 displacement);
+        void MoveProxy(int proxyId, ref AABB aabb, XNAVector2 displacement);
 
         FixtureProxy GetProxy(int proxyId);
 
@@ -30,6 +30,6 @@ namespace VelcroPhysics.Collision.Broadphase
 
         void RayCast(Func<RayCastInput, int, float> callback, ref RayCastInput input);
 
-        void ShiftOrigin(Vector2 newOrigin);
+        void ShiftOrigin(XNAVector2 newOrigin);
     }
 }

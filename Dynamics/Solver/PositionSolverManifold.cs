@@ -8,7 +8,7 @@ namespace VelcroPhysics.Dynamics.Solver
 {
     public static class PositionSolverManifold
     {
-        public static void Initialize(ContactPositionConstraint pc, Transform xfA, Transform xfB, int index, out Vector2 normal, out Vector2 point, out float separation)
+        public static void Initialize(ContactPositionConstraint pc, Transform xfA, Transform xfB, int index, out XNAVector2 normal, out XNAVector2 point, out float separation)
         {
             Debug.Assert(pc.PointCount > 0);
 
@@ -16,26 +16,26 @@ namespace VelcroPhysics.Dynamics.Solver
             {
                 case ManifoldType.Circles:
                     {
-                        Vector2 pointA = MathUtils.Mul(ref xfA, pc.LocalPoint);
-                        Vector2 pointB = MathUtils.Mul(ref xfB, pc.LocalPoints[0]);
+                        XNAVector2 pointA = MathUtils.Mul(ref xfA, pc.LocalPoint);
+                        XNAVector2 pointB = MathUtils.Mul(ref xfB, pc.LocalPoints[0]);
                         normal = pointB - pointA;
 
                         //Velcro: Fix to handle zero normalization
-                        if (normal != Vector2.Zero)
+                        if (normal != XNAVector2.Zero)
                             normal.Normalize();
 
                         point = 0.5f * (pointA + pointB);
-                        separation = Vector2.Dot(pointB - pointA, normal) - pc.RadiusA - pc.RadiusB;
+                        separation = XNAVector2.Dot(pointB - pointA, normal) - pc.RadiusA - pc.RadiusB;
                     }
                     break;
 
                 case ManifoldType.FaceA:
                     {
                         normal = MathUtils.Mul(xfA.q, pc.LocalNormal);
-                        Vector2 planePoint = MathUtils.Mul(ref xfA, pc.LocalPoint);
+                        XNAVector2 planePoint = MathUtils.Mul(ref xfA, pc.LocalPoint);
 
-                        Vector2 clipPoint = MathUtils.Mul(ref xfB, pc.LocalPoints[index]);
-                        separation = Vector2.Dot(clipPoint - planePoint, normal) - pc.RadiusA - pc.RadiusB;
+                        XNAVector2 clipPoint = MathUtils.Mul(ref xfB, pc.LocalPoints[index]);
+                        separation = XNAVector2.Dot(clipPoint - planePoint, normal) - pc.RadiusA - pc.RadiusB;
                         point = clipPoint;
                     }
                     break;
@@ -43,10 +43,10 @@ namespace VelcroPhysics.Dynamics.Solver
                 case ManifoldType.FaceB:
                     {
                         normal = MathUtils.Mul(xfB.q, pc.LocalNormal);
-                        Vector2 planePoint = MathUtils.Mul(ref xfB, pc.LocalPoint);
+                        XNAVector2 planePoint = MathUtils.Mul(ref xfB, pc.LocalPoint);
 
-                        Vector2 clipPoint = MathUtils.Mul(ref xfA, pc.LocalPoints[index]);
-                        separation = Vector2.Dot(clipPoint - planePoint, normal) - pc.RadiusA - pc.RadiusB;
+                        XNAVector2 clipPoint = MathUtils.Mul(ref xfA, pc.LocalPoints[index]);
+                        separation = XNAVector2.Dot(clipPoint - planePoint, normal) - pc.RadiusA - pc.RadiusB;
                         point = clipPoint;
 
                         // Ensure normal points from A to B
@@ -54,8 +54,8 @@ namespace VelcroPhysics.Dynamics.Solver
                     }
                     break;
                 default:
-                    normal = Vector2.Zero;
-                    point = Vector2.Zero;
+                    normal = XNAVector2.Zero;
+                    point = XNAVector2.Zero;
                     separation = 0;
                     break;
             }

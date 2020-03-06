@@ -22,48 +22,48 @@ namespace VelcroPhysics.Collision.Narrowphase
             // 7. Return if _any_ axis indicates separation
             // 8. Clip
             bool front;
-            Vector2 lowerLimit, upperLimit;
-            Vector2 normal;
-            Vector2 normal0 = Vector2.Zero;
-            Vector2 normal2 = Vector2.Zero;
+            XNAVector2 lowerLimit, upperLimit;
+            XNAVector2 normal;
+            XNAVector2 normal0 = XNAVector2.Zero;
+            XNAVector2 normal2 = XNAVector2.Zero;
 
             Transform xf = MathUtils.MulT(xfA, xfB);
 
-            Vector2 centroidB = MathUtils.Mul(ref xf, polygonB.MassData.Centroid);
+            XNAVector2 centroidB = MathUtils.Mul(ref xf, polygonB.MassData.Centroid);
 
-            Vector2 v0 = edgeA.Vertex0;
-            Vector2 v1 = edgeA._vertex1;
-            Vector2 v2 = edgeA._vertex2;
-            Vector2 v3 = edgeA.Vertex3;
+            XNAVector2 v0 = edgeA.Vertex0;
+            XNAVector2 v1 = edgeA._vertex1;
+            XNAVector2 v2 = edgeA._vertex2;
+            XNAVector2 v3 = edgeA.Vertex3;
 
             bool hasVertex0 = edgeA.HasVertex0;
             bool hasVertex3 = edgeA.HasVertex3;
 
-            Vector2 edge1 = v2 - v1;
+            XNAVector2 edge1 = v2 - v1;
             edge1.Normalize();
-            Vector2 normal1 = new Vector2(edge1.Y, -edge1.X);
-            float offset1 = Vector2.Dot(normal1, centroidB - v1);
+            XNAVector2 normal1 = new XNAVector2(edge1.Y, -edge1.X);
+            float offset1 = XNAVector2.Dot(normal1, centroidB - v1);
             float offset0 = 0.0f, offset2 = 0.0f;
             bool convex1 = false, convex2 = false;
 
             // Is there a preceding edge?
             if (hasVertex0)
             {
-                Vector2 edge0 = v1 - v0;
+                XNAVector2 edge0 = v1 - v0;
                 edge0.Normalize();
-                normal0 = new Vector2(edge0.Y, -edge0.X);
+                normal0 = new XNAVector2(edge0.Y, -edge0.X);
                 convex1 = MathUtils.Cross(edge0, edge1) >= 0.0f;
-                offset0 = Vector2.Dot(normal0, centroidB - v0);
+                offset0 = XNAVector2.Dot(normal0, centroidB - v0);
             }
 
             // Is there a following edge?
             if (hasVertex3)
             {
-                Vector2 edge2 = v3 - v2;
+                XNAVector2 edge2 = v3 - v2;
                 edge2.Normalize();
-                normal2 = new Vector2(edge2.Y, -edge2.X);
+                normal2 = new XNAVector2(edge2.Y, -edge2.X);
                 convex2 = MathUtils.Cross(edge1, edge2) > 0.0f;
-                offset2 = Vector2.Dot(normal2, centroidB - v2);
+                offset2 = XNAVector2.Dot(normal2, centroidB - v2);
             }
 
             // Determine front or back collision. Determine collision normal limits.
@@ -222,8 +222,8 @@ namespace VelcroPhysics.Collision.Narrowphase
             }
 
             // Get polygonB in frameA
-            Vector2[] normals = new Vector2[Settings.MaxPolygonVertices];
-            Vector2[] vertices = new Vector2[Settings.MaxPolygonVertices];
+            XNAVector2[] normals = new XNAVector2[Settings.MaxPolygonVertices];
+            XNAVector2[] vertices = new XNAVector2[Settings.MaxPolygonVertices];
             int count = polygonB.Vertices.Count;
             for (int i = 0; i < polygonB.Vertices.Count; ++i)
             {
@@ -243,7 +243,7 @@ namespace VelcroPhysics.Collision.Narrowphase
 
             for (int i = 0; i < count; ++i)
             {
-                float s = Vector2.Dot(normal, vertices[i] - v1);
+                float s = XNAVector2.Dot(normal, vertices[i] - v1);
                 if (s < edgeAxis.Separation)
                 {
                     edgeAxis.Separation = s;
@@ -267,14 +267,14 @@ namespace VelcroPhysics.Collision.Narrowphase
             polygonAxis.Index = -1;
             polygonAxis.Separation = -Settings.MaxFloat;
 
-            Vector2 perp = new Vector2(-normal.Y, normal.X);
+            XNAVector2 perp = new XNAVector2(-normal.Y, normal.X);
 
             for (int i = 0; i < count; ++i)
             {
-                Vector2 n = -normals[i];
+                XNAVector2 n = -normals[i];
 
-                float s1 = Vector2.Dot(n, vertices[i] - v1);
-                float s2 = Vector2.Dot(n, vertices[i] - v2);
+                float s1 = XNAVector2.Dot(n, vertices[i] - v1);
+                float s2 = XNAVector2.Dot(n, vertices[i] - v2);
                 float s = Math.Min(s1, s2);
 
                 if (s > radius)
@@ -287,16 +287,16 @@ namespace VelcroPhysics.Collision.Narrowphase
                 }
 
                 // Adjacency
-                if (Vector2.Dot(n, perp) >= 0.0f)
+                if (XNAVector2.Dot(n, perp) >= 0.0f)
                 {
-                    if (Vector2.Dot(n - upperLimit, normal) < -Settings.AngularSlop)
+                    if (XNAVector2.Dot(n - upperLimit, normal) < -Settings.AngularSlop)
                     {
                         continue;
                     }
                 }
                 else
                 {
-                    if (Vector2.Dot(n - lowerLimit, normal) < -Settings.AngularSlop)
+                    if (XNAVector2.Dot(n - lowerLimit, normal) < -Settings.AngularSlop)
                     {
                         continue;
                     }
@@ -341,10 +341,10 @@ namespace VelcroPhysics.Collision.Narrowphase
 
                 // Search for the polygon normal that is most anti-parallel to the edge normal.
                 int bestIndex = 0;
-                float bestValue = Vector2.Dot(normal, normals[0]);
+                float bestValue = XNAVector2.Dot(normal, normals[0]);
                 for (int i = 1; i < count; ++i)
                 {
-                    float value = Vector2.Dot(normal, normals[i]);
+                    float value = XNAVector2.Dot(normal, normals[i]);
                     if (value < bestValue)
                     {
                         bestValue = value;
@@ -407,10 +407,10 @@ namespace VelcroPhysics.Collision.Narrowphase
                 rf.Normal = normals[rf.i1];
             }
 
-            rf.SideNormal1 = new Vector2(rf.Normal.Y, -rf.Normal.X);
+            rf.SideNormal1 = new XNAVector2(rf.Normal.Y, -rf.Normal.X);
             rf.SideNormal2 = -rf.SideNormal1;
-            rf.SideOffset1 = Vector2.Dot(rf.SideNormal1, rf.v1);
-            rf.SideOffset2 = Vector2.Dot(rf.SideNormal2, rf.v2);
+            rf.SideOffset1 = XNAVector2.Dot(rf.SideNormal1, rf.v1);
+            rf.SideOffset2 = XNAVector2.Dot(rf.SideNormal2, rf.v2);
 
             // Clip incident edge against extruded edge1 side edges.
             FixedArray2<ClipVertex> clipPoints1;
@@ -448,7 +448,7 @@ namespace VelcroPhysics.Collision.Narrowphase
             int pointCount = 0;
             for (int i = 0; i < Settings.MaxManifoldPoints; ++i)
             {
-                float separation = Vector2.Dot(rf.Normal, clipPoints2[i].V - rf.v1);
+                float separation = XNAVector2.Dot(rf.Normal, clipPoints2[i].V - rf.v1);
 
                 if (separation <= radius)
                 {

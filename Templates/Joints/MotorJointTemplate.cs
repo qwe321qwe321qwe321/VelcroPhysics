@@ -20,7 +20,7 @@ namespace VelcroPhysics.Templates.Joints
         /// <summary>
         /// Position of bodyB minus the position of bodyA, in bodyA's frame, in meters.
         /// </summary>
-        public Vector2 LinearOffset { get; set; }
+        public XNAVector2 LinearOffset { get; set; }
 
         /// <summary>
         /// The maximum motor force in N.

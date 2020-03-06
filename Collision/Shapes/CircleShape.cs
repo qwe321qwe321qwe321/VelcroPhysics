@@ -31,7 +31,7 @@ namespace VelcroPhysics.Collision.Shapes
     /// </summary>
     public class CircleShape : Shape
     {
-        internal Vector2 _position;
+        internal XNAVector2 _position;
 
         /// <summary>
         /// Create a new circle with the desired radius and density.
@@ -50,7 +50,7 @@ namespace VelcroPhysics.Collision.Shapes
         /// <summary>
         /// Get or set the position of the circle
         /// </summary>
-        public Vector2 Position
+        public XNAVector2 Position
         {
             get { return _position; }
             set
@@ -60,7 +60,7 @@ namespace VelcroPhysics.Collision.Shapes
             }
         }
 
-        public override bool TestPoint(ref Transform transform, ref Vector2 point)
+        public override bool TestPoint(ref Transform transform, ref XNAVector2 point)
         {
             return TestPointHelper.TestPointCircle(ref _position, _radius, ref point, ref transform);
         }
@@ -94,7 +94,7 @@ namespace VelcroPhysics.Collision.Shapes
             MassData.Centroid = Position;
 
             // inertia about the local origin
-            MassData.Inertia = MassData.Mass * (0.5f * _2radius + Vector2.Dot(Position, Position));
+            MassData.Inertia = MassData.Mass * (0.5f * _2radius + XNAVector2.Dot(Position, Position));
         }
 
         /// <summary>

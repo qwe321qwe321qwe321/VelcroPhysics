@@ -24,8 +24,8 @@ namespace VelcroPhysics.Collision.Narrowphase
                 SimplexVertex v = V[i];
                 v.IndexA = cache.IndexA[i];
                 v.IndexB = cache.IndexB[i];
-                Vector2 wALocal = proxyA.Vertices[v.IndexA];
-                Vector2 wBLocal = proxyB.Vertices[v.IndexB];
+                XNAVector2 wALocal = proxyA.Vertices[v.IndexA];
+                XNAVector2 wBLocal = proxyB.Vertices[v.IndexB];
                 v.WA = MathUtils.Mul(ref transformA, wALocal);
                 v.WB = MathUtils.Mul(ref transformB, wBLocal);
                 v.W = v.WB - v.WA;
@@ -52,8 +52,8 @@ namespace VelcroPhysics.Collision.Narrowphase
                 SimplexVertex v = V[0];
                 v.IndexA = 0;
                 v.IndexB = 0;
-                Vector2 wALocal = proxyA.Vertices[0];
-                Vector2 wBLocal = proxyB.Vertices[0];
+                XNAVector2 wALocal = proxyA.Vertices[0];
+                XNAVector2 wBLocal = proxyB.Vertices[0];
                 v.WA = MathUtils.Mul(ref transformA, wALocal);
                 v.WB = MathUtils.Mul(ref transformB, wBLocal);
                 v.W = v.WB - v.WA;
@@ -74,7 +74,7 @@ namespace VelcroPhysics.Collision.Narrowphase
             }
         }
 
-        internal Vector2 GetSearchDirection()
+        internal XNAVector2 GetSearchDirection()
         {
             switch (Count)
             {
@@ -83,7 +83,7 @@ namespace VelcroPhysics.Collision.Narrowphase
 
                 case 2:
                     {
-                        Vector2 e12 = V[1].W - V[0].W;
+                        XNAVector2 e12 = V[1].W - V[0].W;
                         float sgn = MathUtils.Cross(e12, -V[0].W);
                         if (sgn > 0.0f)
                         {
@@ -99,17 +99,17 @@ namespace VelcroPhysics.Collision.Narrowphase
 
                 default:
                     Debug.Assert(false);
-                    return Vector2.Zero;
+                    return XNAVector2.Zero;
             }
         }
 
-        internal Vector2 GetClosestPoint()
+        internal XNAVector2 GetClosestPoint()
         {
             switch (Count)
             {
                 case 0:
                     Debug.Assert(false);
-                    return Vector2.Zero;
+                    return XNAVector2.Zero;
 
                 case 1:
                     return V[0].W;
@@ -118,21 +118,21 @@ namespace VelcroPhysics.Collision.Narrowphase
                     return V[0].A * V[0].W + V[1].A * V[1].W;
 
                 case 3:
-                    return Vector2.Zero;
+                    return XNAVector2.Zero;
 
                 default:
                     Debug.Assert(false);
-                    return Vector2.Zero;
+                    return XNAVector2.Zero;
             }
         }
 
-        internal void GetWitnessPoints(out Vector2 pA, out Vector2 pB)
+        internal void GetWitnessPoints(out XNAVector2 pA, out XNAVector2 pB)
         {
             switch (Count)
             {
                 case 0:
-                    pA = Vector2.Zero;
-                    pB = Vector2.Zero;
+                    pA = XNAVector2.Zero;
+                    pB = XNAVector2.Zero;
                     Debug.Assert(false);
                     break;
 
@@ -204,12 +204,12 @@ namespace VelcroPhysics.Collision.Narrowphase
 
         internal void Solve2()
         {
-            Vector2 w1 = V[0].W;
-            Vector2 w2 = V[1].W;
-            Vector2 e12 = w2 - w1;
+            XNAVector2 w1 = V[0].W;
+            XNAVector2 w2 = V[1].W;
+            XNAVector2 e12 = w2 - w1;
 
             // w1 region
-            float d12_2 = -Vector2.Dot(w1, e12);
+            float d12_2 = -XNAVector2.Dot(w1, e12);
             if (d12_2 <= 0.0f)
             {
                 // a2 <= 0, so we clamp it to 0
@@ -219,7 +219,7 @@ namespace VelcroPhysics.Collision.Narrowphase
             }
 
             // w2 region
-            float d12_1 = Vector2.Dot(w2, e12);
+            float d12_1 = XNAVector2.Dot(w2, e12);
             if (d12_1 <= 0.0f)
             {
                 // a1 <= 0, so we clamp it to 0
@@ -243,17 +243,17 @@ namespace VelcroPhysics.Collision.Narrowphase
         // - inside the triangle
         internal void Solve3()
         {
-            Vector2 w1 = V[0].W;
-            Vector2 w2 = V[1].W;
-            Vector2 w3 = V[2].W;
+            XNAVector2 w1 = V[0].W;
+            XNAVector2 w2 = V[1].W;
+            XNAVector2 w3 = V[2].W;
 
             // Edge12
             // [1      1     ][a1] = [1]
             // [w1.e12 w2.e12][a2] = [0]
             // a3 = 0
-            Vector2 e12 = w2 - w1;
-            float w1e12 = Vector2.Dot(w1, e12);
-            float w2e12 = Vector2.Dot(w2, e12);
+            XNAVector2 e12 = w2 - w1;
+            float w1e12 = XNAVector2.Dot(w1, e12);
+            float w2e12 = XNAVector2.Dot(w2, e12);
             float d12_1 = w2e12;
             float d12_2 = -w1e12;
 
@@ -261,9 +261,9 @@ namespace VelcroPhysics.Collision.Narrowphase
             // [1      1     ][a1] = [1]
             // [w1.e13 w3.e13][a3] = [0]
             // a2 = 0
-            Vector2 e13 = w3 - w1;
-            float w1e13 = Vector2.Dot(w1, e13);
-            float w3e13 = Vector2.Dot(w3, e13);
+            XNAVector2 e13 = w3 - w1;
+            float w1e13 = XNAVector2.Dot(w1, e13);
+            float w3e13 = XNAVector2.Dot(w3, e13);
             float d13_1 = w3e13;
             float d13_2 = -w1e13;
 
@@ -271,9 +271,9 @@ namespace VelcroPhysics.Collision.Narrowphase
             // [1      1     ][a2] = [1]
             // [w2.e23 w3.e23][a3] = [0]
             // a1 = 0
-            Vector2 e23 = w3 - w2;
-            float w2e23 = Vector2.Dot(w2, e23);
-            float w3e23 = Vector2.Dot(w3, e23);
+            XNAVector2 e23 = w3 - w2;
+            float w2e23 = XNAVector2.Dot(w2, e23);
+            float w3e23 = XNAVector2.Dot(w3, e23);
             float d23_1 = w3e23;
             float d23_2 = -w2e23;
 

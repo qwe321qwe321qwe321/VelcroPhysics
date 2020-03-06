@@ -30,14 +30,14 @@ namespace VelcroPhysics.Collision.TOI
         /// <summary>
         /// Center world positions
         /// </summary>
-        public Vector2 C;
+        public XNAVector2 C;
 
-        public Vector2 C0;
+        public XNAVector2 C0;
 
         /// <summary>
         /// Local center of mass position
         /// </summary>
-        public Vector2 LocalCenter;
+        public XNAVector2 LocalCenter;
 
         /// <summary>
         /// Get the interpolated transform at a specific time.

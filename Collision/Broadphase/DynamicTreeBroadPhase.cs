@@ -111,7 +111,7 @@ namespace VelcroPhysics.Collision.Broadphase
         /// Call MoveProxy as many times as you like, then when you are done
         /// call UpdatePairs to finalized the proxy pairs (for your time step).
         /// </summary>
-        public void MoveProxy(int proxyId, ref AABB aabb, Vector2 displacement)
+        public void MoveProxy(int proxyId, ref AABB aabb, XNAVector2 displacement)
         {
             bool buffer = _tree.MoveProxy(proxyId, ref aabb, displacement);
             if (buffer)
@@ -243,7 +243,7 @@ namespace VelcroPhysics.Collision.Broadphase
         /// <summary>
         /// Shift the world origin. Useful for large worlds.
         /// </summary>
-        public void ShiftOrigin(Vector2 newOrigin)
+        public void ShiftOrigin(XNAVector2 newOrigin)
         {
             _tree.ShiftOrigin(newOrigin);
         }

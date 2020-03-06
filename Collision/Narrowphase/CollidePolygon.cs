@@ -71,27 +71,27 @@ namespace VelcroPhysics.Collision.Narrowphase
             int iv1 = edge1;
             int iv2 = edge1 + 1 < count1 ? edge1 + 1 : 0;
 
-            Vector2 v11 = vertices1[iv1];
-            Vector2 v12 = vertices1[iv2];
+            XNAVector2 v11 = vertices1[iv1];
+            XNAVector2 v12 = vertices1[iv2];
 
-            Vector2 localTangent = v12 - v11;
+            XNAVector2 localTangent = v12 - v11;
             localTangent.Normalize();
 
-            Vector2 localNormal = MathUtils.Cross(localTangent, 1.0f);
-            Vector2 planePoint = 0.5f * (v11 + v12);
+            XNAVector2 localNormal = MathUtils.Cross(localTangent, 1.0f);
+            XNAVector2 planePoint = 0.5f * (v11 + v12);
 
-            Vector2 tangent = MathUtils.Mul(ref xf1.q, localTangent);
-            Vector2 normal = MathUtils.Cross(tangent, 1.0f);
+            XNAVector2 tangent = MathUtils.Mul(ref xf1.q, localTangent);
+            XNAVector2 normal = MathUtils.Cross(tangent, 1.0f);
 
             v11 = MathUtils.Mul(ref xf1, v11);
             v12 = MathUtils.Mul(ref xf1, v12);
 
             // Face offset.
-            float frontOffset = Vector2.Dot(normal, v11);
+            float frontOffset = XNAVector2.Dot(normal, v11);
 
             // Side offsets, extended by polytope skin thickness.
-            float sideOffset1 = -Vector2.Dot(tangent, v11) + totalRadius;
-            float sideOffset2 = Vector2.Dot(tangent, v12) + totalRadius;
+            float sideOffset1 = -XNAVector2.Dot(tangent, v11) + totalRadius;
+            float sideOffset2 = XNAVector2.Dot(tangent, v12) + totalRadius;
 
             // Clip incident edge against extruded edge1 side edges.
             FixedArray2<ClipVertex> clipPoints1;
@@ -118,7 +118,7 @@ namespace VelcroPhysics.Collision.Narrowphase
             int pointCount = 0;
             for (int i = 0; i < Settings.MaxManifoldPoints; ++i)
             {
-                float separation = Vector2.Dot(normal, clipPoints2[i].V) - frontOffset;
+                float separation = XNAVector2.Dot(normal, clipPoints2[i].V) - frontOffset;
 
                 if (separation <= totalRadius)
                 {
@@ -162,14 +162,14 @@ namespace VelcroPhysics.Collision.Narrowphase
             for (int i = 0; i < count1; ++i)
             {
                 // Get poly1 normal in frame2.
-                Vector2 n = MathUtils.Mul(ref xf.q, n1s[i]);
-                Vector2 v1 = MathUtils.Mul(ref xf, v1s[i]);
+                XNAVector2 n = MathUtils.Mul(ref xf.q, n1s[i]);
+                XNAVector2 v1 = MathUtils.Mul(ref xf, v1s[i]);
 
                 // Find deepest point for normal i.
                 float si = Settings.MaxFloat;
                 for (int j = 0; j < count2; ++j)
                 {
-                    float sij = Vector2.Dot(n, v2s[j] - v1);
+                    float sij = XNAVector2.Dot(n, v2s[j] - v1);
                     if (sij < si)
                     {
                         si = sij;
@@ -198,14 +198,14 @@ namespace VelcroPhysics.Collision.Narrowphase
             Debug.Assert(0 <= edge1 && edge1 < poly1.Vertices.Count);
 
             // Get the normal of the reference edge in poly2's frame.
-            Vector2 normal1 = MathUtils.MulT(ref xf2.q, MathUtils.Mul(ref xf1.q, normals1[edge1]));
+            XNAVector2 normal1 = MathUtils.MulT(ref xf2.q, MathUtils.Mul(ref xf1.q, normals1[edge1]));
 
             // Find the incident edge on poly2.
             int index = 0;
             float minDot = Settings.MaxFloat;
             for (int i = 0; i < count2; ++i)
             {
-                float dot = Vector2.Dot(normal1, normals2[i]);
+                float dot = XNAVector2.Dot(normal1, normals2[i]);
                 if (dot < minDot)
                 {
                     minDot = dot;

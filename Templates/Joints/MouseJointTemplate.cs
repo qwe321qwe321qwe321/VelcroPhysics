@@ -32,7 +32,7 @@ namespace VelcroPhysics.Templates.Joints
         /// The initial world target point. This is assumed
         /// to coincide with the body anchor initially.
         /// </summary>
-        public Vector2 Target { get; set; }
+        public XNAVector2 Target { get; set; }
 
         public override void SetDefaults()
         {

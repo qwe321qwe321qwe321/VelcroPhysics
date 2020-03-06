@@ -21,10 +21,10 @@ namespace VelcroPhysics.Tools.Cutting.Simple
         /// <param name="exitPoint">The exit point - The end point</param>
         /// <param name="first">The first collection of vertexes</param>
         /// <param name="second">The second collection of vertexes</param>
-        public static void SplitShape(Fixture fixture, Vector2 entryPoint, Vector2 exitPoint, out Vertices first, out Vertices second)
+        public static void SplitShape(Fixture fixture, XNAVector2 entryPoint, XNAVector2 exitPoint, out Vertices first, out Vertices second)
         {
-            Vector2 localEntryPoint = fixture.Body.GetLocalPoint(ref entryPoint);
-            Vector2 localExitPoint = fixture.Body.GetLocalPoint(ref exitPoint);
+            XNAVector2 localEntryPoint = fixture.Body.GetLocalPoint(ref entryPoint);
+            XNAVector2 localExitPoint = fixture.Body.GetLocalPoint(ref exitPoint);
 
             PolygonShape shape = fixture.Shape as PolygonShape;
 
@@ -37,13 +37,13 @@ namespace VelcroPhysics.Tools.Cutting.Simple
             }
 
             //Offset the entry and exit points if they are too close to the vertices
-            foreach (Vector2 vertex in shape.Vertices)
+            foreach (XNAVector2 vertex in shape.Vertices)
             {
                 if (vertex.Equals(localEntryPoint))
-                    localEntryPoint -= new Vector2(0, Settings.Epsilon);
+                    localEntryPoint -= new XNAVector2(0, Settings.Epsilon);
 
                 if (vertex.Equals(localExitPoint))
-                    localExitPoint += new Vector2(0, Settings.Epsilon);
+                    localExitPoint += new XNAVector2(0, Settings.Epsilon);
             }
 
             Vertices vertices = new Vertices(shape.Vertices);
@@ -61,7 +61,7 @@ namespace VelcroPhysics.Tools.Cutting.Simple
                 int n;
 
                 //Find out if this vertex is on the old or new shape.
-                if (Vector2.Dot(MathUtils.Cross(localExitPoint - localEntryPoint, 1), vertices[i] - localEntryPoint) > Settings.Epsilon)
+                if (XNAVector2.Dot(MathUtils.Cross(localExitPoint - localEntryPoint, 1), vertices[i] - localEntryPoint) > Settings.Epsilon)
                     n = 0;
                 else
                     n = 1;
@@ -105,7 +105,7 @@ namespace VelcroPhysics.Tools.Cutting.Simple
 
             for (int n = 0; n < 2; n++)
             {
-                Vector2 offset;
+                XNAVector2 offset;
                 if (cutAdded[n] > 0)
                 {
                     offset = (newPolygon[n][cutAdded[n] - 1] - newPolygon[n][cutAdded[n]]);
@@ -117,7 +117,7 @@ namespace VelcroPhysics.Tools.Cutting.Simple
                 offset.Normalize();
 
                 if (!offset.IsValid())
-                    offset = Vector2.One;
+                    offset = XNAVector2.One;
 
                 newPolygon[n][cutAdded[n]] += Settings.Epsilon * offset;
 
@@ -132,7 +132,7 @@ namespace VelcroPhysics.Tools.Cutting.Simple
                 offset.Normalize();
 
                 if (!offset.IsValid())
-                    offset = Vector2.One;
+                    offset = XNAVector2.One;
 
                 newPolygon[n][cutAdded[n] + 1] += Settings.Epsilon * offset;
             }
@@ -149,11 +149,11 @@ namespace VelcroPhysics.Tools.Cutting.Simple
         /// <param name="start">The startpoint.</param>
         /// <param name="end">The endpoint.</param>
         /// <returns>True if the cut was performed.</returns>
-        public static bool Cut(World world, Vector2 start, Vector2 end)
+        public static bool Cut(World world, XNAVector2 start, XNAVector2 end)
         {
             List<Fixture> fixtures = new List<Fixture>();
-            List<Vector2> entryPoints = new List<Vector2>();
-            List<Vector2> exitPoints = new List<Vector2>();
+            List<XNAVector2> entryPoints = new List<XNAVector2>();
+            List<XNAVector2> exitPoints = new List<XNAVector2>();
 
             //We don't support cutting when the start or end is inside a shape.
             if (world.TestPoint(start) != null || world.TestPoint(end) != null)

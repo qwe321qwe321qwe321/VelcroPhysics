@@ -22,7 +22,7 @@ namespace VelcroPhysics.Factories
 
         #region Rope Joint
 
-        public static RopeJoint CreateRopeJoint(World world, Body bodyA, Body bodyB, Vector2 anchorA, Vector2 anchorB, bool useWorldCoordinates = false)
+        public static RopeJoint CreateRopeJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, bool useWorldCoordinates = false)
         {
             RopeJoint ropeJoint = new RopeJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
             world.AddJoint(ropeJoint);
@@ -33,7 +33,7 @@ namespace VelcroPhysics.Factories
 
         #region Weld Joint
 
-        public static WeldJoint CreateWeldJoint(World world, Body bodyA, Body bodyB, Vector2 anchorA, Vector2 anchorB, bool useWorldCoordinates = false)
+        public static WeldJoint CreateWeldJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, bool useWorldCoordinates = false)
         {
             WeldJoint weldJoint = new WeldJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
             world.AddJoint(weldJoint);
@@ -44,7 +44,7 @@ namespace VelcroPhysics.Factories
 
         #region Prismatic Joint
 
-        public static PrismaticJoint CreatePrismaticJoint(World world, Body bodyA, Body bodyB, Vector2 anchor, Vector2 axis, bool useWorldCoordinates = false)
+        public static PrismaticJoint CreatePrismaticJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchor, XNAVector2 axis, bool useWorldCoordinates = false)
         {
             PrismaticJoint joint = new PrismaticJoint(bodyA, bodyB, anchor, axis, useWorldCoordinates);
             world.AddJoint(joint);
@@ -77,7 +77,7 @@ namespace VelcroPhysics.Factories
 
         #region Pulley Joint
 
-        public static PulleyJoint CreatePulleyJoint(World world, Body bodyA, Body bodyB, Vector2 anchorA, Vector2 anchorB, Vector2 worldAnchorA, Vector2 worldAnchorB, float ratio, bool useWorldCoordinates = false)
+        public static PulleyJoint CreatePulleyJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, XNAVector2 worldAnchorA, XNAVector2 worldAnchorB, float ratio, bool useWorldCoordinates = false)
         {
             PulleyJoint pulleyJoint = new PulleyJoint(bodyA, bodyB, anchorA, anchorB, worldAnchorA, worldAnchorB, ratio, useWorldCoordinates);
             world.AddJoint(pulleyJoint);
@@ -88,7 +88,7 @@ namespace VelcroPhysics.Factories
 
         #region MouseJoint
 
-        public static FixedMouseJoint CreateFixedMouseJoint(World world, Body body, Vector2 worldAnchor)
+        public static FixedMouseJoint CreateFixedMouseJoint(World world, Body body, XNAVector2 worldAnchor)
         {
             FixedMouseJoint joint = new FixedMouseJoint(body, worldAnchor);
             world.AddJoint(joint);
@@ -99,16 +99,16 @@ namespace VelcroPhysics.Factories
 
         #region Revolute Joint
 
-        public static RevoluteJoint CreateRevoluteJoint(World world, Body bodyA, Body bodyB, Vector2 anchorA, Vector2 anchorB, bool useWorldCoordinates = false)
+        public static RevoluteJoint CreateRevoluteJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, bool useWorldCoordinates = false)
         {
             RevoluteJoint joint = new RevoluteJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
             world.AddJoint(joint);
             return joint;
         }
 
-        public static RevoluteJoint CreateRevoluteJoint(World world, Body bodyA, Body bodyB, Vector2 anchor)
+        public static RevoluteJoint CreateRevoluteJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchor)
         {
-            Vector2 localanchorA = bodyA.GetLocalPoint(bodyB.GetWorldPoint(anchor));
+            XNAVector2 localanchorA = bodyA.GetLocalPoint(bodyB.GetWorldPoint(anchor));
             RevoluteJoint joint = new RevoluteJoint(bodyA, bodyB, localanchorA, anchor);
             world.AddJoint(joint);
             return joint;
@@ -118,23 +118,23 @@ namespace VelcroPhysics.Factories
 
         #region Wheel Joint
 
-        public static WheelJoint CreateWheelJoint(World world, Body bodyA, Body bodyB, Vector2 anchor, Vector2 axis, bool useWorldCoordinates = false)
+        public static WheelJoint CreateWheelJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchor, XNAVector2 axis, bool useWorldCoordinates = false)
         {
             WheelJoint joint = new WheelJoint(bodyA, bodyB, anchor, axis, useWorldCoordinates);
             world.AddJoint(joint);
             return joint;
         }
 
-        public static WheelJoint CreateWheelJoint(World world, Body bodyA, Body bodyB, Vector2 axis)
+        public static WheelJoint CreateWheelJoint(World world, Body bodyA, Body bodyB, XNAVector2 axis)
         {
-            return CreateWheelJoint(world, bodyA, bodyB, Vector2.Zero, axis);
+            return CreateWheelJoint(world, bodyA, bodyB, XNAVector2.Zero, axis);
         }
 
         #endregion
 
         #region Distance Joint
 
-        public static DistanceJoint CreateDistanceJoint(World world, Body bodyA, Body bodyB, Vector2 anchorA, Vector2 anchorB, bool useWorldCoordinates = false)
+        public static DistanceJoint CreateDistanceJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, bool useWorldCoordinates = false)
         {
             DistanceJoint distanceJoint = new DistanceJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
             world.AddJoint(distanceJoint);
@@ -143,14 +143,14 @@ namespace VelcroPhysics.Factories
 
         public static DistanceJoint CreateDistanceJoint(World world, Body bodyA, Body bodyB)
         {
-            return CreateDistanceJoint(world, bodyA, bodyB, Vector2.Zero, Vector2.Zero);
+            return CreateDistanceJoint(world, bodyA, bodyB, XNAVector2.Zero, XNAVector2.Zero);
         }
 
         #endregion
 
         #region Friction Joint
 
-        public static FrictionJoint CreateFrictionJoint(World world, Body bodyA, Body bodyB, Vector2 anchor, bool useWorldCoordinates = false)
+        public static FrictionJoint CreateFrictionJoint(World world, Body bodyA, Body bodyB, XNAVector2 anchor, bool useWorldCoordinates = false)
         {
             FrictionJoint frictionJoint = new FrictionJoint(bodyA, bodyB, anchor, useWorldCoordinates);
             world.AddJoint(frictionJoint);
@@ -159,7 +159,7 @@ namespace VelcroPhysics.Factories
 
         public static FrictionJoint CreateFrictionJoint(World world, Body bodyA, Body bodyB)
         {
-            return CreateFrictionJoint(world, bodyA, bodyB, Vector2.Zero);
+            return CreateFrictionJoint(world, bodyA, bodyB, XNAVector2.Zero);
         }
 
         #endregion

@@ -53,9 +53,9 @@ namespace VelcroPhysics.Tools.PolygonManipulation
 
                 //Check here for degenerate triangles
                 Vertices triangle = triangles[i];
-                Vector2 a = triangle[0];
-                Vector2 b = triangle[1];
-                Vector2 c = triangle[2];
+                XNAVector2 a = triangle[0];
+                XNAVector2 b = triangle[1];
+                XNAVector2 c = triangle[2];
 
                 if ((a.X == b.X && a.Y == b.Y) || (b.X == c.X && b.Y == c.Y) || (a.X == c.X && a.Y == c.Y))
                     covered[i] = true;

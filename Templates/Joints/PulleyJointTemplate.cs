@@ -14,12 +14,12 @@ namespace VelcroPhysics.Templates.Joints
         /// <summary>
         /// The first ground anchor in world coordinates. This point never moves.
         /// </summary>
-        public Vector2 GroundAnchorA { get; set; }
+        public XNAVector2 GroundAnchorA { get; set; }
 
         /// <summary>
         /// The second ground anchor in world coordinates. This point never moves.
         /// </summary>
-        public Vector2 GroundAnchorB { get; set; }
+        public XNAVector2 GroundAnchorB { get; set; }
 
         /// <summary>
         /// The a reference length for the segment attached to bodyA.
@@ -34,11 +34,11 @@ namespace VelcroPhysics.Templates.Joints
         /// <summary>
         /// The local anchor point relative to bodyA's origin.
         /// </summary>
-        public Vector2 LocalAnchorA { get; set; }
+        public XNAVector2 LocalAnchorA { get; set; }
 
         /// <summary>
         /// The local anchor point relative to bodyB's origin.
-        public Vector2 LocalAnchorB { get; set; }
+        public XNAVector2 LocalAnchorB { get; set; }
 
         /// <summary>
         /// The pulley ratio, used to simulate a block-and-tackle.
@@ -47,10 +47,10 @@ namespace VelcroPhysics.Templates.Joints
 
         public override void SetDefaults()
         {
-            GroundAnchorA = new Vector2(-1.0f, 1.0f);
-            GroundAnchorB = new Vector2(1.0f, 1.0f);
-            LocalAnchorA = new Vector2(-1.0f, 0.0f);
-            LocalAnchorB = new Vector2(1.0f, 0.0f);
+            GroundAnchorA = new XNAVector2(-1.0f, 1.0f);
+            GroundAnchorB = new XNAVector2(1.0f, 1.0f);
+            LocalAnchorA = new XNAVector2(-1.0f, 0.0f);
+            LocalAnchorB = new XNAVector2(1.0f, 0.0f);
             Ratio = 1.0f;
             CollideConnected = true;
         }

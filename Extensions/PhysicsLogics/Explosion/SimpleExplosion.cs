@@ -32,18 +32,18 @@ namespace VelcroPhysics.Extensions.PhysicsLogics.Explosion
         /// <param name="force">The force applied</param>
         /// <param name="maxForce">A maximum amount of force. When force gets over this value, it will be equal to maxForce</param>
         /// <returns>A list of bodies and the amount of force that was applied to them.</returns>
-        public Dictionary<Body, Vector2> Activate(Vector2 pos, float radius, float force, float maxForce = float.MaxValue)
+        public Dictionary<Body, XNAVector2> Activate(XNAVector2 pos, float radius, float force, float maxForce = float.MaxValue)
         {
             HashSet<Body> affectedBodies = new HashSet<Body>();
 
             AABB aabb;
-            aabb.LowerBound = pos - new Vector2(radius);
-            aabb.UpperBound = pos + new Vector2(radius);
+            aabb.LowerBound = pos - new XNAVector2(radius);
+            aabb.UpperBound = pos + new XNAVector2(radius);
 
             // Query the world for bodies within the radius.
             World.QueryAABB(fixture =>
             {
-                if (Vector2.Distance(fixture.Body.Position, pos) <= radius)
+                if (XNAVector2.Distance(fixture.Body.Position, pos) <= radius)
                 {
                     if (!affectedBodies.Contains(fixture.Body))
                         affectedBodies.Add(fixture.Body);
@@ -55,18 +55,18 @@ namespace VelcroPhysics.Extensions.PhysicsLogics.Explosion
             return ApplyImpulse(pos, radius, force, maxForce, affectedBodies);
         }
 
-        private Dictionary<Body, Vector2> ApplyImpulse(Vector2 pos, float radius, float force, float maxForce, HashSet<Body> overlappingBodies)
+        private Dictionary<Body, XNAVector2> ApplyImpulse(XNAVector2 pos, float radius, float force, float maxForce, HashSet<Body> overlappingBodies)
         {
-            Dictionary<Body, Vector2> forces = new Dictionary<Body, Vector2>(overlappingBodies.Count);
+            Dictionary<Body, XNAVector2> forces = new Dictionary<Body, XNAVector2>(overlappingBodies.Count);
 
             foreach (Body overlappingBody in overlappingBodies)
             {
                 if (IsActiveOn(overlappingBody))
                 {
-                    float distance = Vector2.Distance(pos, overlappingBody.Position);
+                    float distance = XNAVector2.Distance(pos, overlappingBody.Position);
                     float forcePercent = GetPercent(distance, radius);
 
-                    Vector2 forceVector = pos - overlappingBody.Position;
+                    XNAVector2 forceVector = pos - overlappingBody.Position;
                     forceVector *= 1f / (float)Math.Sqrt(forceVector.X * forceVector.X + forceVector.Y * forceVector.Y);
                     forceVector *= MathHelper.Min(force * forcePercent, maxForce);
                     forceVector *= -1;

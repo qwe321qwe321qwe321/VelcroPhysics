@@ -109,7 +109,7 @@ namespace VelcroPhysics.Collision.Distance
                 }
 
                 // Get search direction.
-                Vector2 d = simplex.GetSearchDirection();
+                XNAVector2 d = simplex.GetSearchDirection();
 
                 // Ensure the search direction is numerically fit.
                 if (d.LengthSquared() < Settings.Epsilon * Settings.Epsilon)
@@ -182,7 +182,7 @@ namespace VelcroPhysics.Collision.Distance
                     // Shapes are still no overlapped.
                     // Move the witness points to the outer surface.
                     output.Distance -= rA + rB;
-                    Vector2 normal = output.PointB - output.PointA;
+                    XNAVector2 normal = output.PointB - output.PointA;
                     normal.Normalize();
                     output.PointA += rA * normal;
                     output.PointB -= rB * normal;
@@ -191,7 +191,7 @@ namespace VelcroPhysics.Collision.Distance
                 {
                     // Shapes are overlapped when radii are considered.
                     // Move the witness points to the middle.
-                    Vector2 p = 0.5f * (output.PointA + output.PointB);
+                    XNAVector2 p = 0.5f * (output.PointA + output.PointB);
                     output.PointA = p;
                     output.PointB = p;
                     output.Distance = 0.0f;

@@ -25,7 +25,7 @@ namespace VelcroPhysics.Tools.PathGenerator
         /// another way: it makes the rope less bouncy.
         /// </param>
         /// <returns></returns>
-        public static Path CreateChain(World world, Vector2 start, Vector2 end, float linkWidth, float linkHeight, int numberOfLinks, float linkDensity, bool attachRopeJoint)
+        public static Path CreateChain(World world, XNAVector2 start, XNAVector2 end, float linkWidth, float linkHeight, int numberOfLinks, float linkDensity, bool attachRopeJoint)
         {
             Debug.Assert(numberOfLinks >= 2);
 
@@ -57,10 +57,10 @@ namespace VelcroPhysics.Tools.PathGenerator
             //}
 
             //Attach all the chainlinks together with a revolute joint
-            PathManager.AttachBodiesWithRevoluteJoint(world, chainLinks, new Vector2(0, -linkHeight), new Vector2(0, linkHeight), false, false);
+            PathManager.AttachBodiesWithRevoluteJoint(world, chainLinks, new XNAVector2(0, -linkHeight), new XNAVector2(0, linkHeight), false, false);
 
             if (attachRopeJoint)
-                JointFactory.CreateRopeJoint(world, chainLinks[0], chainLinks[chainLinks.Count - 1], Vector2.Zero, Vector2.Zero);
+                JointFactory.CreateRopeJoint(world, chainLinks[0], chainLinks[chainLinks.Count - 1], XNAVector2.Zero, XNAVector2.Zero);
 
             return (path);
         }

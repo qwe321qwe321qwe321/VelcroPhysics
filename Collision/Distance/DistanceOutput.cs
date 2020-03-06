@@ -17,11 +17,11 @@ namespace VelcroPhysics.Collision.Distance
         /// <summary>
         /// Closest point on shapeA
         /// </summary>
-        public Vector2 PointA;
+        public XNAVector2 PointA;
 
         /// <summary>
         /// Closest point on shapeB
         /// </summary>
-        public Vector2 PointB;
+        public XNAVector2 PointB;
     }
 }

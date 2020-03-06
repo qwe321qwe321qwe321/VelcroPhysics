@@ -71,12 +71,12 @@ namespace VelcroPhysics.Templates
         /// <summary>
         /// The linear velocity of the body's origin in world co-ordinates.
         /// </summary>
-        public Vector2 LinearVelocity { get; set; }
+        public XNAVector2 LinearVelocity { get; set; }
 
         /// <summary>
         /// The world position of the body.
         /// </summary>
-        public Vector2 Position { get; set; }
+        public XNAVector2 Position { get; set; }
 
         /// <summary>
         /// Set the type of body

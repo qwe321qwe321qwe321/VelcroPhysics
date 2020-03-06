@@ -14,11 +14,11 @@ namespace VelcroPhysics.Collision.Narrowphase
         {
             manifold.PointCount = 0;
 
-            Vector2 pA = MathUtils.Mul(ref xfA, circleA.Position);
-            Vector2 pB = MathUtils.Mul(ref xfB, circleB.Position);
+            XNAVector2 pA = MathUtils.Mul(ref xfA, circleA.Position);
+            XNAVector2 pB = MathUtils.Mul(ref xfB, circleB.Position);
 
-            Vector2 d = pB - pA;
-            float distSqr = Vector2.Dot(d, d);
+            XNAVector2 d = pB - pA;
+            float distSqr = XNAVector2.Dot(d, d);
             float rA = circleA.Radius, rB = circleB.Radius;
             float radius = rA + rB;
             if (distSqr > radius * radius)
@@ -28,7 +28,7 @@ namespace VelcroPhysics.Collision.Narrowphase
 
             manifold.Type = ManifoldType.Circles;
             manifold.LocalPoint = circleA.Position;
-            manifold.LocalNormal = Vector2.Zero;
+            manifold.LocalNormal = XNAVector2.Zero;
             manifold.PointCount = 1;
 
             ManifoldPoint p0 = manifold.Points[0];
@@ -50,8 +50,8 @@ namespace VelcroPhysics.Collision.Narrowphase
             manifold.PointCount = 0;
 
             // Compute circle position in the frame of the polygon.
-            Vector2 c = MathUtils.Mul(ref xfB, circleB.Position);
-            Vector2 cLocal = MathUtils.MulT(ref xfA, c);
+            XNAVector2 c = MathUtils.Mul(ref xfB, circleB.Position);
+            XNAVector2 cLocal = MathUtils.MulT(ref xfA, c);
 
             // Find the min separating edge.
             int normalIndex = 0;
@@ -63,7 +63,7 @@ namespace VelcroPhysics.Collision.Narrowphase
 
             for (int i = 0; i < vertexCount; ++i)
             {
-                float s = Vector2.Dot(normals[i], cLocal - vertices[i]);
+                float s = XNAVector2.Dot(normals[i], cLocal - vertices[i]);
 
                 if (s > radius)
                 {
@@ -81,8 +81,8 @@ namespace VelcroPhysics.Collision.Narrowphase
             // Vertices that subtend the incident face.
             int vertIndex1 = normalIndex;
             int vertIndex2 = vertIndex1 + 1 < vertexCount ? vertIndex1 + 1 : 0;
-            Vector2 v1 = vertices[vertIndex1];
-            Vector2 v2 = vertices[vertIndex2];
+            XNAVector2 v1 = vertices[vertIndex1];
+            XNAVector2 v2 = vertices[vertIndex2];
 
             // If the center is inside the polygon ...
             if (separation < Settings.Epsilon)
@@ -97,12 +97,12 @@ namespace VelcroPhysics.Collision.Narrowphase
             }
 
             // Compute barycentric coordinates
-            float u1 = Vector2.Dot(cLocal - v1, v2 - v1);
-            float u2 = Vector2.Dot(cLocal - v2, v1 - v2);
+            float u1 = XNAVector2.Dot(cLocal - v1, v2 - v1);
+            float u2 = XNAVector2.Dot(cLocal - v2, v1 - v2);
 
             if (u1 <= 0.0f)
             {
-                if (Vector2.DistanceSquared(cLocal, v1) > radius * radius)
+                if (XNAVector2.DistanceSquared(cLocal, v1) > radius * radius)
                 {
                     return;
                 }
@@ -117,7 +117,7 @@ namespace VelcroPhysics.Collision.Narrowphase
             }
             else if (u2 <= 0.0f)
             {
-                if (Vector2.DistanceSquared(cLocal, v2) > radius * radius)
+                if (XNAVector2.DistanceSquared(cLocal, v2) > radius * radius)
                 {
                     return;
                 }
@@ -132,8 +132,8 @@ namespace VelcroPhysics.Collision.Narrowphase
             }
             else
             {
-                Vector2 faceCenter = 0.5f * (v1 + v2);
-                float s = Vector2.Dot(cLocal - faceCenter, normals[vertIndex1]);
+                XNAVector2 faceCenter = 0.5f * (v1 + v2);
+                float s = XNAVector2.Dot(cLocal - faceCenter, normals[vertIndex1]);
                 if (s > radius)
                 {
                     return;

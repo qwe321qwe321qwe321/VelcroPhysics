@@ -16,7 +16,7 @@ namespace VelcroPhysics.Dynamics
     {
         private float[] _angularVelocitiesCache = new float[8];
         private bool _break;
-        private Vector2[] _velocitiesCache = new Vector2[8];
+        private XNAVector2[] _velocitiesCache = new XNAVector2[8];
         private readonly World _world;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace VelcroPhysics.Dynamics
         /// </summary>
         public float Strength { get; set; }
 
-        public BreakableBody(World world, IEnumerable<Vertices> vertices, float density, Vector2 position = new Vector2(), float rotation = 0)
+        public BreakableBody(World world, IEnumerable<Vertices> vertices, float density, XNAVector2 position = new XNAVector2(), float rotation = 0)
         {
             _world = world;
             _world.ContactManager.PostSolve += PostSolve;
@@ -41,7 +41,7 @@ namespace VelcroPhysics.Dynamics
             }
         }
 
-        public BreakableBody(World world, IEnumerable<Shape> shapes, Vector2 position = new Vector2(), float rotation = 0)
+        public BreakableBody(World world, IEnumerable<Shape> shapes, XNAVector2 position = new XNAVector2(), float rotation = 0)
         {
             _world = world;
             _world.ContactManager.PostSolve += PostSolve;
@@ -97,7 +97,7 @@ namespace VelcroPhysics.Dynamics
                 //Enlarge the cache if needed
                 if (Parts.Count > _angularVelocitiesCache.Length)
                 {
-                    _velocitiesCache = new Vector2[Parts.Count];
+                    _velocitiesCache = new XNAVector2[Parts.Count];
                     _angularVelocitiesCache = new float[Parts.Count];
                 }
 

@@ -31,29 +31,29 @@ namespace VelcroPhysics.Utilities
             return simUnits * _displayUnitsToSimUnitsRatio;
         }
 
-        public static Vector2 ToDisplayUnits(Vector2 simUnits)
+        public static XNAVector2 ToDisplayUnits(XNAVector2 simUnits)
         {
             return simUnits * _displayUnitsToSimUnitsRatio;
         }
 
-        public static void ToDisplayUnits(ref Vector2 simUnits, out Vector2 displayUnits)
+        public static void ToDisplayUnits(ref XNAVector2 simUnits, out XNAVector2 displayUnits)
         {
-            Vector2.Multiply(ref simUnits, _displayUnitsToSimUnitsRatio, out displayUnits);
+            XNAVector2.Multiply(ref simUnits, _displayUnitsToSimUnitsRatio, out displayUnits);
         }
 
-        public static Vector3 ToDisplayUnits(Vector3 simUnits)
+        public static XNAVector3 ToDisplayUnits(XNAVector3 simUnits)
         {
             return simUnits * _displayUnitsToSimUnitsRatio;
         }
 
-        public static Vector2 ToDisplayUnits(float x, float y)
+        public static XNAVector2 ToDisplayUnits(float x, float y)
         {
-            return new Vector2(x, y) * _displayUnitsToSimUnitsRatio;
+            return new XNAVector2(x, y) * _displayUnitsToSimUnitsRatio;
         }
 
-        public static void ToDisplayUnits(float x, float y, out Vector2 displayUnits)
+        public static void ToDisplayUnits(float x, float y, out XNAVector2 displayUnits)
         {
-            displayUnits = Vector2.Zero;
+            displayUnits = XNAVector2.Zero;
             displayUnits.X = x * _displayUnitsToSimUnitsRatio;
             displayUnits.Y = y * _displayUnitsToSimUnitsRatio;
         }
@@ -73,34 +73,34 @@ namespace VelcroPhysics.Utilities
             return displayUnits * _simUnitsToDisplayUnitsRatio;
         }
 
-        public static Vector2 ToSimUnits(Vector2 displayUnits)
+        public static XNAVector2 ToSimUnits(XNAVector2 displayUnits)
         {
             return displayUnits * _simUnitsToDisplayUnitsRatio;
         }
 
-        public static Vector3 ToSimUnits(Vector3 displayUnits)
+        public static XNAVector3 ToSimUnits(XNAVector3 displayUnits)
         {
             return displayUnits * _simUnitsToDisplayUnitsRatio;
         }
 
-        public static void ToSimUnits(ref Vector2 displayUnits, out Vector2 simUnits)
+        public static void ToSimUnits(ref XNAVector2 displayUnits, out XNAVector2 simUnits)
         {
-            Vector2.Multiply(ref displayUnits, _simUnitsToDisplayUnitsRatio, out simUnits);
+            XNAVector2.Multiply(ref displayUnits, _simUnitsToDisplayUnitsRatio, out simUnits);
         }
 
-        public static Vector2 ToSimUnits(float x, float y)
+        public static XNAVector2 ToSimUnits(float x, float y)
         {
-            return new Vector2(x, y) * _simUnitsToDisplayUnitsRatio;
+            return new XNAVector2(x, y) * _simUnitsToDisplayUnitsRatio;
         }
 
-        public static Vector2 ToSimUnits(double x, double y)
+        public static XNAVector2 ToSimUnits(double x, double y)
         {
-            return new Vector2((float)x, (float)y) * _simUnitsToDisplayUnitsRatio;
+            return new XNAVector2((float)x, (float)y) * _simUnitsToDisplayUnitsRatio;
         }
 
-        public static void ToSimUnits(float x, float y, out Vector2 simUnits)
+        public static void ToSimUnits(float x, float y, out XNAVector2 simUnits)
         {
-            simUnits = Vector2.Zero;
+            simUnits = XNAVector2.Zero;
             simUnits.X = x * _simUnitsToDisplayUnitsRatio;
             simUnits.Y = y * _simUnitsToDisplayUnitsRatio;
         }

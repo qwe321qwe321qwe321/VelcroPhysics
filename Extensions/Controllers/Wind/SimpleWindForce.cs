@@ -14,7 +14,7 @@ namespace VelcroPhysics.Extensions.Controllers.Wind
         /// <summary>
         /// Direction of the windforce
         /// </summary>
-        public Vector2 Direction { get; set; }
+        public XNAVector2 Direction { get; set; }
 
         /// <summary>
         /// The amount of Direction randomization. Allowed range is 0-1.
@@ -36,7 +36,7 @@ namespace VelcroPhysics.Extensions.Controllers.Wind
 
                 if (decayMultiplier != 0)
                 {
-                    Vector2 forceVector;
+                    XNAVector2 forceVector;
 
                     if (ForceType == ForceTypes.Point)
                     {
@@ -49,7 +49,7 @@ namespace VelcroPhysics.Extensions.Controllers.Wind
                         forceVector = Direction;
 
                         if (forceVector.Length() == 0)
-                            forceVector = new Vector2(0, 1);
+                            forceVector = new XNAVector2(0, 1);
                     }
 
                     //TODO: Consider Divergence:

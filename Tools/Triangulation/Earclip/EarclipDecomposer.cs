@@ -123,9 +123,9 @@ namespace VelcroPhysics.Tools.Triangulation.Earclip
                     {
                         int lower = Remainder(i - 1, vNum);
                         int upper = Remainder(i + 1, vNum);
-                        Vector2 d1 = new Vector2(xrem[upper] - xrem[i], yrem[upper] - yrem[i]);
-                        Vector2 d2 = new Vector2(xrem[i] - xrem[lower], yrem[i] - yrem[lower]);
-                        Vector2 d3 = new Vector2(xrem[lower] - xrem[upper], yrem[lower] - yrem[upper]);
+                        XNAVector2 d1 = new XNAVector2(xrem[upper] - xrem[i], yrem[upper] - yrem[i]);
+                        XNAVector2 d2 = new XNAVector2(xrem[i] - xrem[lower], yrem[i] - yrem[lower]);
+                        XNAVector2 d3 = new XNAVector2(xrem[lower] - xrem[upper], yrem[lower] - yrem[upper]);
 
                         d1.Normalize();
                         d2.Normalize();

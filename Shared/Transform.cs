@@ -8,7 +8,7 @@ namespace VelcroPhysics.Shared
     /// </summary>
     public struct Transform
     {
-        public Vector2 p;
+        public XNAVector2 p;
         public Rot q;
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace VelcroPhysics.Shared
         /// </summary>
         /// <param name="position">The position.</param>
         /// <param name="rotation">The r.</param>
-        public Transform(ref Vector2 position, ref Rot rotation)
+        public Transform(ref XNAVector2 position, ref Rot rotation)
         {
             p = position;
             q = rotation;
@@ -27,7 +27,7 @@ namespace VelcroPhysics.Shared
         /// </summary>
         public void SetIdentity()
         {
-            p = Vector2.Zero;
+            p = XNAVector2.Zero;
             q.SetIdentity();
         }
 
@@ -36,7 +36,7 @@ namespace VelcroPhysics.Shared
         /// </summary>
         /// <param name="position">The position.</param>
         /// <param name="angle">The angle.</param>
-        public void Set(Vector2 position, float angle)
+        public void Set(XNAVector2 position, float angle)
         {
             p = position;
             q.Set(angle);

@@ -63,17 +63,17 @@ namespace VelcroPhysics.Shared
         /// <summary>
         /// Get the x-axis
         /// </summary>
-        public Vector2 GetXAxis()
+        public XNAVector2 GetXAxis()
         {
-            return new Vector2(c, s);
+            return new XNAVector2(c, s);
         }
 
         /// <summary>
         /// Get the y-axis
         /// </summary>
-        public Vector2 GetYAxis()
+        public XNAVector2 GetYAxis()
         {
-            return new Vector2(-s, c);
+            return new XNAVector2(-s, c);
         }
     }
 }

@@ -22,16 +22,16 @@ namespace VelcroPhysics.Collision.Narrowphase
         /// <summary>
         /// wB - wA
         /// </summary>
-        public Vector2 W;
+        public XNAVector2 W;
 
         /// <summary>
         /// Support point in proxyA
         /// </summary>
-        public Vector2 WA;
+        public XNAVector2 WA;
 
         /// <summary>
         /// Support point in proxyB
         /// </summary>
-        public Vector2 WB;
+        public XNAVector2 WB;
     }
 }

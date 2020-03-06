@@ -9,10 +9,10 @@ namespace VelcroPhysics.Dynamics.Solver
         public int IndexB;
         public float InvIA, InvIB;
         public float InvMassA, InvMassB;
-        public Vector2 LocalCenterA, LocalCenterB;
-        public Vector2 LocalNormal;
-        public Vector2 LocalPoint;
-        public Vector2[] LocalPoints = new Vector2[Settings.MaxManifoldPoints];
+        public XNAVector2 LocalCenterA, LocalCenterB;
+        public XNAVector2 LocalNormal;
+        public XNAVector2 LocalPoint;
+        public XNAVector2[] LocalPoints = new XNAVector2[Settings.MaxManifoldPoints];
         public int PointCount;
         public float RadiusA, RadiusB;
         public ManifoldType Type;

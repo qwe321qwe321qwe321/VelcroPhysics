@@ -48,20 +48,20 @@ namespace VelcroPhysics.Dynamics.Joints
         private float _invIB;
         private float _invMassA;
         private float _invMassB;
-        private Vector2 _linearError;
-        private Vector2 _linearImpulse;
+        private XNAVector2 _linearError;
+        private XNAVector2 _linearImpulse;
 
         private Mat22 _linearMass;
 
         // Solver shared
-        private Vector2 _linearOffset;
+        private XNAVector2 _linearOffset;
 
-        private Vector2 _localCenterA;
-        private Vector2 _localCenterB;
+        private XNAVector2 _localCenterA;
+        private XNAVector2 _localCenterB;
         private float _maxForce;
         private float _maxTorque;
-        private Vector2 _rA;
-        private Vector2 _rB;
+        private XNAVector2 _rA;
+        private XNAVector2 _rB;
 
         internal MotorJoint()
         {
@@ -79,7 +79,7 @@ namespace VelcroPhysics.Dynamics.Joints
         {
             JointType = JointType.Motor;
 
-            Vector2 xB = BodyB.Position;
+            XNAVector2 xB = BodyB.Position;
 
             if (useWorldCoordinates)
                 _linearOffset = BodyA.GetLocalPoint(xB);
@@ -95,13 +95,13 @@ namespace VelcroPhysics.Dynamics.Joints
             _angularOffset = BodyB.Rotation - BodyA.Rotation;
         }
 
-        public override Vector2 WorldAnchorA
+        public override XNAVector2 WorldAnchorA
         {
             get { return BodyA.Position; }
             set { Debug.Assert(false, "You can't set the world anchor on this joint type."); }
         }
 
-        public override Vector2 WorldAnchorB
+        public override XNAVector2 WorldAnchorB
         {
             get { return BodyB.Position; }
             set { Debug.Assert(false, "You can't set the world anchor on this joint type."); }
@@ -136,7 +136,7 @@ namespace VelcroPhysics.Dynamics.Joints
         /// <summary>
         /// The linear (translation) offset.
         /// </summary>
-        public Vector2 LinearOffset
+        public XNAVector2 LinearOffset
         {
             set
             {
@@ -168,7 +168,7 @@ namespace VelcroPhysics.Dynamics.Joints
         //Velcro note: Used for serialization.
         internal float CorrectionFactor { get; set; }
 
-        public override Vector2 GetReactionForce(float invDt)
+        public override XNAVector2 GetReactionForce(float invDt)
         {
             return invDt * _linearImpulse;
         }
@@ -189,14 +189,14 @@ namespace VelcroPhysics.Dynamics.Joints
             _invIA = BodyA._invI;
             _invIB = BodyB._invI;
 
-            Vector2 cA = data.Positions[_indexA].C;
+            XNAVector2 cA = data.Positions[_indexA].C;
             float aA = data.Positions[_indexA].A;
-            Vector2 vA = data.Velocities[_indexA].V;
+            XNAVector2 vA = data.Velocities[_indexA].V;
             float wA = data.Velocities[_indexA].W;
 
-            Vector2 cB = data.Positions[_indexB].C;
+            XNAVector2 cB = data.Positions[_indexB].C;
             float aB = data.Positions[_indexB].A;
-            Vector2 vB = data.Velocities[_indexB].V;
+            XNAVector2 vB = data.Velocities[_indexB].V;
             float wB = data.Velocities[_indexB].W;
 
             Rot qA = new Rot(aA);
@@ -241,7 +241,7 @@ namespace VelcroPhysics.Dynamics.Joints
                 _linearImpulse *= data.Step.dtRatio;
                 _angularImpulse *= data.Step.dtRatio;
 
-                Vector2 P = new Vector2(_linearImpulse.X, _linearImpulse.Y);
+                XNAVector2 P = new XNAVector2(_linearImpulse.X, _linearImpulse.Y);
 
                 vA -= mA * P;
                 wA -= iA * (MathUtils.Cross(_rA, P) + _angularImpulse);
@@ -250,7 +250,7 @@ namespace VelcroPhysics.Dynamics.Joints
             }
             else
             {
-                _linearImpulse = Vector2.Zero;
+                _linearImpulse = XNAVector2.Zero;
                 _angularImpulse = 0.0f;
             }
 
@@ -262,9 +262,9 @@ namespace VelcroPhysics.Dynamics.Joints
 
         internal override void SolveVelocityConstraints(ref SolverData data)
         {
-            Vector2 vA = data.Velocities[_indexA].V;
+            XNAVector2 vA = data.Velocities[_indexA].V;
             float wA = data.Velocities[_indexA].W;
-            Vector2 vB = data.Velocities[_indexB].V;
+            XNAVector2 vB = data.Velocities[_indexB].V;
             float wB = data.Velocities[_indexB].W;
 
             float mA = _invMassA, mB = _invMassB;
@@ -289,10 +289,10 @@ namespace VelcroPhysics.Dynamics.Joints
 
             // Solve linear friction
             {
-                Vector2 Cdot = vB + MathUtils.Cross(wB, _rB) - vA - MathUtils.Cross(wA, _rA) + inv_h * CorrectionFactor * _linearError;
+                XNAVector2 Cdot = vB + MathUtils.Cross(wB, _rB) - vA - MathUtils.Cross(wA, _rA) + inv_h * CorrectionFactor * _linearError;
 
-                Vector2 impulse = -MathUtils.Mul(ref _linearMass, ref Cdot);
-                Vector2 oldImpulse = _linearImpulse;
+                XNAVector2 impulse = -MathUtils.Mul(ref _linearMass, ref Cdot);
+                XNAVector2 oldImpulse = _linearImpulse;
                 _linearImpulse += impulse;
 
                 float maxImpulse = h * _maxForce;

@@ -89,7 +89,7 @@ namespace VelcroPhysics.Dynamics.Solver
             JointCount = 0;
         }
 
-        public void Solve(ref TimeStep step, ref Vector2 gravity)
+        public void Solve(ref TimeStep step, ref XNAVector2 gravity)
         {
             float h = step.dt;
 
@@ -98,9 +98,9 @@ namespace VelcroPhysics.Dynamics.Solver
             {
                 Body b = Bodies[i];
 
-                Vector2 c = b._sweep.C;
+                XNAVector2 c = b._sweep.C;
                 float a = b._sweep.A;
-                Vector2 v = b._linearVelocity;
+                XNAVector2 v = b._linearVelocity;
                 float w = b._angularVelocity;
 
                 // Store positions for continuous collision.
@@ -191,14 +191,14 @@ namespace VelcroPhysics.Dynamics.Solver
             // Integrate positions
             for (int i = 0; i < BodyCount; ++i)
             {
-                Vector2 c = Positions[i].C;
+                XNAVector2 c = Positions[i].C;
                 float a = Positions[i].A;
-                Vector2 v = Velocities[i].V;
+                XNAVector2 v = Velocities[i].V;
                 float w = Velocities[i].W;
 
                 // Check for large velocities
-                Vector2 translation = h * v;
-                if (Vector2.Dot(translation, translation) > Settings.MaxTranslationSquared)
+                XNAVector2 translation = h * v;
+                if (XNAVector2.Dot(translation, translation) > Settings.MaxTranslationSquared)
                 {
                     float ratio = Settings.MaxTranslation / translation.Length();
                     v *= ratio;
@@ -284,7 +284,7 @@ namespace VelcroPhysics.Dynamics.Solver
                     if (b.BodyType == BodyType.Static)
                         continue;
 
-                    if (!b.SleepingAllowed || b._angularVelocity * b._angularVelocity > AngTolSqr || Vector2.Dot(b._linearVelocity, b._linearVelocity) > LinTolSqr)
+                    if (!b.SleepingAllowed || b._angularVelocity * b._angularVelocity > AngTolSqr || XNAVector2.Dot(b._linearVelocity, b._linearVelocity) > LinTolSqr)
                     {
                         b.SleepTime = 0.0f;
                         minSleepTime = 0.0f;
@@ -358,14 +358,14 @@ namespace VelcroPhysics.Dynamics.Solver
             // Integrate positions.
             for (int i = 0; i < BodyCount; ++i)
             {
-                Vector2 c = Positions[i].C;
+                XNAVector2 c = Positions[i].C;
                 float a = Positions[i].A;
-                Vector2 v = Velocities[i].V;
+                XNAVector2 v = Velocities[i].V;
                 float w = Velocities[i].W;
 
                 // Check for large velocities
-                Vector2 translation = h * v;
-                if (Vector2.Dot(translation, translation) > Settings.MaxTranslationSquared)
+                XNAVector2 translation = h * v;
+                if (XNAVector2.Dot(translation, translation) > Settings.MaxTranslationSquared)
                 {
                     float ratio = Settings.MaxTranslation / translation.Length();
                     v *= ratio;

@@ -93,9 +93,9 @@ namespace VelcroPhysics.Collision.Shapes
                 {
                     int i1 = i;
                     int i2 = i + 1 < _vertices.Count ? i + 1 : 0;
-                    Vector2 edge = _vertices[i2] - _vertices[i1];
+                    XNAVector2 edge = _vertices[i2] - _vertices[i1];
                     Debug.Assert(edge.LengthSquared() > Settings.Epsilon * Settings.Epsilon);
-                    Vector2 temp = MathUtils.Cross(edge, 1.0f);
+                    XNAVector2 temp = MathUtils.Cross(edge, 1.0f);
                     temp.Normalize();
                     _normals.Add(temp);
                 }
@@ -142,7 +142,7 @@ namespace VelcroPhysics.Collision.Shapes
                 return;
 
             //Velcro optimization: Consolidated the calculate centroid and mass code to a single method.
-            Vector2 center = Vector2.Zero;
+            XNAVector2 center = XNAVector2.Zero;
             float area = 0.0f;
             float I = 0.0f;
 
@@ -150,7 +150,7 @@ namespace VelcroPhysics.Collision.Shapes
 
             // pRef is the reference point for forming triangles.
             // It's location doesn't change the result (except for rounding error).
-            Vector2 s = Vector2.Zero;
+            XNAVector2 s = XNAVector2.Zero;
 
             // This code would put the reference point inside the polygon.
             for (int i = 0; i < Vertices.Count; ++i)
@@ -164,8 +164,8 @@ namespace VelcroPhysics.Collision.Shapes
             for (int i = 0; i < Vertices.Count; ++i)
             {
                 // Triangle vertices.
-                Vector2 e1 = Vertices[i] - s;
-                Vector2 e2 = i + 1 < Vertices.Count ? Vertices[i + 1] - s : Vertices[0] - s;
+                XNAVector2 e1 = Vertices[i] - s;
+                XNAVector2 e2 = i + 1 < Vertices.Count ? Vertices[i + 1] - s : Vertices[0] - s;
 
                 float D = MathUtils.Cross(e1, e2);
 
@@ -201,10 +201,10 @@ namespace VelcroPhysics.Collision.Shapes
             MassData.Inertia = _density * I;
 
             // Shift to center of mass then to original body origin.
-            MassData.Inertia += MassData.Mass * (Vector2.Dot(MassData.Centroid, MassData.Centroid) - Vector2.Dot(center, center));
+            MassData.Inertia += MassData.Mass * (XNAVector2.Dot(MassData.Centroid, MassData.Centroid) - XNAVector2.Dot(center, center));
         }
 
-        public override bool TestPoint(ref Transform transform, ref Vector2 point)
+        public override bool TestPoint(ref Transform transform, ref XNAVector2 point)
         {
             return TestPointHelper.TestPointPolygon(_vertices, _normals, ref point, ref transform);
         }

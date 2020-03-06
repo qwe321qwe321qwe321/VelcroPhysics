@@ -22,23 +22,23 @@ namespace VelcroPhysics.Tools.PathGenerator
         /// <summary>
         /// All the points that makes up the curve
         /// </summary>
-        public List<Vector2> ControlPoints;
+        public List<XNAVector2> ControlPoints;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Path" /> class.
         /// </summary>
         public Path()
         {
-            ControlPoints = new List<Vector2>();
+            ControlPoints = new List<XNAVector2>();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Path" /> class.
         /// </summary>
         /// <param name="vertices">The vertices to created the path from.</param>
-        public Path(Vector2[] vertices)
+        public Path(XNAVector2[] vertices)
         {
-            ControlPoints = new List<Vector2>(vertices.Length);
+            ControlPoints = new List<XNAVector2>(vertices.Length);
 
             for (int i = 0; i < vertices.Length; i++)
             {
@@ -50,9 +50,9 @@ namespace VelcroPhysics.Tools.PathGenerator
         /// Initializes a new instance of the <see cref="Path" /> class.
         /// </summary>
         /// <param name="vertices">The vertices to created the path from.</param>
-        public Path(IList<Vector2> vertices)
+        public Path(IList<XNAVector2> vertices)
         {
-            ControlPoints = new List<Vector2>(vertices.Count);
+            ControlPoints = new List<XNAVector2>(vertices.Count);
             for (int i = 0; i < vertices.Count; i++)
             {
                 Add(vertices[i]);
@@ -97,20 +97,20 @@ namespace VelcroPhysics.Tools.PathGenerator
         /// Translates the control points by the specified vector.
         /// </summary>
         /// <param name="vector">The vector.</param>
-        public void Translate(ref Vector2 vector)
+        public void Translate(ref XNAVector2 vector)
         {
             for (int i = 0; i < ControlPoints.Count; i++)
-                ControlPoints[i] = Vector2.Add(ControlPoints[i], vector);
+                ControlPoints[i] = XNAVector2.Add(ControlPoints[i], vector);
         }
 
         /// <summary>
         /// Scales the control points by the specified vector.
         /// </summary>
         /// <param name="value">The Value.</param>
-        public void Scale(ref Vector2 value)
+        public void Scale(ref XNAVector2 value)
         {
             for (int i = 0; i < ControlPoints.Count; i++)
-                ControlPoints[i] = Vector2.Multiply(ControlPoints[i], value);
+                ControlPoints[i] = XNAVector2.Multiply(ControlPoints[i], value);
         }
 
         /// <summary>
@@ -119,11 +119,11 @@ namespace VelcroPhysics.Tools.PathGenerator
         /// <param name="value">The amount to rotate by in radians.</param>
         public void Rotate(float value)
         {
-            Matrix rotationMatrix;
-            Matrix.CreateRotationZ(value, out rotationMatrix);
+            XNAMatrix rotationMatrix;
+            XNAMatrix.CreateRotationZ(value, out rotationMatrix);
 
             for (int i = 0; i < ControlPoints.Count; i++)
-                ControlPoints[i] = Vector2.Transform(ControlPoints[i], rotationMatrix);
+                ControlPoints[i] = XNAVector2.Transform(ControlPoints[i], rotationMatrix);
         }
 
         public override string ToString()
@@ -161,9 +161,9 @@ namespace VelcroPhysics.Tools.PathGenerator
             return verts;
         }
 
-        public Vector2 GetPosition(float time)
+        public XNAVector2 GetPosition(float time)
         {
-            Vector2 temp;
+            XNAVector2 temp;
 
             if (ControlPoints.Count < 2)
                 throw new Exception("You need at least 2 control points to calculate a position.");
@@ -193,7 +193,7 @@ namespace VelcroPhysics.Tools.PathGenerator
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
 
-                temp = Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
+                temp = XNAVector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
 
                 RemoveAt(ControlPoints.Count - 1);
             }
@@ -218,7 +218,7 @@ namespace VelcroPhysics.Tools.PathGenerator
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
 
-                temp = Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
+                temp = XNAVector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
             }
 
             return temp;
@@ -229,16 +229,16 @@ namespace VelcroPhysics.Tools.PathGenerator
         /// </summary>
         /// <param name="time">The time</param>
         /// <returns>The normal.</returns>
-        public Vector2 GetPositionNormal(float time)
+        public XNAVector2 GetPositionNormal(float time)
         {
             float offsetTime = time + 0.0001f;
 
-            Vector2 a = GetPosition(time);
-            Vector2 b = GetPosition(offsetTime);
+            XNAVector2 a = GetPosition(time);
+            XNAVector2 b = GetPosition(offsetTime);
 
-            Vector2 output, temp;
+            XNAVector2 output, temp;
 
-            Vector2.Subtract(ref a, ref b, out temp);
+            XNAVector2.Subtract(ref a, ref b, out temp);
 
 #if (XBOX360 || WINDOWS_PHONE)
 output = new Vector2();
@@ -246,18 +246,18 @@ output = new Vector2();
             output.X = -temp.Y;
             output.Y = temp.X;
 
-            Vector2.Normalize(ref output, out output);
+            XNAVector2.Normalize(ref output, out output);
 
             return output;
         }
 
-        public void Add(Vector2 point)
+        public void Add(XNAVector2 point)
         {
             ControlPoints.Add(point);
             _deltaT = 1f / (ControlPoints.Count - 1);
         }
 
-        public void Remove(Vector2 point)
+        public void Remove(XNAVector2 point)
         {
             ControlPoints.Remove(point);
             _deltaT = 1f / (ControlPoints.Count - 1);
@@ -271,23 +271,23 @@ output = new Vector2();
 
         public float GetLength()
         {
-            List<Vector2> verts = GetVertices(ControlPoints.Count * 25);
+            List<XNAVector2> verts = GetVertices(ControlPoints.Count * 25);
             float length = 0;
 
             for (int i = 1; i < verts.Count; i++)
             {
-                length += Vector2.Distance(verts[i - 1], verts[i]);
+                length += XNAVector2.Distance(verts[i - 1], verts[i]);
             }
 
             if (Closed)
-                length += Vector2.Distance(verts[ControlPoints.Count - 1], verts[0]);
+                length += XNAVector2.Distance(verts[ControlPoints.Count - 1], verts[0]);
 
             return length;
         }
 
-        public List<Vector3> SubdivideEvenly(int divisions)
+        public List<XNAVector3> SubdivideEvenly(int divisions)
         {
-            List<Vector3> verts = new List<Vector3>();
+            List<XNAVector3> verts = new List<XNAVector3>();
 
             float length = GetLength();
 
@@ -295,11 +295,11 @@ output = new Vector2();
             float t = 0.000f;
 
             // we always start at the first control point
-            Vector2 start = ControlPoints[0];
-            Vector2 end = GetPosition(t);
+            XNAVector2 start = ControlPoints[0];
+            XNAVector2 end = GetPosition(t);
 
             // increment t until we are at half the distance
-            while (deltaLength * 0.5f >= Vector2.Distance(start, end))
+            while (deltaLength * 0.5f >= XNAVector2.Distance(start, end))
             {
                 end = GetPosition(t);
                 t += 0.0001f;
@@ -313,13 +313,13 @@ output = new Vector2();
             // for each box
             for (int i = 1; i < divisions; i++)
             {
-                Vector2 normal = GetPositionNormal(t);
+                XNAVector2 normal = GetPositionNormal(t);
                 float angle = (float)Math.Atan2(normal.Y, normal.X);
 
-                verts.Add(new Vector3(end, angle));
+                verts.Add(new XNAVector3(end, angle));
 
                 // until we reach the correct distance down the curve
-                while (deltaLength >= Vector2.Distance(start, end))
+                while (deltaLength >= XNAVector2.Distance(start, end))
                 {
                     end = GetPosition(t);
                     t += 0.00001f;

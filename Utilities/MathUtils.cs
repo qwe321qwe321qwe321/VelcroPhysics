@@ -29,83 +29,83 @@ namespace VelcroPhysics.Utilities
 {
     public static class MathUtils
     {
-        public static float Cross(ref Vector2 a, ref Vector2 b)
+        public static float Cross(ref XNAVector2 a, ref XNAVector2 b)
         {
             return a.X * b.Y - a.Y * b.X;
         }
 
-        public static float Cross(Vector2 a, Vector2 b)
+        public static float Cross(XNAVector2 a, XNAVector2 b)
         {
             return Cross(ref a, ref b);
         }
 
         /// Perform the cross product on two vectors.
-        public static Vector3 Cross(Vector3 a, Vector3 b)
+        public static XNAVector3 Cross(XNAVector3 a, XNAVector3 b)
         {
-            return new Vector3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
+            return new XNAVector3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
         }
 
-        public static Vector2 Cross(Vector2 a, float s)
+        public static XNAVector2 Cross(XNAVector2 a, float s)
         {
-            return new Vector2(s * a.Y, -s * a.X);
+            return new XNAVector2(s * a.Y, -s * a.X);
         }
 
-        public static Vector2 Cross(float s, Vector2 a)
+        public static XNAVector2 Cross(float s, XNAVector2 a)
         {
-            return new Vector2(-s * a.Y, s * a.X);
+            return new XNAVector2(-s * a.Y, s * a.X);
         }
 
-        public static Vector2 Abs(Vector2 v)
+        public static XNAVector2 Abs(XNAVector2 v)
         {
-            return new Vector2(Math.Abs(v.X), Math.Abs(v.Y));
+            return new XNAVector2(Math.Abs(v.X), Math.Abs(v.Y));
         }
 
-        public static Vector2 Mul(ref Mat22 A, Vector2 v)
+        public static XNAVector2 Mul(ref Mat22 A, XNAVector2 v)
         {
             return Mul(ref A, ref v);
         }
 
-        public static Vector2 Mul(ref Mat22 A, ref Vector2 v)
+        public static XNAVector2 Mul(ref Mat22 A, ref XNAVector2 v)
         {
-            return new Vector2(A.ex.X * v.X + A.ey.X * v.Y, A.ex.Y * v.X + A.ey.Y * v.Y);
+            return new XNAVector2(A.ex.X * v.X + A.ey.X * v.Y, A.ex.Y * v.X + A.ey.Y * v.Y);
         }
 
-        public static Vector2 Mul(ref Transform T, Vector2 v)
+        public static XNAVector2 Mul(ref Transform T, XNAVector2 v)
         {
             return Mul(ref T, ref v);
         }
 
-        public static Vector2 Mul(ref Transform T, ref Vector2 v)
+        public static XNAVector2 Mul(ref Transform T, ref XNAVector2 v)
         {
             float x = (T.q.c * v.X - T.q.s * v.Y) + T.p.X;
             float y = (T.q.s * v.X + T.q.c * v.Y) + T.p.Y;
 
-            return new Vector2(x, y);
+            return new XNAVector2(x, y);
         }
 
-        public static Vector2 MulT(ref Mat22 A, Vector2 v)
+        public static XNAVector2 MulT(ref Mat22 A, XNAVector2 v)
         {
             return MulT(ref A, ref v);
         }
 
-        public static Vector2 MulT(ref Mat22 A, ref Vector2 v)
+        public static XNAVector2 MulT(ref Mat22 A, ref XNAVector2 v)
         {
-            return new Vector2(v.X * A.ex.X + v.Y * A.ex.Y, v.X * A.ey.X + v.Y * A.ey.Y);
+            return new XNAVector2(v.X * A.ex.X + v.Y * A.ex.Y, v.X * A.ey.X + v.Y * A.ey.Y);
         }
 
-        public static Vector2 MulT(ref Transform T, Vector2 v)
+        public static XNAVector2 MulT(ref Transform T, XNAVector2 v)
         {
             return MulT(ref T, ref v);
         }
 
-        public static Vector2 MulT(ref Transform T, ref Vector2 v)
+        public static XNAVector2 MulT(ref Transform T, ref XNAVector2 v)
         {
             float px = v.X - T.p.X;
             float py = v.Y - T.p.Y;
             float x = (T.q.c * px + T.q.s * py);
             float y = (-T.q.s * px + T.q.c * py);
 
-            return new Vector2(x, y);
+            return new XNAVector2(x, y);
         }
 
         // A^T * B
@@ -119,7 +119,7 @@ namespace VelcroPhysics.Utilities
         }
 
         /// Multiply a matrix times a vector.
-        public static Vector3 Mul(Mat33 A, Vector3 v)
+        public static XNAVector3 Mul(Mat33 A, XNAVector3 v)
         {
             return v.X * A.ex + v.Y * A.ey + v.Z * A.ez;
         }
@@ -151,9 +151,9 @@ namespace VelcroPhysics.Utilities
         }
 
         /// Multiply a matrix times a vector.
-        public static Vector2 Mul22(Mat33 A, Vector2 v)
+        public static XNAVector2 Mul22(Mat33 A, XNAVector2 v)
         {
-            return new Vector2(A.ex.X * v.X + A.ey.X * v.Y, A.ex.Y * v.X + A.ey.Y * v.Y);
+            return new XNAVector2(A.ex.X * v.X + A.ey.X * v.Y, A.ex.Y * v.X + A.ey.Y * v.Y);
         }
 
         /// Multiply two rotations: q * r
@@ -169,14 +169,14 @@ namespace VelcroPhysics.Utilities
             return qr;
         }
 
-        public static Vector2 MulT(Transform T, Vector2 v)
+        public static XNAVector2 MulT(Transform T, XNAVector2 v)
         {
             float px = v.X - T.p.X;
             float py = v.Y - T.p.Y;
             float x = (T.q.c * px + T.q.s * py);
             float y = (-T.q.s * px + T.q.c * py);
 
-            return new Vector2(x, y);
+            return new XNAVector2(x, y);
         }
 
         /// Transpose multiply two rotations: qT * r
@@ -203,21 +203,21 @@ namespace VelcroPhysics.Utilities
         }
 
         /// Rotate a vector
-        public static Vector2 Mul(Rot q, Vector2 v)
+        public static XNAVector2 Mul(Rot q, XNAVector2 v)
         {
-            return new Vector2(q.c * v.X - q.s * v.Y, q.s * v.X + q.c * v.Y);
+            return new XNAVector2(q.c * v.X - q.s * v.Y, q.s * v.X + q.c * v.Y);
         }
 
         /// Inverse rotate a vector
-        public static Vector2 MulT(Rot q, Vector2 v)
+        public static XNAVector2 MulT(Rot q, XNAVector2 v)
         {
-            return new Vector2(q.c * v.X + q.s * v.Y, -q.s * v.X + q.c * v.Y);
+            return new XNAVector2(q.c * v.X + q.s * v.Y, -q.s * v.X + q.c * v.Y);
         }
 
         /// Get the skew vector such that dot(skew_vec, other) == cross(vec, other)
-        public static Vector2 Skew(Vector2 input)
+        public static XNAVector2 Skew(XNAVector2 input)
         {
-            return new Vector2(-input.Y, input.X);
+            return new XNAVector2(-input.Y, input.X);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace VelcroPhysics.Utilities
             return !float.IsInfinity(x);
         }
 
-        public static bool IsValid(this Vector2 x)
+        public static bool IsValid(this XNAVector2 x)
         {
             return IsValid(x.X) && IsValid(x.Y);
         }
@@ -270,12 +270,12 @@ namespace VelcroPhysics.Utilities
             return Math.Max(low, Math.Min(a, high));
         }
 
-        public static Vector2 Clamp(Vector2 a, Vector2 low, Vector2 high)
+        public static XNAVector2 Clamp(XNAVector2 a, XNAVector2 low, XNAVector2 high)
         {
-            return Vector2.Max(low, Vector2.Min(a, high));
+            return XNAVector2.Max(low, XNAVector2.Min(a, high));
         }
 
-        public static void Cross(ref Vector2 a, ref Vector2 b, out float c)
+        public static void Cross(ref XNAVector2 a, ref XNAVector2 b, out float c)
         {
             c = a.X * b.Y - a.Y * b.X;
         }
@@ -285,7 +285,7 @@ namespace VelcroPhysics.Utilities
         /// The angle is from vector 1 to vector 2, positive anticlockwise
         /// The result is between -pi -> pi
         /// </summary>
-        public static double VectorAngle(ref Vector2 p1, ref Vector2 p2)
+        public static double VectorAngle(ref XNAVector2 p1, ref XNAVector2 p2)
         {
             double theta1 = Math.Atan2(p1.Y, p1.X);
             double theta2 = Math.Atan2(p2.Y, p2.X);
@@ -299,12 +299,12 @@ namespace VelcroPhysics.Utilities
         }
 
         /// Perform the dot product on two vectors.
-        public static float Dot(Vector3 a, Vector3 b)
+        public static float Dot(XNAVector3 a, XNAVector3 b)
         {
             return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
         }
 
-        public static double VectorAngle(Vector2 p1, Vector2 p2)
+        public static double VectorAngle(XNAVector2 p1, XNAVector2 p2)
         {
             return VectorAngle(ref p1, ref p2);
         }
@@ -316,7 +316,7 @@ namespace VelcroPhysics.Utilities
         /// Positive number if point is left, negative if point is right,
         /// and 0 if points are collinear.
         /// </returns>
-        public static float Area(Vector2 a, Vector2 b, Vector2 c)
+        public static float Area(XNAVector2 a, XNAVector2 b, XNAVector2 c)
         {
             return Area(ref a, ref b, ref c);
         }
@@ -328,7 +328,7 @@ namespace VelcroPhysics.Utilities
         /// Positive number if point is left, negative if point is right,
         /// and 0 if points are collinear.
         /// </returns>
-        public static float Area(ref Vector2 a, ref Vector2 b, ref Vector2 c)
+        public static float Area(ref XNAVector2 a, ref XNAVector2 b, ref XNAVector2 c)
         {
             return a.X * (b.Y - c.Y) + b.X * (c.Y - a.Y) + c.X * (a.Y - b.Y);
         }
@@ -341,14 +341,14 @@ namespace VelcroPhysics.Utilities
         /// <param name="c">Third vertex</param>
         /// <param name="tolerance">The tolerance</param>
         /// <returns></returns>
-        public static bool IsCollinear(ref Vector2 a, ref Vector2 b, ref Vector2 c, float tolerance = 0)
+        public static bool IsCollinear(ref XNAVector2 a, ref XNAVector2 b, ref XNAVector2 c, float tolerance = 0)
         {
             return FloatInRange(Area(ref a, ref b, ref c), -tolerance, tolerance);
         }
 
-        public static void Cross(float s, ref Vector2 a, out Vector2 b)
+        public static void Cross(float s, ref XNAVector2 a, out XNAVector2 b)
         {
-            b = new Vector2(-s * a.Y, s * a.X);
+            b = new XNAVector2(-s * a.Y, s * a.X);
         }
 
         public static bool FloatEquals(float value1, float value2)
@@ -385,12 +385,12 @@ namespace VelcroPhysics.Utilities
             return (value >= min && value <= max);
         }
 
-        public static Vector2 Mul(ref Rot rot, Vector2 axis)
+        public static XNAVector2 Mul(ref Rot rot, XNAVector2 axis)
         {
             return Mul(rot, axis);
         }
 
-        public static Vector2 MulT(ref Rot rot, Vector2 axis)
+        public static XNAVector2 MulT(ref Rot rot, XNAVector2 axis)
         {
             return MulT(rot, axis);
         }

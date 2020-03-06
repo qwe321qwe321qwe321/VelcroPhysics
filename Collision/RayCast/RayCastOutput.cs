@@ -16,6 +16,6 @@ namespace VelcroPhysics.Collision.RayCast
         /// <summary>
         /// The normal of the face of the shape the ray has hit.
         /// </summary>
-        public Vector2 Normal;
+        public XNAVector2 Normal;
     }
 }

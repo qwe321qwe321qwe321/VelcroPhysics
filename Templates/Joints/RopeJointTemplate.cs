@@ -15,12 +15,12 @@ namespace VelcroPhysics.Templates.Joints
         /// <summary>
         /// The local anchor point relative to bodyA's origin.
         /// </summary>
-        public Vector2 LocalAnchorA { get; set; }
+        public XNAVector2 LocalAnchorA { get; set; }
 
         /// <summary>
         /// The local anchor point relative to bodyB's origin.
         /// </summary>
-        public Vector2 LocalAnchorB { get; set; }
+        public XNAVector2 LocalAnchorB { get; set; }
 
         /// <summary>
         /// The maximum length of the rope.
@@ -30,8 +30,8 @@ namespace VelcroPhysics.Templates.Joints
 
         public override void SetDefaults()
         {
-            LocalAnchorA = new Vector2(-1.0f, 0.0f);
-            LocalAnchorB = new Vector2(1.0f, 0.0f);
+            LocalAnchorA = new XNAVector2(-1.0f, 0.0f);
+            LocalAnchorB = new XNAVector2(1.0f, 0.0f);
         }
     }
 }

@@ -32,15 +32,15 @@ namespace VelcroPhysics.Collision.Shapes
     /// </summary>
     public class EdgeShape : Shape
     {
-        internal Vector2 _vertex1;
-        internal Vector2 _vertex2;
+        internal XNAVector2 _vertex1;
+        internal XNAVector2 _vertex2;
 
         /// <summary>
         /// Create a new EdgeShape with the specified start and end.
         /// </summary>
         /// <param name="start">The start of the edge.</param>
         /// <param name="end">The end of the edge.</param>
-        public EdgeShape(Vector2 start, Vector2 end) : base(ShapeType.Edge, Settings.PolygonRadius)
+        public EdgeShape(XNAVector2 start, XNAVector2 end) : base(ShapeType.Edge, Settings.PolygonRadius)
         {
             Set(start, end);
             ComputeProperties();
@@ -63,17 +63,17 @@ namespace VelcroPhysics.Collision.Shapes
         /// <summary>
         /// Optional adjacent vertices. These are used for smooth collision.
         /// </summary>
-        public Vector2 Vertex0 { get; set; }
+        public XNAVector2 Vertex0 { get; set; }
 
         /// <summary>
         /// Optional adjacent vertices. These are used for smooth collision.
         /// </summary>
-        public Vector2 Vertex3 { get; set; }
+        public XNAVector2 Vertex3 { get; set; }
 
         /// <summary>
         /// These are the edge vertices
         /// </summary>
-        public Vector2 Vertex1
+        public XNAVector2 Vertex1
         {
             get { return _vertex1; }
             set
@@ -86,7 +86,7 @@ namespace VelcroPhysics.Collision.Shapes
         /// <summary>
         /// These are the edge vertices
         /// </summary>
-        public Vector2 Vertex2
+        public XNAVector2 Vertex2
         {
             get { return _vertex2; }
             set
@@ -101,7 +101,7 @@ namespace VelcroPhysics.Collision.Shapes
         /// </summary>
         /// <param name="start">The start.</param>
         /// <param name="end">The end.</param>
-        public void Set(Vector2 start, Vector2 end)
+        public void Set(XNAVector2 start, XNAVector2 end)
         {
             _vertex1 = start;
             _vertex2 = end;
@@ -111,7 +111,7 @@ namespace VelcroPhysics.Collision.Shapes
             ComputeProperties();
         }
 
-        public override bool TestPoint(ref Transform transform, ref Vector2 point)
+        public override bool TestPoint(ref Transform transform, ref XNAVector2 point)
         {
             return false;
         }

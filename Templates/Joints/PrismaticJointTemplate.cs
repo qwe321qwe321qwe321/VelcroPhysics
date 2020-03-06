@@ -28,17 +28,17 @@ namespace VelcroPhysics.Templates.Joints
         /// <summary>
         /// The local anchor point relative to bodyA's origin.
         /// </summary>
-        public Vector2 LocalAnchorA { get; set; }
+        public XNAVector2 LocalAnchorA { get; set; }
 
         /// <summary>
         /// The local anchor point relative to bodyB's origin.
         /// </summary>
-        public Vector2 LocalAnchorB { get; set; }
+        public XNAVector2 LocalAnchorB { get; set; }
 
         /// <summary>
         /// The local translation unit axis in bodyA.
         /// </summary>
-        public Vector2 LocalAxisA { get; set; }
+        public XNAVector2 LocalAxisA { get; set; }
 
         /// <summary>
         /// The lower translation limit, usually in meters.
@@ -67,7 +67,7 @@ namespace VelcroPhysics.Templates.Joints
 
         public override void SetDefaults()
         {
-            LocalAxisA = new Vector2(1.0f, 0.0f);
+            LocalAxisA = new XNAVector2(1.0f, 0.0f);
         }
     }
 }

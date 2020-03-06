@@ -12,7 +12,7 @@ namespace VelcroPhysics.Dynamics.Solver
         public float InvIA, InvIB;
         public float InvMassA, InvMassB;
         public Mat22 K;
-        public Vector2 Normal;
+        public XNAVector2 Normal;
         public Mat22 NormalMass;
         public int PointCount;
         public VelocityConstraintPoint[] Points = new VelocityConstraintPoint[Settings.MaxManifoldPoints];

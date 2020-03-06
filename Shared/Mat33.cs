@@ -8,7 +8,7 @@ namespace VelcroPhysics.Shared
     /// </summary>
     public struct Mat33
     {
-        public Vector3 ex, ey, ez;
+        public XNAVector3 ex, ey, ez;
 
         /// <summary>
         /// Construct this matrix using columns.
@@ -16,7 +16,7 @@ namespace VelcroPhysics.Shared
         /// <param name="c1">The c1.</param>
         /// <param name="c2">The c2.</param>
         /// <param name="c3">The c3.</param>
-        public Mat33(Vector3 c1, Vector3 c2, Vector3 c3)
+        public Mat33(XNAVector3 c1, XNAVector3 c2, XNAVector3 c3)
         {
             ex = c1;
             ey = c2;
@@ -28,9 +28,9 @@ namespace VelcroPhysics.Shared
         /// </summary>
         public void SetZero()
         {
-            ex = Vector3.Zero;
-            ey = Vector3.Zero;
-            ez = Vector3.Zero;
+            ex = XNAVector3.Zero;
+            ey = XNAVector3.Zero;
+            ez = XNAVector3.Zero;
         }
 
         /// <summary>
@@ -39,15 +39,15 @@ namespace VelcroPhysics.Shared
         /// </summary>
         /// <param name="b">The b.</param>
         /// <returns></returns>
-        public Vector3 Solve33(Vector3 b)
+        public XNAVector3 Solve33(XNAVector3 b)
         {
-            float det = Vector3.Dot(ex, Vector3.Cross(ey, ez));
+            float det = XNAVector3.Dot(ex, XNAVector3.Cross(ey, ez));
             if (det != 0.0f)
             {
                 det = 1.0f / det;
             }
 
-            return new Vector3(det * Vector3.Dot(b, Vector3.Cross(ey, ez)), det * Vector3.Dot(ex, Vector3.Cross(b, ez)), det * Vector3.Dot(ex, Vector3.Cross(ey, b)));
+            return new XNAVector3(det * XNAVector3.Dot(b, XNAVector3.Cross(ey, ez)), det * XNAVector3.Dot(ex, XNAVector3.Cross(b, ez)), det * XNAVector3.Dot(ex, XNAVector3.Cross(ey, b)));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace VelcroPhysics.Shared
         /// </summary>
         /// <param name="b">The b.</param>
         /// <returns></returns>
-        public Vector2 Solve22(Vector2 b)
+        public XNAVector2 Solve22(XNAVector2 b)
         {
             float a11 = ex.X, a12 = ey.X, a21 = ex.Y, a22 = ey.Y;
             float det = a11 * a22 - a12 * a21;
@@ -67,7 +67,7 @@ namespace VelcroPhysics.Shared
                 det = 1.0f / det;
             }
 
-            return new Vector2(det * (a22 * b.X - a12 * b.Y), det * (a11 * b.Y - a21 * b.X));
+            return new XNAVector2(det * (a22 * b.X - a12 * b.Y), det * (a11 * b.Y - a21 * b.X));
         }
 
         /// Get the inverse of this matrix as a 2-by-2.
@@ -96,7 +96,7 @@ namespace VelcroPhysics.Shared
         /// Returns the zero matrix if singular.
         public void GetSymInverse33(ref Mat33 M)
         {
-            float det = MathUtils.Dot(ex, MathUtils.Cross((Vector3)ey, ez));
+            float det = MathUtils.Dot(ex, MathUtils.Cross((XNAVector3)ey, ez));
             if (det != 0.0f)
             {
                 det = 1.0f / det;

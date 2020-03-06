@@ -52,7 +52,7 @@ namespace VelcroPhysics.Extensions.DebugView
         /// <param name="red">The red value.</param>
         /// <param name="blue">The blue value.</param>
         /// <param name="green">The green value.</param>
-        public abstract void DrawPolygon(Vector2[] vertices, int count, float red, float blue, float green, bool closed = true);
+        public abstract void DrawPolygon(XNAVector2[] vertices, int count, float red, float blue, float green, bool closed = true);
 
         /// <summary>
         /// Draw a solid closed polygon provided in CCW order.
@@ -62,7 +62,7 @@ namespace VelcroPhysics.Extensions.DebugView
         /// <param name="red">The red value.</param>
         /// <param name="blue">The blue value.</param>
         /// <param name="green">The green value.</param>
-        public abstract void DrawSolidPolygon(Vector2[] vertices, int count, float red, float blue, float green);
+        public abstract void DrawSolidPolygon(XNAVector2[] vertices, int count, float red, float blue, float green);
 
         /// <summary>
         /// Draw a circle.
@@ -72,7 +72,7 @@ namespace VelcroPhysics.Extensions.DebugView
         /// <param name="red">The red value.</param>
         /// <param name="blue">The blue value.</param>
         /// <param name="green">The green value.</param>
-        public abstract void DrawCircle(Vector2 center, float radius, float red, float blue, float green);
+        public abstract void DrawCircle(XNAVector2 center, float radius, float red, float blue, float green);
 
         /// <summary>
         /// Draw a solid circle.
@@ -83,7 +83,7 @@ namespace VelcroPhysics.Extensions.DebugView
         /// <param name="red">The red value.</param>
         /// <param name="blue">The blue value.</param>
         /// <param name="green">The green value.</param>
-        public abstract void DrawSolidCircle(Vector2 center, float radius, Vector2 axis, float red, float blue,
+        public abstract void DrawSolidCircle(XNAVector2 center, float radius, XNAVector2 axis, float red, float blue,
                                              float green);
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace VelcroPhysics.Extensions.DebugView
         /// <param name="red">The red value.</param>
         /// <param name="blue">The blue value.</param>
         /// <param name="green">The green value.</param>
-        public abstract void DrawSegment(Vector2 start, Vector2 end, float red, float blue, float green);
+        public abstract void DrawSegment(XNAVector2 start, XNAVector2 end, float red, float blue, float green);
 
         /// <summary>
         /// Draw a transform. Choose your own length scale.

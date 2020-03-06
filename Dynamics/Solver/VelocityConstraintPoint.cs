@@ -6,8 +6,8 @@ namespace VelcroPhysics.Dynamics.Solver
     {
         public float NormalImpulse;
         public float NormalMass;
-        public Vector2 rA;
-        public Vector2 rB;
+        public XNAVector2 rA;
+        public XNAVector2 rB;
         public float TangentImpulse;
         public float TangentMass;
         public float VelocityBias;

@@ -9,6 +9,6 @@ namespace VelcroPhysics.Collision.Narrowphase
     internal struct ClipVertex
     {
         public ContactID ID;
-        public Vector2 V;
+        public XNAVector2 V;
     }
 }

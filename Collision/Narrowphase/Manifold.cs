@@ -26,12 +26,12 @@ namespace VelcroPhysics.Collision.Narrowphase
         /// <summary>
         /// Not use for Type.SeparationFunction.Points
         /// </summary>
-        public Vector2 LocalNormal;
+        public XNAVector2 LocalNormal;
 
         /// <summary>
         /// Usage depends on manifold type
         /// </summary>
-        public Vector2 LocalPoint;
+        public XNAVector2 LocalPoint;
 
         /// <summary>
         /// The number of manifold points

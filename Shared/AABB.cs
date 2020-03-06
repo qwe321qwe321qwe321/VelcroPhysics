@@ -13,25 +13,25 @@ namespace VelcroPhysics.Shared
         /// <summary>
         /// The lower vertex
         /// </summary>
-        public Vector2 LowerBound;
+        public XNAVector2 LowerBound;
 
         /// <summary>
         /// The upper vertex
         /// </summary>
-        public Vector2 UpperBound;
+        public XNAVector2 UpperBound;
 
-        public AABB(Vector2 min, Vector2 max)
+        public AABB(XNAVector2 min, XNAVector2 max)
             : this(ref min, ref max) { }
 
-        public AABB(Vector2 center, float width, float height)
-            : this(center - new Vector2(width / 2, height / 2), center + new Vector2(width / 2, height / 2))
+        public AABB(XNAVector2 center, float width, float height)
+            : this(center - new XNAVector2(width / 2, height / 2), center + new XNAVector2(width / 2, height / 2))
         {
         }
 
-        public AABB(ref Vector2 min, ref Vector2 max)
+        public AABB(ref XNAVector2 min, ref XNAVector2 max)
         {
-            LowerBound = new Vector2(Math.Min(min.X, max.X), Math.Min(min.Y, max.Y));
-            UpperBound = new Vector2(Math.Max(min.X, max.X), Math.Max(min.Y, max.Y));
+            LowerBound = new XNAVector2(Math.Min(min.X, max.X), Math.Min(min.Y, max.Y));
+            UpperBound = new XNAVector2(Math.Max(min.X, max.X), Math.Max(min.Y, max.Y));
         }
 
         public float Width => UpperBound.X - LowerBound.X;
@@ -41,12 +41,12 @@ namespace VelcroPhysics.Shared
         /// <summary>
         /// Get the center of the AABB.
         /// </summary>
-        public Vector2 Center => 0.5f * (LowerBound + UpperBound);
+        public XNAVector2 Center => 0.5f * (LowerBound + UpperBound);
 
         /// <summary>
         /// Get the extents of the AABB (half-widths).
         /// </summary>
-        public Vector2 Extents => 0.5f * (UpperBound - LowerBound);
+        public XNAVector2 Extents => 0.5f * (UpperBound - LowerBound);
 
         /// <summary>
         /// Get the perimeter length
@@ -71,9 +71,9 @@ namespace VelcroPhysics.Shared
             {
                 Vertices vertices = new Vertices(4);
                 vertices.Add(UpperBound);
-                vertices.Add(new Vector2(UpperBound.X, LowerBound.Y));
+                vertices.Add(new XNAVector2(UpperBound.X, LowerBound.Y));
                 vertices.Add(LowerBound);
-                vertices.Add(new Vector2(LowerBound.X, UpperBound.Y));
+                vertices.Add(new XNAVector2(LowerBound.X, UpperBound.Y));
                 return vertices;
             }
         }
@@ -86,7 +86,7 @@ namespace VelcroPhysics.Shared
         /// <summary>
         /// Second quadrant
         /// </summary>
-        public AABB Q2 => new AABB(new Vector2(LowerBound.X, Center.Y), new Vector2(Center.X, UpperBound.Y));
+        public AABB Q2 => new AABB(new XNAVector2(LowerBound.X, Center.Y), new XNAVector2(Center.X, UpperBound.Y));
 
         /// <summary>
         /// Third quadrant
@@ -96,7 +96,7 @@ namespace VelcroPhysics.Shared
         /// <summary>
         /// Forth quadrant
         /// </summary>
-        public AABB Q4 => new AABB(new Vector2(Center.X, LowerBound.Y), new Vector2(UpperBound.X, Center.Y));
+        public AABB Q4 => new AABB(new XNAVector2(Center.X, LowerBound.Y), new XNAVector2(UpperBound.X, Center.Y));
 
         /// <summary>
         /// Verify that the bounds are sorted. And the bounds are valid numbers (not NaN).
@@ -106,7 +106,7 @@ namespace VelcroPhysics.Shared
         /// </returns>
         public bool IsValid()
         {
-            Vector2 d = UpperBound - LowerBound;
+            XNAVector2 d = UpperBound - LowerBound;
             bool valid = d.X >= 0.0f && d.Y >= 0.0f;
             return valid && LowerBound.IsValid() && UpperBound.IsValid();
         }
@@ -117,8 +117,8 @@ namespace VelcroPhysics.Shared
         /// <param name="aabb">The AABB.</param>
         public void Combine(ref AABB aabb)
         {
-            LowerBound = Vector2.Min(LowerBound, aabb.LowerBound);
-            UpperBound = Vector2.Max(UpperBound, aabb.UpperBound);
+            LowerBound = XNAVector2.Min(LowerBound, aabb.LowerBound);
+            UpperBound = XNAVector2.Max(UpperBound, aabb.UpperBound);
         }
 
         /// <summary>
@@ -128,8 +128,8 @@ namespace VelcroPhysics.Shared
         /// <param name="aabb2">The aabb2.</param>
         public void Combine(ref AABB aabb1, ref AABB aabb2)
         {
-            LowerBound = Vector2.Min(aabb1.LowerBound, aabb2.LowerBound);
-            UpperBound = Vector2.Max(aabb1.UpperBound, aabb2.UpperBound);
+            LowerBound = XNAVector2.Min(aabb1.LowerBound, aabb2.LowerBound);
+            UpperBound = XNAVector2.Max(aabb1.UpperBound, aabb2.UpperBound);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace VelcroPhysics.Shared
         /// <returns>
         /// <c>true</c> if it contains the specified point; otherwise, <c>false</c>.
         /// </returns>
-        public bool Contains(ref Vector2 point)
+        public bool Contains(ref XNAVector2 point)
         {
             //using epsilon to try and guard against float rounding errors.
             return (point.X > (LowerBound.X + float.Epsilon) && point.X < (UpperBound.X - float.Epsilon) &&
@@ -170,8 +170,8 @@ namespace VelcroPhysics.Shared
         /// <returns>True if they are overlapping.</returns>
         public static bool TestOverlap(ref AABB a, ref AABB b)
         {
-            Vector2 d1 = b.LowerBound - a.UpperBound;
-            Vector2 d2 = a.LowerBound - b.UpperBound;
+            XNAVector2 d1 = b.LowerBound - a.UpperBound;
+            XNAVector2 d2 = a.LowerBound - b.UpperBound;
 
             return (d1.X <= 0) && (d1.Y <= 0) && (d2.X <= 0) && (d2.Y <= 0);
         }
@@ -191,11 +191,11 @@ namespace VelcroPhysics.Shared
             float tmin = -Settings.MaxFloat;
             float tmax = Settings.MaxFloat;
 
-            Vector2 p = input.Point1;
-            Vector2 d = input.Point2 - input.Point1;
-            Vector2 absD = MathUtils.Abs(d);
+            XNAVector2 p = input.Point1;
+            XNAVector2 d = input.Point2 - input.Point1;
+            XNAVector2 absD = MathUtils.Abs(d);
 
-            Vector2 normal = Vector2.Zero;
+            XNAVector2 normal = XNAVector2.Zero;
 
             for (int i = 0; i < 2; ++i)
             {

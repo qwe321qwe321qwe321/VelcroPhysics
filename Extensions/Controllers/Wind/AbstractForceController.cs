@@ -91,7 +91,7 @@ namespace VelcroPhysics.Extensions.Controllers.Wind
             Enabled = true;
 
             Strength = 1.0f;
-            Position = new Vector2(0, 0);
+            Position = new XNAVector2(0, 0);
             MaximumSpeed = 100.0f;
             TimingMode = TimingModes.Switched;
             ImpulseTime = 0.0f;
@@ -142,7 +142,7 @@ namespace VelcroPhysics.Extensions.Controllers.Wind
         /// Position of the Force. Can be ignored (left at (0,0) for forces
         /// that are not position-dependent
         /// </summary>
-        public Vector2 Position { get; set; }
+        public XNAVector2 Position { get; set; }
 
         /// <summary>
         /// Maximum speed of the bodies. Bodies that are travelling faster are

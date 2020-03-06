@@ -25,7 +25,7 @@ namespace VelcroPhysics.Collision.Narrowphase
         /// <summary>
         /// Usage depends on manifold type
         /// </summary>
-        public Vector2 LocalPoint;
+        public XNAVector2 LocalPoint;
 
         /// <summary>
         /// The non-penetration impulse

@@ -63,13 +63,13 @@ namespace VelcroPhysics.Dynamics.Joints
         private float _invIB;
         private float _invMassA;
         private float _invMassB;
-        private Vector2 _localCenterA;
-        private Vector2 _localCenterB;
+        private XNAVector2 _localCenterA;
+        private XNAVector2 _localCenterB;
         private float _mass;
-        private Vector2 _rA;
-        private Vector2 _rB;
-        private Vector2 _uA;
-        private Vector2 _uB;
+        private XNAVector2 _rA;
+        private XNAVector2 _rB;
+        private XNAVector2 _uA;
+        private XNAVector2 _uB;
 
         internal PulleyJoint()
         {
@@ -87,7 +87,7 @@ namespace VelcroPhysics.Dynamics.Joints
         /// <param name="worldAnchorB">The world anchor for the second body.</param>
         /// <param name="ratio">The ratio.</param>
         /// <param name="useWorldCoordinates">Set to true if you are using world coordinates as anchors.</param>
-        public PulleyJoint(Body bodyA, Body bodyB, Vector2 anchorA, Vector2 anchorB, Vector2 worldAnchorA, Vector2 worldAnchorB, float ratio, bool useWorldCoordinates = false)
+        public PulleyJoint(Body bodyA, Body bodyB, XNAVector2 anchorA, XNAVector2 anchorB, XNAVector2 worldAnchorA, XNAVector2 worldAnchorB, float ratio, bool useWorldCoordinates = false)
             : base(bodyA, bodyB)
         {
             JointType = JointType.Pulley;
@@ -100,9 +100,9 @@ namespace VelcroPhysics.Dynamics.Joints
                 LocalAnchorA = BodyA.GetLocalPoint(anchorA);
                 LocalAnchorB = BodyB.GetLocalPoint(anchorB);
 
-                Vector2 dA = anchorA - worldAnchorA;
+                XNAVector2 dA = anchorA - worldAnchorA;
                 LengthA = dA.Length();
-                Vector2 dB = anchorB - worldAnchorB;
+                XNAVector2 dB = anchorB - worldAnchorB;
                 LengthB = dB.Length();
             }
             else
@@ -110,9 +110,9 @@ namespace VelcroPhysics.Dynamics.Joints
                 LocalAnchorA = anchorA;
                 LocalAnchorB = anchorB;
 
-                Vector2 dA = anchorA - BodyA.GetLocalPoint(worldAnchorA);
+                XNAVector2 dA = anchorA - BodyA.GetLocalPoint(worldAnchorA);
                 LengthA = dA.Length();
-                Vector2 dB = anchorB - BodyB.GetLocalPoint(worldAnchorB);
+                XNAVector2 dB = anchorB - BodyB.GetLocalPoint(worldAnchorB);
                 LengthB = dB.Length();
             }
 
@@ -127,24 +127,24 @@ namespace VelcroPhysics.Dynamics.Joints
         /// <summary>
         /// The local anchor point on BodyA
         /// </summary>
-        public Vector2 LocalAnchorA { get; set; }
+        public XNAVector2 LocalAnchorA { get; set; }
 
         /// <summary>
         /// The local anchor point on BodyB
         /// </summary>
-        public Vector2 LocalAnchorB { get; set; }
+        public XNAVector2 LocalAnchorB { get; set; }
 
         /// <summary>
         /// Get the first world anchor.
         /// </summary>
         /// <value></value>
-        public sealed override Vector2 WorldAnchorA { get; set; }
+        public sealed override XNAVector2 WorldAnchorA { get; set; }
 
         /// <summary>
         /// Get the second world anchor.
         /// </summary>
         /// <value></value>
-        public sealed override Vector2 WorldAnchorB { get; set; }
+        public sealed override XNAVector2 WorldAnchorB { get; set; }
 
         /// <summary>
         /// Get the current length of the segment attached to body1.
@@ -165,9 +165,9 @@ namespace VelcroPhysics.Dynamics.Joints
         {
             get
             {
-                Vector2 p = BodyA.GetWorldPoint(LocalAnchorA);
-                Vector2 s = WorldAnchorA;
-                Vector2 d = p - s;
+                XNAVector2 p = BodyA.GetWorldPoint(LocalAnchorA);
+                XNAVector2 s = WorldAnchorA;
+                XNAVector2 d = p - s;
                 return d.Length();
             }
         }
@@ -179,9 +179,9 @@ namespace VelcroPhysics.Dynamics.Joints
         {
             get
             {
-                Vector2 p = BodyB.GetWorldPoint(LocalAnchorB);
-                Vector2 s = WorldAnchorB;
-                Vector2 d = p - s;
+                XNAVector2 p = BodyB.GetWorldPoint(LocalAnchorB);
+                XNAVector2 s = WorldAnchorB;
+                XNAVector2 d = p - s;
                 return d.Length();
             }
         }
@@ -195,9 +195,9 @@ namespace VelcroPhysics.Dynamics.Joints
         //Velcro note: Only used for serialization.
         internal float Constant { get; set; }
 
-        public override Vector2 GetReactionForce(float invDt)
+        public override XNAVector2 GetReactionForce(float invDt)
         {
-            Vector2 P = _impulse * _uB;
+            XNAVector2 P = _impulse * _uB;
             return invDt * P;
         }
 
@@ -217,14 +217,14 @@ namespace VelcroPhysics.Dynamics.Joints
             _invIA = BodyA._invI;
             _invIB = BodyB._invI;
 
-            Vector2 cA = data.Positions[_indexA].C;
+            XNAVector2 cA = data.Positions[_indexA].C;
             float aA = data.Positions[_indexA].A;
-            Vector2 vA = data.Velocities[_indexA].V;
+            XNAVector2 vA = data.Velocities[_indexA].V;
             float wA = data.Velocities[_indexA].W;
 
-            Vector2 cB = data.Positions[_indexB].C;
+            XNAVector2 cB = data.Positions[_indexB].C;
             float aB = data.Positions[_indexB].A;
-            Vector2 vB = data.Velocities[_indexB].V;
+            XNAVector2 vB = data.Velocities[_indexB].V;
             float wB = data.Velocities[_indexB].W;
 
             Rot qA = new Rot(aA), qB = new Rot(aB);
@@ -245,7 +245,7 @@ namespace VelcroPhysics.Dynamics.Joints
             }
             else
             {
-                _uA = Vector2.Zero;
+                _uA = XNAVector2.Zero;
             }
 
             if (lengthB > 10.0f * Settings.LinearSlop)
@@ -254,7 +254,7 @@ namespace VelcroPhysics.Dynamics.Joints
             }
             else
             {
-                _uB = Vector2.Zero;
+                _uB = XNAVector2.Zero;
             }
 
             // Compute effective mass.
@@ -277,8 +277,8 @@ namespace VelcroPhysics.Dynamics.Joints
                 _impulse *= data.Step.dtRatio;
 
                 // Warm starting.
-                Vector2 PA = -(_impulse) * _uA;
-                Vector2 PB = (-Ratio * _impulse) * _uB;
+                XNAVector2 PA = -(_impulse) * _uA;
+                XNAVector2 PB = (-Ratio * _impulse) * _uB;
 
                 vA += _invMassA * PA;
                 wA += _invIA * MathUtils.Cross(_rA, PA);
@@ -298,20 +298,20 @@ namespace VelcroPhysics.Dynamics.Joints
 
         internal override void SolveVelocityConstraints(ref SolverData data)
         {
-            Vector2 vA = data.Velocities[_indexA].V;
+            XNAVector2 vA = data.Velocities[_indexA].V;
             float wA = data.Velocities[_indexA].W;
-            Vector2 vB = data.Velocities[_indexB].V;
+            XNAVector2 vB = data.Velocities[_indexB].V;
             float wB = data.Velocities[_indexB].W;
 
-            Vector2 vpA = vA + MathUtils.Cross(wA, _rA);
-            Vector2 vpB = vB + MathUtils.Cross(wB, _rB);
+            XNAVector2 vpA = vA + MathUtils.Cross(wA, _rA);
+            XNAVector2 vpB = vB + MathUtils.Cross(wB, _rB);
 
-            float Cdot = -Vector2.Dot(_uA, vpA) - Ratio * Vector2.Dot(_uB, vpB);
+            float Cdot = -XNAVector2.Dot(_uA, vpA) - Ratio * XNAVector2.Dot(_uB, vpB);
             float impulse = -_mass * Cdot;
             _impulse += impulse;
 
-            Vector2 PA = -impulse * _uA;
-            Vector2 PB = -Ratio * impulse * _uB;
+            XNAVector2 PA = -impulse * _uA;
+            XNAVector2 PB = -Ratio * impulse * _uB;
             vA += _invMassA * PA;
             wA += _invIA * MathUtils.Cross(_rA, PA);
             vB += _invMassB * PB;
@@ -325,19 +325,19 @@ namespace VelcroPhysics.Dynamics.Joints
 
         internal override bool SolvePositionConstraints(ref SolverData data)
         {
-            Vector2 cA = data.Positions[_indexA].C;
+            XNAVector2 cA = data.Positions[_indexA].C;
             float aA = data.Positions[_indexA].A;
-            Vector2 cB = data.Positions[_indexB].C;
+            XNAVector2 cB = data.Positions[_indexB].C;
             float aB = data.Positions[_indexB].A;
 
             Rot qA = new Rot(aA), qB = new Rot(aB);
 
-            Vector2 rA = MathUtils.Mul(qA, LocalAnchorA - _localCenterA);
-            Vector2 rB = MathUtils.Mul(qB, LocalAnchorB - _localCenterB);
+            XNAVector2 rA = MathUtils.Mul(qA, LocalAnchorA - _localCenterA);
+            XNAVector2 rB = MathUtils.Mul(qB, LocalAnchorB - _localCenterB);
 
             // Get the pulley axes.
-            Vector2 uA = cA + rA - WorldAnchorA;
-            Vector2 uB = cB + rB - WorldAnchorB;
+            XNAVector2 uA = cA + rA - WorldAnchorA;
+            XNAVector2 uB = cB + rB - WorldAnchorB;
 
             float lengthA = uA.Length();
             float lengthB = uB.Length();
@@ -348,7 +348,7 @@ namespace VelcroPhysics.Dynamics.Joints
             }
             else
             {
-                uA = Vector2.Zero;
+                uA = XNAVector2.Zero;
             }
 
             if (lengthB > 10.0f * Settings.LinearSlop)
@@ -357,7 +357,7 @@ namespace VelcroPhysics.Dynamics.Joints
             }
             else
             {
-                uB = Vector2.Zero;
+                uB = XNAVector2.Zero;
             }
 
             // Compute effective mass.
@@ -379,8 +379,8 @@ namespace VelcroPhysics.Dynamics.Joints
 
             float impulse = -mass * C;
 
-            Vector2 PA = -impulse * uA;
-            Vector2 PB = -Ratio * impulse * uB;
+            XNAVector2 PA = -impulse * uA;
+            XNAVector2 PB = -Ratio * impulse * uB;
 
             cA += _invMassA * PA;
             aA += _invIA * MathUtils.Cross(rA, PA);

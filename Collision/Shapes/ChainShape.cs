@@ -37,7 +37,7 @@ namespace VelcroPhysics.Collision.Shapes
     public class ChainShape : Shape
     {
         private bool _hasPrevVertex, _hasNextVertex;
-        private Vector2 _prevVertex, _nextVertex;
+        private XNAVector2 _prevVertex, _nextVertex;
 
         /// <summary>
         /// Create a new ChainShape from the vertices.
@@ -55,7 +55,7 @@ namespace VelcroPhysics.Collision.Shapes
             for (int i = 1; i < vertices.Count; ++i)
             {
                 // If the code crashes here, it means your vertices are too close together.
-                Debug.Assert(Vector2.DistanceSquared(vertices[i - 1], vertices[i]) > Settings.LinearSlop * Settings.LinearSlop);
+                Debug.Assert(XNAVector2.DistanceSquared(vertices[i - 1], vertices[i]) > Settings.LinearSlop * Settings.LinearSlop);
             }
 
             Vertices = new Vertices(vertices);
@@ -87,7 +87,7 @@ namespace VelcroPhysics.Collision.Shapes
         /// Establish connectivity to a vertex that precedes the first vertex.
         /// Don't call this for loops.
         /// </summary>
-        public Vector2 PrevVertex
+        public XNAVector2 PrevVertex
         {
             get { return _prevVertex; }
             set
@@ -101,7 +101,7 @@ namespace VelcroPhysics.Collision.Shapes
         /// Establish connectivity to a vertex that follows the last vertex.
         /// Don't call this for loops.
         /// </summary>
-        public Vector2 NextVertex
+        public XNAVector2 NextVertex
         {
             get { return _nextVertex; }
             set
@@ -152,7 +152,7 @@ namespace VelcroPhysics.Collision.Shapes
             return edgeShape;
         }
 
-        public override bool TestPoint(ref Transform transform, ref Vector2 point)
+        public override bool TestPoint(ref Transform transform, ref XNAVector2 point)
         {
             return false;
         }
@@ -167,8 +167,8 @@ namespace VelcroPhysics.Collision.Shapes
             if (i2 == Vertices.Count)
                 i2 = 0;
 
-            Vector2 v1 = Vertices[i1];
-            Vector2 v2 = Vertices[i2];
+            XNAVector2 v1 = Vertices[i1];
+            XNAVector2 v2 = Vertices[i2];
 
             return RayCastHelper.RayCastEdge(ref v1, ref v2, ref input, ref transform, out output);
         }
@@ -183,8 +183,8 @@ namespace VelcroPhysics.Collision.Shapes
             if (i2 == Vertices.Count)
                 i2 = 0;
 
-            Vector2 v1 = Vertices[i1];
-            Vector2 v2 = Vertices[i2];
+            XNAVector2 v1 = Vertices[i1];
+            XNAVector2 v2 = Vertices[i2];
 
             AABBHelper.ComputeEdgeAABB(ref v1, ref v2, ref transform, out aabb);
         }

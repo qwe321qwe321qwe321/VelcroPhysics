@@ -118,7 +118,7 @@ namespace VelcroPhysics.Collision.Shapes
         /// <param name="transform">The shape world transform.</param>
         /// <param name="point">A point in world coordinates.</param>
         /// <returns>True if the point is inside the shape</returns>
-        public abstract bool TestPoint(ref Transform transform, ref Vector2 point);
+        public abstract bool TestPoint(ref Transform transform, ref XNAVector2 point);
 
         /// <summary>
         /// Cast a ray against a child shape.
